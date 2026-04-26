@@ -829,20 +829,25 @@ if __name__ == "__main__":
             if not markets:
                 log.info("No active IPL markets found.")
                 return
+            log.info(f"Found {len(markets)} IPL markets on Polymarket")
             score = await get_live_score()
+            log.info(f"Live score: {score}")
             for mkt in markets[:3]:
-                tok_yes = mkt.get("token_yes") or mkt.get("clobTokenIds", [""])[0]
-                price = mkt.get("price_yes", 0.5)
-                log.info(f"Market: {mkt.get('question','?')} | YES price: {price:.3f} | score: {score}")
+                question = mkt.get("question", "?")
+                outcomes = mkt.get("outcomes", [])
+                log.info(f"Market: {question} | outcomes: {len(outcomes)}")
+                for oc in outcomes:
+                    log.info(f"  {oc['name']}: {oc['price']:.3f} (token={oc['token_id'][:8]}...)")
                 if not PRIVATE_KEY:
-                    log.info("No POLY_PRIVATE_KEY set — scan-only mode.")
+                    log.info("No POLY_PRIVATE_KEY — scan-only mode.")
                     continue
                 action = decide(score, mkt, None)
                 if action and action.get("action") == "BUY":
-                    log.info(f"Would BUY {action['team']} @ {action['price']:.3f} stake={action['stake_usdc']} USDC")
+                    tok = action.get("token_id", outcomes[0]["token_id"] if outcomes else "")
+                    log.info(f"BUY signal: {action['team']} @ {action['price']:.3f} stake={action['stake_usdc']} USDC")
                     if os.getenv("POLY_AUTO", "0") == "1":
                         resp = await asyncio.to_thread(
-                            place_order_sync, tok_yes, action["price"], action["stake_usdc"], "BUY"
+                            place_order_sync, tok, action["price"], action["stake_usdc"], "BUY"
                         )
                         log.info(f"Order result: {resp}")
         asyncio.run(_run_once())
