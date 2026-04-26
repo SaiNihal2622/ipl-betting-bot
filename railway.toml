@@ -1,0 +1,12 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "python polymarket_bot.py"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# To run the arb bot instead, change startCommand to:
+#   python arb_bot.py
+# Or run both by combining them:
+#   python polymarket_bot.py & python arb_bot.py & wait
