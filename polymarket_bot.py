@@ -821,6 +821,31 @@ if __name__ == "__main__":
         setup_credentials()
     elif "--approve" in sys.argv:
         approve_contracts()
+    elif "--once" in sys.argv:
+        # Single-pass for GitHub Actions / CI
+        async def _run_once():
+            log.info("=== polymarket_bot --once ===")
+            markets = get_ipl_markets()
+            if not markets:
+                log.info("No active IPL markets found.")
+                return
+            score = get_live_score()
+            for mkt in markets[:3]:
+                tok_yes = mkt.get("token_yes") or mkt.get("clobTokenIds", [""])[0]
+                price = mkt.get("price_yes", 0.5)
+                log.info(f"Market: {mkt.get('question','?')} | YES price: {price:.3f} | score: {score}")
+                if not PRIVATE_KEY:
+                    log.info("No POLY_PRIVATE_KEY set — scan-only mode.")
+                    continue
+                action = decide(score, mkt, None)
+                if action and action.get("action") == "BUY":
+                    log.info(f"Would BUY {action['team']} @ {action['price']:.3f} stake={action['stake_usdc']} USDC")
+                    if os.getenv("POLY_AUTO", "0") == "1":
+                        resp = await asyncio.to_thread(
+                            place_order_sync, tok_yes, action["price"], action["stake_usdc"], "BUY"
+                        )
+                        log.info(f"Order result: {resp}")
+        asyncio.run(_run_once())
     else:
         try:
             asyncio.run(main())

@@ -1,0 +1,41 @@
+name: IPL Betting Bot
+
+on:
+  # Run every 5 minutes during IPL hours (14:00-23:00 IST = 08:30-17:30 UTC)
+  schedule:
+    - cron: '*/5 8-17 * * *'
+  # Also allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  arb-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+
+    env:
+      ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}
+      ODDSPAPI_KEY:        ${{ secrets.ODDSPAPI_KEY }}
+      POLY_PRIVATE_KEY:    ${{ secrets.POLY_PRIVATE_KEY }}
+      POLY_API_KEY:        ${{ secrets.POLY_API_KEY }}
+      POLY_API_SECRET:     ${{ secrets.POLY_API_SECRET }}
+      POLY_API_PASSPHRASE: ${{ secrets.POLY_API_PASSPHRASE }}
+      ARB_BANK_USD:        "50"
+      MIN_PROFIT_PCT:      "0.5"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install httpx py-clob-client eth-account python-dotenv
+
+      - name: Run arb scanner (single pass)
+        run: python arb_bot.py --once
+
+      - name: Run polymarket bot (single pass)
+        run: python polymarket_bot.py --once
+        continue-on-error: true

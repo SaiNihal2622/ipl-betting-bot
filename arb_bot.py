@@ -52,6 +52,7 @@ POLY_API_PASS  = os.getenv("POLY_API_PASSPHRASE", "")
 TOTAL_BANK_USD = float(os.getenv("ARB_BANK_USD",  "50.0"))   # total bankroll to arb with
 MIN_PROFIT_PCT = float(os.getenv("MIN_PROFIT_PCT", "0.5"))   # min 0.5% guaranteed profit
 AUTO_BET       = "--auto" in sys.argv                         # auto-place bets on Polymarket
+ONCE_MODE      = "--once" in sys.argv                         # run one cycle and exit (for GitHub Actions)
 
 ODDS_API_URL   = "https://api.the-odds-api.com/v4"
 GAMMA_URL      = "https://gamma-api.polymarket.com"
@@ -503,12 +504,19 @@ async def main():
             if cycle % 30 == 0:
                 seen_arbs.clear()
 
+            # GitHub Actions mode: run once and exit
+            if ONCE_MODE:
+                break
+
         except KeyboardInterrupt:
             break
         except Exception as e:
             log.error(f"Cycle error: {e}", exc_info=False)
+            if ONCE_MODE:
+                break
 
-        await asyncio.sleep(LOOP_SECS)
+        if not ONCE_MODE:
+            await asyncio.sleep(LOOP_SECS)
 
     log.info("Stopped.")
     if _client:
