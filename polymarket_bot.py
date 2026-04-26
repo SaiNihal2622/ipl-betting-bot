@@ -825,11 +825,11 @@ if __name__ == "__main__":
         # Single-pass for GitHub Actions / CI
         async def _run_once():
             log.info("=== polymarket_bot --once ===")
-            markets = get_ipl_markets()
+            markets = await get_ipl_markets()
             if not markets:
                 log.info("No active IPL markets found.")
                 return
-            score = get_live_score()
+            score = await get_live_score()
             for mkt in markets[:3]:
                 tok_yes = mkt.get("token_yes") or mkt.get("clobTokenIds", [""])[0]
                 price = mkt.get("price_yes", 0.5)
