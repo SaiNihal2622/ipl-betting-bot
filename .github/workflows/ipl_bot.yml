@@ -29,6 +29,10 @@ jobs:
       BF_STAKE_PCT:        "5"
       BF_GREEN_PCT:        "30"
       BF_DRY_RUN:          ${{ secrets.BF_DRY_RUN || '1' }}
+      CLOUDBET_API_KEY:    ${{ secrets.CLOUDBET_API_KEY }}
+      CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '1' }}
+      CB_STAKE:            ${{ secrets.CB_STAKE || '1.0' }}
+      CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -69,4 +73,8 @@ jobs:
 
       - name: Run Betfair cricket trading bot (single pass)
         run: python betfair_bot.py --once
+        continue-on-error: true
+
+      - name: Run Cloudbet IPL trading bot (single pass)
+        run: python cloudbet_bot.py --once
         continue-on-error: true
