@@ -1275,7 +1275,11 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--once", action="store_true",
-                        help="Run one cycle and exit (for GitHub Actions cron)")
+                        help="Run one cycle and exit")
+    parser.add_argument("--loop", action="store_true",
+                        help="Loop for --duration seconds (GitHub Actions mode)")
+    parser.add_argument("--duration", type=int, default=200,
+                        help="Max seconds to run in --loop mode (default 200)")
     args = parser.parse_args()
 
     log.info("=" * 65)
@@ -1315,11 +1319,30 @@ def main():
             log.warning(f"[State] Save failed: {e}")
 
     if args.once:
-        # GitHub Actions mode — load state, run one cycle, save state, exit
         positions = load_positions()
         positions = analyse_and_trade(positions, 1)
         print_summary(positions)
         save_positions(positions)
+        return
+
+    if args.loop:
+        # GitHub Actions: loop for `duration` seconds, polling every 30s
+        # This catches the 30s open windows between balls that --once misses
+        import time as _time
+        deadline = _time.time() + args.duration
+        positions = load_positions()
+        cycle = 0
+        while _time.time() < deadline:
+            cycle += 1
+            positions = analyse_and_trade(positions, cycle)
+            print_summary(positions)
+            save_positions(positions)
+            remaining = deadline - _time.time()
+            if remaining <= 30:
+                break
+            log.info(f"Next poll in 30s ({remaining:.0f}s remaining in job)...")
+            _time.sleep(30)
+        log.info("Loop finished.")
         return
 
     # Continuous loop (local run)

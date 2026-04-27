@@ -102,9 +102,9 @@ jobs:
         run: python cloudbet_bot.py --once
         continue-on-error: true
 
-      # Main live trader — full ML + AI + Kelly + bookset/stop-loss
+      # Main live trader — loops for 3.5 min catching open windows between balls
       - name: Run Cloudbet LIVE trader (ML + Gemini AI + Kelly)
-        run: python cloudbet_live.py --once
+        run: python cloudbet_live.py --loop --duration=200
         continue-on-error: true
 
       # Save updated position state for next run
