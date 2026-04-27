@@ -24,6 +24,41 @@ from dotenv import load_dotenv
 
 # -- Load ML model (trained on 18yr Cricsheet data) ----------------------------
 _ipl_model = None
+def discover_todays_event() -> tuple:
+    """
+    Query Cloudbet competition feed to find today's IPL match.
+    Returns (event_id, home_team, away_team) or (0, '', '') on failure.
+    Auto-resolves team aliases to canonical names.
+    """
+    if not API_KEY:
+        return 0, "", ""
+    try:
+        r = httpx.get(f"{FEED_BASE}/competitions/{IPL_KEY}",
+                      headers=_headers(), timeout=12)
+        if r.status_code != 200:
+            log.debug(f"[Discover] HTTP {r.status_code}")
+            return 0, "", ""
+        events = r.json().get("events", [])
+        from datetime import date, timezone as tz
+        today = date.today()
+        for ev in events:
+            cutoff = ev.get("cutoffTime", "")[:10]
+            status = ev.get("status", "")
+            if cutoff == str(today) or status in ("TRADING", "TRADING_LIVE", "OPEN"):
+                name = ev.get("name", "")
+                eid  = ev.get("id", 0)
+                # name is usually "Team A v Team B" or "Team A vs Team B"
+                parts = [p.strip() for p in re.split(r" vs?\.? ", name, flags=re.I)]
+                if len(parts) == 2:
+                    home = TEAM_ALIASES.get(parts[0], parts[0])
+                    away = TEAM_ALIASES.get(parts[1], parts[1])
+                    log.info(f"[Discover] Found: {home} vs {away} (id={eid}, status={status})")
+                    return int(eid), home, away
+    except Exception as e:
+        log.warning(f"[Discover] {e}")
+    return 0, "", ""
+
+
 def _get_model():
     global _ipl_model
     if _ipl_model is None:
@@ -68,15 +103,31 @@ MAX_OPEN      = 3       # max concurrent open positions
 FEED_BASE  = "https://sports-api.cloudbet.com/pub/v2/odds"
 TRADE_BASE = "https://sports-api.cloudbet.com/pub/v4"
 IPL_KEY    = "cricket-india-indian-premier-league"
-EVENT_ID   = 34191384   # DC vs RCB
 
-HOME_TEAM = "Delhi Capitals"
-AWAY_TEAM = "Royal Challengers Bangalore"
+# Auto-discovered at runtime — set to 0 to force discovery every run
+EVENT_ID   = int(os.getenv("CB_EVENT_ID", "0"))
+HOME_TEAM  = os.getenv("CB_HOME_TEAM", "")
+AWAY_TEAM  = os.getenv("CB_AWAY_TEAM", "")
+
+# IPL 2026 squad map: Cloudbet name -> canonical name
+TEAM_ALIASES = {
+    "Delhi Capitals":               "Delhi Capitals",
+    "Royal Challengers Bangalore":  "Royal Challengers Bangalore",
+    "Royal Challengers Bengaluru":  "Royal Challengers Bangalore",
+    "Punjab Kings":                 "Punjab Kings",
+    "Rajasthan Royals":             "Rajasthan Royals",
+    "Mumbai Indians":               "Mumbai Indians",
+    "Sunrisers Hyderabad":          "Sunrisers Hyderabad",
+    "Kolkata Knight Riders":        "Kolkata Knight Riders",
+    "Chennai Super Kings":          "Chennai Super Kings",
+    "Gujarat Titans":               "Gujarat Titans",
+    "Lucknow Super Giants":         "Lucknow Super Giants",
+}
 
 # -- Logging --------------------------------------------------------------------
 handlers = [
     logging.StreamHandler(sys.stdout),
-    logging.FileHandler("dc_rcb_live.log", encoding="utf-8"),
+    logging.FileHandler("ipl_live.log", encoding="utf-8"),
 ]
 logging.basicConfig(level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
@@ -1282,10 +1333,20 @@ def main():
                         help="Max seconds to run in --loop mode (default 200)")
     args = parser.parse_args()
 
+    # -- Auto-discover today's match -------------------------------------------
+    global EVENT_ID, HOME_TEAM, AWAY_TEAM
+    if EVENT_ID == 0 or not HOME_TEAM:
+        EVENT_ID, HOME_TEAM, AWAY_TEAM = discover_todays_event()
+    if not HOME_TEAM:
+        # Fallback: use env vars or exit gracefully
+        HOME_TEAM = os.getenv("CB_HOME_TEAM", "TBD")
+        AWAY_TEAM = os.getenv("CB_AWAY_TEAM", "TBD")
+        log.warning(f"[Discover] Could not find today's match — set CB_HOME_TEAM/CB_AWAY_TEAM env vars")
+
     log.info("=" * 65)
-    log.info("IPL LIVE TRADER — Cloudbet")
+    log.info(f"IPL LIVE TRADER — {HOME_TEAM} vs {AWAY_TEAM}")
     log.info(f"Mode: {'DRY RUN' if DRY_RUN else '*** LIVE TRADING ***'} | "
-             f"{'Single-pass (Actions)' if args.once else f'Loop every {POLL_SECS}s'}")
+             f"Event ID: {EVENT_ID}")
     log.info(f"Stake={STAKE} {CURRENCY} | Kelly bankroll={BANKROLL} | "
              f"Min edge={MIN_EDGE:.0%} | Bookset=+{GREEN_PCT:.0%} | StopLoss=-{STOP_PCT:.0%}")
     log.info("Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing")
