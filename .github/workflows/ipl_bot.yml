@@ -1,41 +1,62 @@
 name: IPL Betting Bot
 
 on:
-  # Run every 5 minutes during IPL hours (14:00-23:00 IST = 08:30-17:30 UTC)
+  # Every 5 minutes during IPL hours: 14:00-23:30 IST = 08:30-18:00 UTC
   schedule:
-    - cron: '*/5 8-17 * * *'
-  # Also allow manual trigger
-  workflow_dispatch:
+    - cron: '*/5 8-18 * * *'
+  workflow_dispatch:   # manual trigger anytime
 
 jobs:
-  arb-scan:
+  trade:
     runs-on: ubuntu-latest
     timeout-minutes: 4
 
     env:
+      # ── Cloudbet ──────────────────────────────────────────────────────────
+      CLOUDBET_API_KEY:    ${{ secrets.CLOUDBET_API_KEY }}
+      CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '1' }}
+      CB_STAKE:            ${{ secrets.CB_STAKE || '2.0' }}
+      CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
+      CB_BANKROLL:         ${{ secrets.CB_BANKROLL || '50.0' }}
+
+      # ── AI (Gemini primary, Groq fallback) ────────────────────────────────
+      GEMINI_API_KEY:      ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL:        "gemini-2.0-flash"
+      GROQ_API_KEY:        ${{ secrets.GROQ_API_KEY }}
+
+      # ── Data sources ──────────────────────────────────────────────────────
       ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}
-      ODDSPAPI_KEY:        ${{ secrets.ODDSPAPI_KEY }}
+
+      # ── Polymarket (optional) ─────────────────────────────────────────────
       POLY_PRIVATE_KEY:    ${{ secrets.POLY_PRIVATE_KEY }}
       POLY_API_KEY:        ${{ secrets.POLY_API_KEY }}
       POLY_API_SECRET:     ${{ secrets.POLY_API_SECRET }}
       POLY_API_PASSPHRASE: ${{ secrets.POLY_API_PASSPHRASE }}
-      ARB_BANK_USD:        "50"
-      MIN_PROFIT_PCT:      "0.5"
       POLY_AUTO:           "1"
+
+      # ── Betfair (optional) ────────────────────────────────────────────────
       BETFAIR_USERNAME:    ${{ secrets.BETFAIR_USERNAME }}
       BETFAIR_PASSWORD:    ${{ secrets.BETFAIR_PASSWORD }}
       BETFAIR_APP_KEY:     ${{ secrets.BETFAIR_APP_KEY }}
+      BF_DRY_RUN:          ${{ secrets.BF_DRY_RUN || '1' }}
       BF_BANK_GBP:         "50"
       BF_STAKE_PCT:        "5"
       BF_GREEN_PCT:        "30"
-      BF_DRY_RUN:          ${{ secrets.BF_DRY_RUN || '1' }}
-      CLOUDBET_API_KEY:    ${{ secrets.CLOUDBET_API_KEY }}
-      CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '1' }}
-      CB_STAKE:            ${{ secrets.CB_STAKE || '1.0' }}
-      CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
+
+      # ── Arb bot ───────────────────────────────────────────────────────────
+      ARB_BANK_USD:        "50"
+      MIN_PROFIT_PCT:      "0.5"
 
     steps:
       - uses: actions/checkout@v4
+
+      # Restore position state between runs (persists open bets across 5-min cycles)
+      - name: Restore position state
+        uses: actions/cache@v4
+        with:
+          path: cloudbet_positions.json
+          key: cloudbet-positions-${{ github.run_id }}
+          restore-keys: cloudbet-positions-
 
       - uses: actions/setup-python@v5
         with:
@@ -43,9 +64,12 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install httpx py-clob-client eth-account python-dotenv betfairlightweight
+        run: |
+          pip install httpx python-dotenv betfairlightweight \
+                      scikit-learn pandas numpy \
+                      py-clob-client eth-account
 
-      - name: Auto-derive Polymarket API creds if missing
+      - name: Auto-derive Polymarket creds (if needed)
         if: env.POLY_PRIVATE_KEY != '' && env.POLY_API_KEY == ''
         run: |
           python - <<'EOF'
@@ -55,26 +79,37 @@ jobs:
           key = os.environ["POLY_PRIVATE_KEY"]
           client = ClobClient("https://clob.polymarket.com", key=key, chain_id=int(POLYGON))
           creds = client.create_or_derive_api_creds()
-          print(f"::notice::POLY_API_KEY={creds.api_key}")
-          # Write to env file for subsequent steps
           with open(os.environ["GITHUB_ENV"], "a") as f:
               f.write(f"POLY_API_KEY={creds.api_key}\n")
               f.write(f"POLY_API_SECRET={creds.api_secret}\n")
               f.write(f"POLY_API_PASSPHRASE={creds.api_passphrase}\n")
-          print("Polymarket API creds derived successfully.")
+          print("Polymarket creds derived.")
           EOF
 
-      - name: Run arb scanner (single pass)
+      - name: Run arb scanner
         run: python arb_bot.py --once
+        continue-on-error: true
 
-      - name: Run polymarket bot (single pass)
+      - name: Run Polymarket bot
         run: python polymarket_bot.py --once
         continue-on-error: true
 
-      - name: Run Betfair cricket trading bot (single pass)
+      - name: Run Betfair bot
         run: python betfair_bot.py --once
         continue-on-error: true
 
-      - name: Run Cloudbet IPL trading bot (single pass)
+      - name: Run Cloudbet scheduled bot
         run: python cloudbet_bot.py --once
         continue-on-error: true
+
+      # Main live trader — full ML + AI + Kelly + bookset/stop-loss
+      - name: Run Cloudbet LIVE trader (ML + Gemini AI + Kelly)
+        run: python cloudbet_live.py --once
+        continue-on-error: true
+
+      # Save updated position state for next run
+      - name: Save position state
+        uses: actions/cache@v4
+        with:
+          path: cloudbet_positions.json
+          key: cloudbet-positions-${{ github.run_id }}
