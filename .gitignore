@@ -1,1 +1,41 @@
+# Secrets & env
+.env
+.env.local
+*.env
+.envrc
+
+# Claude internal
 .claude/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+bot_out.txt
+bot_err.txt
+
+# Bot state
+cloudbet_positions.json
+*.session
+
+# Token / key files (safety net)
+gh_token.txt
+railway_*.txt
+*.key
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Subproject folders (separate repos)
+cricket-trading-system/
+polymarket-pipeline/
