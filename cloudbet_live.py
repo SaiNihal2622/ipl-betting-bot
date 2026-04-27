@@ -669,7 +669,7 @@ class Position:
 # SECTION 5B — KELLY CRITERION STAKE SIZING
 # ==============================================================================
 
-BANKROLL    = float(os.getenv("CB_BANKROLL", "50.0"))   # total USDT bankroll
+BANKROLL    = float(os.getenv("CB_BANKROLL", "30.0"))   # total USDT bankroll
 KELLY_FRAC  = 0.25   # fractional Kelly (25% = conservative, avoids ruin)
 MAX_STAKE   = STAKE  # hard cap per bet (from config)
 MIN_STAKE   = 0.50   # minimum bet worth placing
@@ -811,6 +811,42 @@ def get_score() -> dict:
     return _last_score
 
 _last_score: dict = {}
+
+def get_score_for_teams(home: str, away: str) -> dict:
+    """
+    Like get_score() but works for ANY two IPL teams.
+    Returns {"HOME": "runs/wkts", "AWAY": "runs/wkts", "live": bool}
+    Uses first word of team name for matching (e.g. "Punjab" for "Punjab Kings").
+    """
+    global _last_score
+    if not ODDS_KEY:
+        return _last_score
+    home_kw = home.split()[0].lower()   # "punjab", "rajasthan", "delhi" …
+    away_kw = away.split()[0].lower()
+    # Also check last word (e.g. "Capitals" for Delhi Capitals)
+    home_kw2 = home.split()[-1].lower()
+    away_kw2 = away.split()[-1].lower()
+    try:
+        r = httpx.get("https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/",
+            params={"apiKey": ODDS_KEY, "daysFrom": 1}, timeout=8)
+        if r.status_code == 200:
+            for ev in r.json():
+                scores = ev.get("scores") or []
+                names  = [s.get("name","").lower() for s in scores]
+                if any(home_kw in n or home_kw2 in n for n in names) and \
+                   any(away_kw in n or away_kw2 in n for n in names):
+                    sc = {"live": not ev.get("completed", True)}
+                    for s in scores:
+                        n = s["name"].lower()
+                        if home_kw in n or home_kw2 in n:
+                            sc["HOME"] = s.get("score","")
+                        elif away_kw in n or away_kw2 in n:
+                            sc["AWAY"] = s.get("score","")
+                    _last_score = sc
+                    return sc
+    except Exception as e:
+        log.debug(f"Score fetch: {e}")
+    return _last_score
 
 def parse_score(s) -> Tuple[int, int]:
     try:
@@ -1068,35 +1104,90 @@ def signals_session(event_data: dict, stats: Dict,
 # ==============================================================================
 
 # Playing XI (best guess from squad; update if official XI announced)
-PLAYING_XI_DC = [
-    "Jake Fraser-McGurk", "KL Rahul", "Faf du Plessis", "Tristan Stubbs",
-    "Axar Patel", "Sumit Kumar", "Mukesh Kumar", "Khaleel Ahmed",
-    "Ishant Sharma", "Kuldeep Yadav", "Mohit Sharma",
-]
-PLAYING_XI_RCB = [
-    "Phil Salt", "Virat Kohli", "Rajat Patidar", "Liam Livingstone",
-    "Tim David", "Dinesh Karthik", "Mayank Dagar", "Josh Hazlewood",
-    "Mohammed Siraj", "Yash Dayal", "Suyash Sharma",
-]
+# Known squads — auto-selected by team name at runtime
+_SQUADS = {
+    "Delhi Capitals": [
+        "Jake Fraser-McGurk", "KL Rahul", "Faf du Plessis", "Tristan Stubbs",
+        "Axar Patel", "Sumit Kumar", "Mukesh Kumar", "Khaleel Ahmed",
+        "Ishant Sharma", "Kuldeep Yadav", "Mohit Sharma",
+    ],
+    "Royal Challengers Bangalore": [
+        "Phil Salt", "Virat Kohli", "Rajat Patidar", "Liam Livingstone",
+        "Tim David", "Dinesh Karthik", "Mayank Dagar", "Josh Hazlewood",
+        "Mohammed Siraj", "Yash Dayal", "Suyash Sharma",
+    ],
+    "Punjab Kings": [
+        "Prabhsimran Singh", "Shreyas Iyer", "Shashank Singh", "Nehal Wadhera",
+        "Marcus Stoinis", "Harpreet Brar", "Azmatullah Omarzai", "Arshdeep Singh",
+        "Yuzvendra Chahal", "Xavier Bartlett", "Lockie Ferguson",
+    ],
+    "Rajasthan Royals": [
+        "Yashasvi Jaiswal", "Jos Buttler", "Sanju Samson", "Riyan Parag",
+        "Shimron Hetmyer", "Dhruv Jurel", "Ravichandran Ashwin", "Trent Boult",
+        "Sandeep Sharma", "Avesh Khan", "Kuldeep Sen",
+    ],
+    "Mumbai Indians": [
+        "Rohit Sharma", "Ishan Kishan", "Suryakumar Yadav", "Tilak Varma",
+        "Hardik Pandya", "Tim David", "Romario Shepherd", "Piyush Chawla",
+        "Jasprit Bumrah", "Gerald Coetzee", "Jason Behrendorff",
+    ],
+    "Sunrisers Hyderabad": [
+        "Travis Head", "Abhishek Sharma", "Heinrich Klaasen", "Aiden Markram",
+        "Nitish Reddy", "Abdul Samad", "Pat Cummins", "Jaydev Unadkat",
+        "Bhuvneshwar Kumar", "T Natarajan", "Harshal Patel",
+    ],
+    "Kolkata Knight Riders": [
+        "Phil Salt", "Sunil Narine", "Angkrish Raghuvanshi", "Venkatesh Iyer",
+        "Rinku Singh", "Andre Russell", "Ramandeep Singh", "Varun Chakravarthy",
+        "Mitchell Starc", "Harshit Rana", "Spencer Johnson",
+    ],
+    "Chennai Super Kings": [
+        "Rachin Ravindra", "Devon Conway", "Ruturaj Gaikwad", "Daryl Mitchell",
+        "Shivam Dube", "MS Dhoni", "Ravindra Jadeja", "Matheesha Pathirana",
+        "Deepak Chahar", "Tushar Deshpande", "Noor Ahmad",
+    ],
+    "Gujarat Titans": [
+        "Shubman Gill", "Sai Sudharsan", "Jos Buttler", "Shahrukh Khan",
+        "David Miller", "Rahul Tewatia", "Rashid Khan", "Mohammed Shami",
+        "Spencer Johnson", "Prasidh Krishna", "Jayant Yadav",
+    ],
+    "Lucknow Super Giants": [
+        "KL Rahul", "Quinton de Kock", "Nicholas Pooran", "Marcus Stoinis",
+        "Deepak Hooda", "Ayush Badoni", "Krunal Pandya", "Avesh Khan",
+        "Ravi Bishnoi", "Mohsin Khan", "Mark Wood",
+    ],
+}
+
+def _get_xi(team: str) -> list:
+    """Return playing XI for a team, fallback to empty list."""
+    return _SQUADS.get(team, _SQUADS.get(team.split()[-1], []))
+
+# Legacy aliases for any remaining direct references
+PLAYING_XI_DC  = _SQUADS["Delhi Capitals"]
+PLAYING_XI_RCB = _SQUADS["Royal Challengers Bangalore"]
 
 def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     log.info(f"\n{'='*65}")
-    log.info(f"CYCLE #{cycle} | {datetime.now().strftime('%H:%M:%S IST')} | DC vs RCB")
+    log.info(f"CYCLE #{cycle} | {datetime.now().strftime('%H:%M:%S IST')} | {HOME_TEAM} vs {AWAY_TEAM}")
     log.info(f"{'='*65}")
+
+    # Short abbreviations for logging (first 2 unique chars of each word)
+    _ha = HOME_TEAM.split()[0][:3].upper()
+    _aa = AWAY_TEAM.split()[0][:3].upper()
 
     # -- Live stats -------------------------------------------------------------
     stats = fetch_ipl_stats()
-    dc_form  = stats.get("Delhi Capitals", {}).get("form_pct", 0.5)
-    rcb_form = stats.get("Royal Challengers Bangalore", {}).get("form_pct", 0.5)
-    log.info(f"[Stats] DC form={dc_form:.0%} last5={stats.get('Delhi Capitals',{}).get('last5',[])} "
-             f"| RCB form={rcb_form:.0%} last5={stats.get('Royal Challengers Bangalore',{}).get('last5',[])}")
+    home_form = stats.get(HOME_TEAM, {}).get("form_pct", 0.5)
+    away_form = stats.get(AWAY_TEAM, {}).get("form_pct", 0.5)
+    log.info(f"[Stats] {_ha} form={home_form:.0%} last5={stats.get(HOME_TEAM,{}).get('last5',[])} "
+             f"| {_aa} form={away_form:.0%} last5={stats.get(AWAY_TEAM,{}).get('last5',[])} ")
 
-    # -- Score ------------------------------------------------------------------
-    score   = get_score()
-    dc_sc   = score.get("DC", "")
-    rcb_sc  = score.get("RCB", "")
+    # -- Score — match home/away keys against team name fragments -------------
+    score   = get_score_for_teams(HOME_TEAM, AWAY_TEAM)
+    home_sc = score.get("HOME", "")
+    away_sc = score.get("AWAY", "")
     is_live = score.get("live", False)
-    log.info(f"[Score] DC={dc_sc or 'N/A'} | RCB={rcb_sc or 'N/A'} | Live={is_live}")
+    log.info(f"[Score] {_ha}={home_sc or 'N/A'} | {_aa}={away_sc or 'N/A'} | Live={is_live}")
 
     # -- Fetch all needed markets in one call ----------------------------------
     market_keys = [
@@ -1142,8 +1233,11 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     ml = _get_model()
     if ml:
         try:
-            tg_tips = ml.get_telegram_tips([HOME_TEAM, AWAY_TEAM, "DC", "RCB",
-                                            "Delhi", "Bangalore", "Bengaluru"])
+            # Build keyword list from team names: full name + each word
+            _kws = [HOME_TEAM, AWAY_TEAM]
+            for _t in [HOME_TEAM, AWAY_TEAM]:
+                _kws.extend(_t.split())
+            tg_tips = ml.get_telegram_tips(list(dict.fromkeys(_kws)))
             if tg_tips:
                 log.info(f"[Telegram] {tg_tips[:200]}")
             else:
@@ -1157,113 +1251,138 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     toss_decision = ""
     if tg_tips:
         tg_low = tg_tips.lower()
-        if "rcb" in tg_low and ("bowl" in tg_low or "field" in tg_low):
+        # Dynamic keyword matching for both teams
+        home_kw = HOME_TEAM.split()[0].lower()   # e.g. "punjab"
+        away_kw = AWAY_TEAM.split()[0].lower()   # e.g. "rajasthan"
+        home_kw2 = HOME_TEAM.split()[-1].lower() # e.g. "kings"
+        away_kw2 = AWAY_TEAM.split()[-1].lower() # e.g. "royals"
+        if (away_kw in tg_low or away_kw2 in tg_low) and ("bowl" in tg_low or "field" in tg_low):
             toss_winner, toss_decision = AWAY_TEAM, "field"
-            log.info(f"[Toss] {AWAY_TEAM} won toss, elected to FIELD (DC batting first)")
-        elif "rcb" in tg_low and "bat" in tg_low:
+            log.info(f"[Toss] {AWAY_TEAM} won toss, elected to FIELD ({HOME_TEAM} batting first)")
+        elif (away_kw in tg_low or away_kw2 in tg_low) and "bat" in tg_low:
             toss_winner, toss_decision = AWAY_TEAM, "bat"
             log.info(f"[Toss] {AWAY_TEAM} won toss, elected to BAT")
-        elif "dc" in tg_low or "delhi" in tg_low:
+        elif home_kw in tg_low or home_kw2 in tg_low:
             if "bowl" in tg_low or "field" in tg_low:
                 toss_winner, toss_decision = HOME_TEAM, "field"
-                log.info(f"[Toss] {HOME_TEAM} won toss, elected to FIELD (RCB batting first)")
+                log.info(f"[Toss] {HOME_TEAM} won toss, elected to FIELD ({AWAY_TEAM} batting first)")
             elif "bat" in tg_low:
                 toss_winner, toss_decision = HOME_TEAM, "bat"
                 log.info(f"[Toss] {HOME_TEAM} won toss, elected to BAT")
 
-    if is_live and dc_sc and rcb_sc:
-        dc_r, dc_w  = parse_score(dc_sc)
-        rcb_r, rcb_w = parse_score(rcb_sc)
+    # p_home = model probability for HOME_TEAM winning
+    p_home, p_away = 0.5, 0.5
 
-        if rcb_r == 0 and dc_r > 30:
-            target = dc_r + 1
+    if is_live and home_sc and away_sc:
+        home_r, home_w = parse_score(home_sc)
+        away_r, away_w = parse_score(away_sc)
+
+        if away_r == 0 and home_r > 30:
+            # AWAY team chasing HOME score
+            target = home_r + 1
             if ml:
-                p_rcb = ml.get_inplay_prob(rcb_r, rcb_w, 0.1, target)
+                p_away = ml.get_inplay_prob(away_r, away_w, 0.1, target)
             else:
-                p_rcb = inplay_prob(rcb_r, rcb_w, 0.1, target)
-            p_dc = 1 - p_rcb
-            log.info(f"[Model] 2nd inn: RCB chasing {target} | {rcb_r}/{rcb_w} | "
+                p_away = inplay_prob(away_r, away_w, 0.1, target)
+            p_home = 1 - p_away
+            log.info(f"[Model] 2nd inn: {_aa} chasing {target} | {away_r}/{away_w} | "
                      f"source={'ML-78%acc' if ml else 'sigmoid'}")
-        elif dc_r == 0 and rcb_r > 30:
-            target = rcb_r + 1
+        elif home_r == 0 and away_r > 30:
+            # HOME team chasing AWAY score
+            target = away_r + 1
             if ml:
-                p_dc = ml.get_inplay_prob(dc_r, dc_w, 0.1, target)
+                p_home = ml.get_inplay_prob(home_r, home_w, 0.1, target)
             else:
-                p_dc = inplay_prob(dc_r, dc_w, 0.1, target)
-            p_rcb = 1 - p_dc
-            log.info(f"[Model] 2nd inn: DC chasing {target} | {dc_r}/{dc_w} | "
+                p_home = inplay_prob(home_r, home_w, 0.1, target)
+            p_away = 1 - p_home
+            log.info(f"[Model] 2nd inn: {_ha} chasing {target} | {home_r}/{home_w} | "
                      f"source={'ML-78%acc' if ml else 'sigmoid'}")
         else:
-            overs_est = (dc_r + rcb_r) / 17.0 if (dc_r + rcb_r) > 0 else 5.0
+            overs_est = (home_r + away_r) / 17.0 if (home_r + away_r) > 0 else 5.0
             if ml:
-                p_dc  = ml.get_inplay_prob(dc_r, dc_w, overs_est, None)
-                p_rcb = ml.get_inplay_prob(rcb_r, rcb_w, overs_est, None)
+                p_home = ml.get_inplay_prob(home_r, home_w, overs_est, None)
+                p_away = ml.get_inplay_prob(away_r, away_w, overs_est, None)
             else:
-                p_dc  = inplay_prob(dc_r, dc_w, overs_est)
-                p_rcb = inplay_prob(rcb_r, rcb_w, overs_est)
-            total = p_dc + p_rcb
-            p_dc, p_rcb = p_dc / total, p_rcb / total
-            log.info(f"[Model] 1st inn: DC {dc_r}/{dc_w} | RCB {rcb_r}/{rcb_w} | "
+                p_home = inplay_prob(home_r, home_w, overs_est)
+                p_away = inplay_prob(away_r, away_w, overs_est)
+            total = p_home + p_away
+            p_home, p_away = p_home / total, p_away / total
+            log.info(f"[Model] 1st inn: {_ha} {home_r}/{home_w} | {_aa} {away_r}/{away_w} | "
                      f"overs~{overs_est:.1f} | source={'ML' if ml else 'sigmoid'}")
     else:
         # Pre-match — use ML model
+        # Venue: auto-select based on home team (fallback to neutral)
+        _venue_map = {
+            "Delhi Capitals":              "Arun Jaitley Stadium",
+            "Punjab Kings":                "IS Bindra Stadium",
+            "Rajasthan Royals":            "Sawai Mansingh Stadium",
+            "Mumbai Indians":              "Wankhede Stadium",
+            "Sunrisers Hyderabad":         "Rajiv Gandhi International Stadium",
+            "Kolkata Knight Riders":       "Eden Gardens",
+            "Chennai Super Kings":         "MA Chidambaram Stadium",
+            "Royal Challengers Bangalore": "M Chinnaswamy Stadium",
+            "Gujarat Titans":              "Narendra Modi Stadium",
+            "Lucknow Super Giants":        "BRSABV Ekana Cricket Stadium",
+        }
+        venue = _venue_map.get(HOME_TEAM, "neutral")
         if ml:
-            p_dc, p_rcb = ml.get_prematch_prob(HOME_TEAM, AWAY_TEAM,
-                                                venue="Arun Jaitley Stadium",
-                                                toss_winner=toss_winner,
-                                                toss_decision=toss_decision)
-            h2h = ml.get_h2h_stats(HOME_TEAM, AWAY_TEAM)
-            dc_avg10  = ml.get_team_avg_score(HOME_TEAM, 10)
-            rcb_avg10 = ml.get_team_avg_score(AWAY_TEAM, 10)
-            log.info(f"[Model] Pre-match ML: DC={p_dc:.1%} RCB={p_rcb:.1%} "
-                     f"(trained on {1207} IPL matches, 60% acc)")
+            p_home, p_away = ml.get_prematch_prob(HOME_TEAM, AWAY_TEAM,
+                                                   venue=venue,
+                                                   toss_winner=toss_winner,
+                                                   toss_decision=toss_decision)
+            h2h       = ml.get_h2h_stats(HOME_TEAM, AWAY_TEAM)
+            home_avg10 = ml.get_team_avg_score(HOME_TEAM, 10)
+            away_avg10 = ml.get_team_avg_score(AWAY_TEAM, 10)
+            log.info(f"[Model] Pre-match ML: {_ha}={p_home:.1%} {_aa}={p_away:.1%} "
+                     f"(trained on 1207 IPL matches, 60% acc) | venue={venue}")
             log.info(f"[H2H]  Last {h2h.get('total_matches',0)} meetings | "
-                     f"DC wins={h2h.get('Delhi Capitals_wins', h2h.get('Delhi Capitals_win_pct','-'))} | "
+                     f"{_ha} win%={h2h.get(HOME_TEAM+'_win_pct', h2h.get(HOME_TEAM+'_wins','-'))} | "
                      f"avg 1st inn={h2h.get('avg_innings1_score',0):.0f} "
                      f"2nd inn={h2h.get('avg_innings2_score',0):.0f}")
-            log.info(f"[Avg]  DC last-10 avg={dc_avg10:.0f} | RCB last-10 avg={rcb_avg10:.0f} "
+            log.info(f"[Avg]  {_ha} last-10 avg={home_avg10:.0f} | {_aa} last-10 avg={away_avg10:.0f} "
                      f"(live Cricsheet 2026 data)")
-            # Also apply form adjustment on top
-            form_dc  = (dc_form  - 0.5) * 0.06
-            form_rcb = (rcb_form - 0.5) * 0.06
-            p_dc  = max(0.10, min(0.90, p_dc  + form_dc))
-            p_rcb = max(0.10, min(0.90, p_rcb + form_rcb))
-            tot = p_dc + p_rcb; p_dc /= tot; p_rcb /= tot
+            # Apply recent form adjustment
+            form_home = (home_form - 0.5) * 0.06
+            form_away = (away_form - 0.5) * 0.06
+            p_home = max(0.10, min(0.90, p_home + form_home))
+            p_away = max(0.10, min(0.90, p_away + form_away))
+            tot = p_home + p_away; p_home /= tot; p_away /= tot
         else:
-            p_dc_base, p_rcb_base = elo_prob(HOME_TEAM, AWAY_TEAM)
-            form_dc  = (dc_form  - 0.5) * 0.12
-            form_rcb = (rcb_form - 0.5) * 0.12
-            p_dc  = max(0.10, min(0.90, p_dc_base  + form_dc))
-            p_rcb = max(0.10, min(0.90, p_rcb_base + form_rcb))
-            total = p_dc + p_rcb; p_dc /= total; p_rcb /= total
-            log.info(f"[Model] Pre-match ELO fallback: DC={p_dc:.1%} RCB={p_rcb:.1%}")
+            p_home_base, p_away_base = elo_prob(HOME_TEAM, AWAY_TEAM)
+            form_home = (home_form - 0.5) * 0.12
+            form_away = (away_form - 0.5) * 0.12
+            p_home = max(0.10, min(0.90, p_home_base + form_home))
+            p_away = max(0.10, min(0.90, p_away_base + form_away))
+            total = p_home + p_away; p_home /= total; p_away /= total
+            log.info(f"[Model] Pre-match ELO fallback: {_ha}={p_home:.1%} {_aa}={p_away:.1%}")
 
-    # Also get live team avg from ML for team totals model
+    # Update live team avg for team totals model
     if ml:
         AVG_SCORE[HOME_TEAM] = ml.get_team_avg_score(HOME_TEAM, 10)
         AVG_SCORE[AWAY_TEAM] = ml.get_team_avg_score(AWAY_TEAM, 10)
 
-    log.info(f"[Model] Final: DC={p_dc:.1%} fair={fair_odds(p_dc)} | "
-             f"RCB={p_rcb:.1%} fair={fair_odds(p_rcb)}")
-    log.info(f"[Players] DC XI={','.join(PLAYING_XI_DC[:5])}... "
-             f"| RCB XI={','.join(PLAYING_XI_RCB[:5])}...")
+    xi_home = _get_xi(HOME_TEAM)
+    xi_away = _get_xi(AWAY_TEAM)
+    log.info(f"[Model] Final: {_ha}={p_home:.1%} fair={fair_odds(p_home)} | "
+             f"{_aa}={p_away:.1%} fair={fair_odds(p_away)}")
+    log.info(f"[Players] {_ha} XI={','.join(xi_home[:5])}... | {_aa} XI={','.join(xi_away[:5])}...")
 
     # -- AI Reasoning (Gemini primary / Groq fallback) -------------------------
     ai_verdict = ""
-    _h2h = ml.get_h2h_stats(HOME_TEAM, AWAY_TEAM) if ml else {}
-    _dc_avg  = ml.get_team_avg_score(HOME_TEAM, 10) if ml else 0
-    _rcb_avg = ml.get_team_avg_score(AWAY_TEAM, 10) if ml else 0
+    _h2h      = ml.get_h2h_stats(HOME_TEAM, AWAY_TEAM) if ml else {}
+    _home_avg = ml.get_team_avg_score(HOME_TEAM, 10) if ml else 0
+    _away_avg = ml.get_team_avg_score(AWAY_TEAM, 10) if ml else 0
 
     if GEMINI_KEY or GROQ_KEY:
-        ai_prompt  = build_ai_prompt(HOME_TEAM, AWAY_TEAM, dc_sc, rcb_sc,
-                                     is_live, p_dc, p_rcb, mo_sels, stats,
+        ai_prompt  = build_ai_prompt(HOME_TEAM, AWAY_TEAM, home_sc, away_sc,
+                                     is_live, p_home, p_away, mo_sels, stats,
                                      telegram_tips=tg_tips,
                                      h2h=_h2h,
-                                     dc_avg10=_dc_avg, rcb_avg10=_rcb_avg)
+                                     dc_avg10=_home_avg, rcb_avg10=_away_avg)
         ai_verdict = ask_ai(ai_prompt, cycle)
         if ai_verdict:
-            p_dc, p_rcb = ai_prob_adjustment(ai_verdict, p_dc, p_rcb)
-            log.info(f"[AI] Adjusted: DC={p_dc:.1%} RCB={p_rcb:.1%} "
+            p_home, p_away = ai_prob_adjustment(ai_verdict, p_home, p_away)
+            log.info(f"[AI] Adjusted: {_ha}={p_home:.1%} {_aa}={p_away:.1%} "
                      f"(after Gemini/Groq nudge)")
         else:
             log.info("[AI] No verdict — using pure ML model")
@@ -1282,12 +1401,12 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
 
     # 1. Match odds (if available)
     if mo_sels:
-        positions = signals_match_odds(mo_sels, mo_url, p_dc, p_rcb, positions)
+        positions = signals_match_odds(mo_sels, mo_url, p_home, p_away, positions)
 
     # 2. Team totals (pre-match and in-play)
     if tt_mkt:
         positions = signals_team_totals(tt_mkt, stats,
-                                        PLAYING_XI_DC, PLAYING_XI_RCB, positions)
+                                        xi_home, xi_away, positions)
 
     # 3. Session markets (powerplay / death)
     positions = signals_session(event_data, stats, positions)
@@ -1300,7 +1419,7 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
 
 def print_summary(positions: List[Position]):
     log.info(f"\n{'-'*65}")
-    log.info("TRADE SUMMARY — DC vs RCB")
+    log.info(f"TRADE SUMMARY — {HOME_TEAM} vs {AWAY_TEAM}")
     log.info(f"{'-'*65}")
     if not positions:
         log.info("No trades this session.")
