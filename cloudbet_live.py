@@ -691,28 +691,39 @@ def place_hedge(pos: Position, opp_outcome: str, curr_price: float,
 # SECTION 7 — MARKET FETCHERS
 # ==============================================================================
 
-def _parse_selections(mkt: dict) -> List[dict]:
-    """Extract flat list of selections from a market with submarkets."""
+def _parse_selections(mkt: dict, include_suspended: bool = False) -> List[dict]:
+    """Extract flat list of selections from a market with submarkets.
+    include_suspended=True: also return SUSPENDED sels (price valid, locked mid-ball).
+    """
     out = []
     for sub_key, sub in mkt.get("submarkets", {}).items():
         for sel in sub.get("selections", []):
             price = float(sel.get("price", 0) or 0)
-            if price > 1.0:
-                params_str = sel.get("params", "")
-                pdict = {}
-                try:
-                    pdict = dict(kv.split("=") for kv in params_str.split("&") if "=" in kv)
-                except:
-                    pass
-                out.append({
-                    "label":   sel.get("label", ""),
-                    "outcome": sel.get("outcome", ""),
-                    "params":  params_str,
-                    "pdict":   pdict,
-                    "price":   price,
-                    "status":  sel.get("status",""),
-                })
+            status = sel.get("status", "").upper()
+            if price <= 1.0:
+                continue
+            # Only bet on OPEN; but include SUSPENDED for logging/awareness
+            if not include_suspended and status not in ("OPEN", "TRADING", ""):
+                continue
+            params_str = sel.get("params", "")
+            pdict = {}
+            try:
+                pdict = dict(kv.split("=") for kv in params_str.split("&") if "=" in kv)
+            except:
+                pass
+            out.append({
+                "label":   sel.get("label", ""),
+                "outcome": sel.get("outcome", ""),
+                "params":  params_str,
+                "pdict":   pdict,
+                "price":   price,
+                "status":  status,
+            })
     return out
+
+def _parse_selections_all(mkt: dict) -> List[dict]:
+    """Same but includes suspended — for logging purposes."""
+    return _parse_selections(mkt, include_suspended=True)
 
 def get_event_markets(market_keys: List[str]) -> dict:
     """Fetch multiple markets for EVENT_ID in one call."""
@@ -1050,16 +1061,64 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     mo_mkt  = mkts.get("cricket.match_odds", {})
     tt_mkt  = mkts.get("cricket.team_totals", {})
     ev_status = event_data.get("status", "unknown")
-    log.info(f"[Market] Event status: {ev_status}")
+    log.info(f"[Market] Event status: {ev_status} | markets returned: {list(mkts.keys())}")
 
+    # Log raw selections including suspended ones so we can debug live market
+    if mo_mkt:
+        for sub_k, sub in mo_mkt.get("submarkets", {}).items():
+            for sel in sub.get("selections", []):
+                log.info(f"  [RAW match_odds] outcome={sel.get('outcome')} "
+                         f"price={sel.get('price')} status={sel.get('status')} "
+                         f"params={sel.get('params')}")
+    if tt_mkt:
+        for sub_k, sub in tt_mkt.get("submarkets", {}).items():
+            for sel in sub.get("selections", [])[:4]:
+                log.info(f"  [RAW team_totals] outcome={sel.get('outcome')} "
+                         f"price={sel.get('price')} status={sel.get('status')} "
+                         f"params={sel.get('params')}")
+
+    # Include SUSPENDED selections too — Cloudbet suspends mid-ball, resumes between balls
+    # We log them but only bet on OPEN ones
     mo_sels = _parse_selections(mo_mkt) if mo_mkt else []
+    # Also try with suspended (price still valid, just momentarily locked)
+    mo_sels_all = _parse_selections_all(mo_mkt) if mo_mkt else []
+    log.info(f"[Market] match_odds: {len(mo_sels)} open / {len(mo_sels_all)} total sels "
+             f"| team_totals: {'yes' if tt_mkt else 'no'}")
     mo_url  = f"{IPL_KEY}/{EVENT_ID}/cricket.match_odds"
 
-    # -- Win probability model -------------------------------------------------
-    # Try ML model first (Cricsheet 1207 matches), fall back to ELO
+    # -- Telegram tips (fetch early so toss feeds into model) ------------------
+    tg_tips = ""
     ml = _get_model()
-    toss_winner  = ""   # unknown pre-toss
-    toss_decision= ""
+    if ml:
+        try:
+            tg_tips = ml.get_telegram_tips([HOME_TEAM, AWAY_TEAM, "DC", "RCB",
+                                            "Delhi", "Bangalore", "Bengaluru"])
+            if tg_tips:
+                log.info(f"[Telegram] {tg_tips[:200]}")
+            else:
+                log.info("[Telegram] No tips found")
+        except Exception as e:
+            log.debug(f"[Telegram] {e}")
+
+    # -- Win probability model -------------------------------------------------
+    # Parse toss from Telegram tip (e.g. "RCB Opt to Bowl" = RCB won toss, chose field)
+    toss_winner   = ""
+    toss_decision = ""
+    if tg_tips:
+        tg_low = tg_tips.lower()
+        if "rcb" in tg_low and ("bowl" in tg_low or "field" in tg_low):
+            toss_winner, toss_decision = AWAY_TEAM, "field"
+            log.info(f"[Toss] {AWAY_TEAM} won toss, elected to FIELD (DC batting first)")
+        elif "rcb" in tg_low and "bat" in tg_low:
+            toss_winner, toss_decision = AWAY_TEAM, "bat"
+            log.info(f"[Toss] {AWAY_TEAM} won toss, elected to BAT")
+        elif "dc" in tg_low or "delhi" in tg_low:
+            if "bowl" in tg_low or "field" in tg_low:
+                toss_winner, toss_decision = HOME_TEAM, "field"
+                log.info(f"[Toss] {HOME_TEAM} won toss, elected to FIELD (RCB batting first)")
+            elif "bat" in tg_low:
+                toss_winner, toss_decision = HOME_TEAM, "bat"
+                log.info(f"[Toss] {HOME_TEAM} won toss, elected to BAT")
 
     if is_live and dc_sc and rcb_sc:
         dc_r, dc_w  = parse_score(dc_sc)
@@ -1137,18 +1196,6 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
              f"RCB={p_rcb:.1%} fair={fair_odds(p_rcb)}")
     log.info(f"[Players] DC XI={','.join(PLAYING_XI_DC[:5])}... "
              f"| RCB XI={','.join(PLAYING_XI_RCB[:5])}...")
-
-    # -- Telegram expert tips --------------------------------------------------
-    tg_tips = ""
-    if ml:
-        try:
-            tg_tips = ml.get_telegram_tips([HOME_TEAM, AWAY_TEAM, "DC", "RCB"])
-            if tg_tips:
-                log.info(f"[Telegram] Tips found: {tg_tips[:150]}...")
-            else:
-                log.info("[Telegram] No relevant tips found today")
-        except Exception as e:
-            log.debug(f"[Telegram] {e}")
 
     # -- AI Reasoning (Gemini primary / Groq fallback) -------------------------
     ai_verdict = ""
