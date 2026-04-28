@@ -1,10 +1,32 @@
 name: IPL Betting Bot
 
+# ─────────────────────────────────────────────────────────────────────────────
+# IPL 2026 match schedule (all times IST = UTC+5:30):
+#
+#   WEEKDAYS  (Mon–Fri): single match at 19:30 IST → analysis from 19:00 IST
+#     19:00 IST = 13:30 UTC  → first trigger
+#     19:30–23:30 IST        → every 5 min (14:00–18:00 UTC)
+#
+#   WEEKENDS  (Sat–Sun): two matches
+#     Match 1 → 15:30 IST = 10:00 UTC  → analysis from 15:00 IST = 09:30 UTC
+#     Match 2 → 19:30 IST = 14:00 UTC  → analysis from 19:00 IST = 13:30 UTC
+# ─────────────────────────────────────────────────────────────────────────────
+
 on:
-  # Every 5 minutes during IPL hours: 14:00-23:30 IST = 08:30-18:00 UTC
   schedule:
-    - cron: '*/5 8-18 * * *'
-  workflow_dispatch:   # manual trigger anytime
+    # ── Weekdays: single evening match ──────────────────────────────────────
+    - cron: '30 13 * * 1-5'      # 19:00 IST Mon-Fri  — pre-match analysis
+    - cron: '*/5 14-18 * * 1-5'  # 19:30-00:00 IST    — live trading every 5 min
+
+    # ── Weekends: afternoon match (Match 1) ──────────────────────────────────
+    - cron: '30 9 * * 0,6'       # 15:00 IST Sat-Sun  — pre-match analysis
+    - cron: '*/5 10-13 * * 0,6'  # 15:30-19:00 IST    — live trading every 5 min
+
+    # ── Weekends: evening match (Match 2) ────────────────────────────────────
+    - cron: '30 13 * * 0,6'      # 19:00 IST Sat-Sun  — pre-match analysis
+    - cron: '*/5 14-18 * * 0,6'  # 19:30-00:00 IST    — live trading every 5 min
+
+  workflow_dispatch:              # manual trigger anytime
 
 jobs:
   trade:
@@ -17,7 +39,7 @@ jobs:
       CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '1' }}
       CB_STAKE:            ${{ secrets.CB_STAKE || '2.0' }}
       CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
-      CB_BANKROLL:         ${{ secrets.CB_BANKROLL || '50.0' }}
+      CB_BANKROLL:         ${{ secrets.CB_BANKROLL || '30.0' }}
 
       # ── AI (Gemini primary, Groq fallback) ────────────────────────────────
       GEMINI_API_KEY:      ${{ secrets.GEMINI_API_KEY }}
@@ -50,13 +72,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Restore position state between runs (persists open bets across 5-min cycles)
+      # Restore position state between runs
+      # Weekend: separate cache keys for afternoon vs evening match
+      - name: Determine match slot
+        id: slot
+        run: |
+          HOUR_UTC=$(date -u +%H)
+          DAY=$(date -u +%u)   # 1=Mon … 7=Sun
+          if [ "$DAY" -ge 6 ] && [ "$HOUR_UTC" -lt 13 ]; then
+            echo "slot=afternoon" >> $GITHUB_OUTPUT
+          else
+            echo "slot=evening" >> $GITHUB_OUTPUT
+          fi
+
       - name: Restore position state
         uses: actions/cache@v4
         with:
           path: cloudbet_positions.json
-          key: cloudbet-positions-${{ github.run_id }}
-          restore-keys: cloudbet-positions-
+          key: cloudbet-positions-${{ steps.slot.outputs.slot }}-${{ github.run_id }}
+          restore-keys: cloudbet-positions-${{ steps.slot.outputs.slot }}-
 
       - uses: actions/setup-python@v5
         with:
@@ -102,14 +136,14 @@ jobs:
         run: python cloudbet_bot.py --once
         continue-on-error: true
 
-      # Main live trader — loops for 3.5 min catching open windows between balls
+      # Main live trader — loops 3.5 min, catches every open window between balls
       - name: Run Cloudbet LIVE trader (ML + Gemini AI + Kelly)
         run: python cloudbet_live.py --loop --duration=200
         continue-on-error: true
 
-      # Save updated position state for next run
+      # Save updated position state for next run (slot-aware)
       - name: Save position state
         uses: actions/cache@v4
         with:
           path: cloudbet_positions.json
-          key: cloudbet-positions-${{ github.run_id }}
+          key: cloudbet-positions-${{ steps.slot.outputs.slot }}-${{ github.run_id }}

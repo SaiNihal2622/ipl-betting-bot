@@ -26,9 +26,21 @@ from dotenv import load_dotenv
 _ipl_model = None
 def discover_todays_event() -> tuple:
     """
-    Query Cloudbet competition feed to find today's IPL match.
+    Query Cloudbet competition feed to find the correct IPL match to trade NOW.
+
+    Schedule logic (all times IST = UTC+5:30):
+      Weekdays  Mon-Fri : single match at 19:30 IST (14:00 UTC)
+      Weekends  Sat-Sun : two matches
+                          Afternoon → 15:30 IST (10:00 UTC)
+                          Evening   → 19:30 IST (14:00 UTC)
+
+    On weekends with two matches today we pick:
+      - If UTC hour < 13 (before 18:30 IST)  → afternoon match
+      - If UTC hour >= 13 (after  18:30 IST) → evening match
+      - If one is TRADING_LIVE we always prefer that one
+      - If one is POST_TRADING we skip it
+
     Returns (event_id, home_team, away_team) or (0, '', '') on failure.
-    Auto-resolves team aliases to canonical names.
     """
     if not API_KEY:
         return 0, "", ""
@@ -38,22 +50,66 @@ def discover_todays_event() -> tuple:
         if r.status_code != 200:
             log.debug(f"[Discover] HTTP {r.status_code}")
             return 0, "", ""
-        events = r.json().get("events", [])
-        from datetime import date, timezone as tz
-        today = date.today()
-        for ev in events:
+
+        from datetime import datetime, timezone as _tz, date as _date
+        now_utc  = datetime.now(_tz.utc)
+        today    = _date.today()
+        utc_hour = now_utc.hour
+
+        # Collect all of today's events (skip finished ones)
+        todays = []
+        for ev in r.json().get("events", []):
             cutoff = ev.get("cutoffTime", "")[:10]
-            status = ev.get("status", "")
-            if cutoff == str(today) or status in ("TRADING", "TRADING_LIVE", "OPEN"):
-                name = ev.get("name", "")
-                eid  = ev.get("id", 0)
-                # name is usually "Team A v Team B" or "Team A vs Team B"
+            status = ev.get("status", "").upper()
+            if status in ("POST_TRADING", "RESULTED", "SETTLED"):
+                continue
+            if cutoff == str(today) or status in ("TRADING", "TRADING_LIVE", "OPEN", "SUSPENDED"):
+                name  = ev.get("name", "")
+                eid   = ev.get("id", 0)
                 parts = [p.strip() for p in re.split(r" vs?\.? ", name, flags=re.I)]
                 if len(parts) == 2:
                     home = TEAM_ALIASES.get(parts[0], parts[0])
                     away = TEAM_ALIASES.get(parts[1], parts[1])
-                    log.info(f"[Discover] Found: {home} vs {away} (id={eid}, status={status})")
-                    return int(eid), home, away
+                    todays.append({
+                        "eid": int(eid), "home": home, "away": away,
+                        "status": status, "cutoff": cutoff,
+                        "cutoff_hour_utc": int(ev.get("cutoffTime", "T14")[11:13] or 14),
+                    })
+
+        if not todays:
+            log.warning("[Discover] No active IPL events found for today")
+            return 0, "", ""
+
+        log.info(f"[Discover] {len(todays)} event(s) today: "
+                 + " | ".join(f"{e['home']} vs {e['away']} ({e['status']})" for e in todays))
+
+        # Prefer any LIVE event first
+        for ev in todays:
+            if ev["status"] == "TRADING_LIVE":
+                log.info(f"[Discover] LIVE match → {ev['home']} vs {ev['away']} (id={ev['eid']})")
+                return ev["eid"], ev["home"], ev["away"]
+
+        # Single event → return it
+        if len(todays) == 1:
+            ev = todays[0]
+            log.info(f"[Discover] Single match → {ev['home']} vs {ev['away']} (id={ev['eid']})")
+            return ev["eid"], ev["home"], ev["away"]
+
+        # Double-header weekend: pick by UTC hour
+        # Sort by cutoff hour so todays[0] = afternoon, todays[1] = evening
+        todays.sort(key=lambda e: e["cutoff_hour_utc"])
+        if utc_hour < 13:
+            # Before 18:30 IST → afternoon match
+            ev = todays[0]
+            log.info(f"[Discover] Weekend afternoon slot (UTC={utc_hour}h) → "
+                     f"{ev['home']} vs {ev['away']} (id={ev['eid']})")
+        else:
+            # After 18:30 IST → evening match
+            ev = todays[-1]
+            log.info(f"[Discover] Weekend evening slot (UTC={utc_hour}h) → "
+                     f"{ev['home']} vs {ev['away']} (id={ev['eid']})")
+        return ev["eid"], ev["home"], ev["away"]
+
     except Exception as e:
         log.warning(f"[Discover] {e}")
     return 0, "", ""
