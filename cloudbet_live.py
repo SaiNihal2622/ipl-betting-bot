@@ -92,13 +92,21 @@ GEMINI_KEY   = os.getenv("GEMINI_API_KEY", "")
 GROQ_KEY     = os.getenv("GROQ_API_KEY", "")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
-MIN_EDGE      = 0.04    # 4% minimum model edge to enter
-GREEN_PCT     = 0.25    # bookset at +25% unrealised profit
-STOP_PCT      = 0.40    # hedge-stop at -40% (place opposite to cap loss)
-MAX_ODDS      = 7.0
-MIN_ODDS      = 1.15
-POLL_SECS     = 45
-MAX_OPEN      = 3       # max concurrent open positions
+MIN_EDGE      = 0.025   # 2.5% minimum edge — trade more like a market maker
+GREEN_PCT     = 0.15    # bookset at +15% — recycle capital fast like options scalping
+STOP_PCT      = 0.35    # hedge-stop at -35% — tighter risk control
+MAX_ODDS      = 8.0
+MIN_ODDS      = 1.12
+POLL_SECS     = 30      # poll every 30s — catch every over change
+MAX_OPEN      = 10      # up to 10 concurrent legs (multi-leg like options)
+# Per-market position limits (options: hold multiple legs per market)
+MAX_PER_MARKET = {
+    "match_odds":     2,   # can have home + away if both have edge (rare arb)
+    "team_totals":    4,   # home over/under + away over/under
+    "session":        6,   # powerplay + middle + death × 2 innings
+    "over_by_over":   4,   # up to 4 active single-over bets
+    "innings_runs":   2,
+}
 
 FEED_BASE  = "https://sports-api.cloudbet.com/pub/v2/odds"
 TRADE_BASE = "https://sports-api.cloudbet.com/pub/v4"
@@ -1031,28 +1039,47 @@ def signals_team_totals(tt_mkt: dict, stats: Dict,
 def signals_session(event_data: dict, stats: Dict,
                     positions: List[Position]) -> List[Position]:
     """
-    Scan powerplay and death-over session markets.
-    Market keys:
-      cricket.team_total_from_0_over_to_6_over   → powerplay
-      cricket.team_total_from_16_over_to_20_over → death
+    Multi-leg session trading — like options across different expiries:
+      Powerplay  (0-6)  = short-dated option  — high vol, fast resolution
+      Middle    (7-15)  = medium-dated option
+      Death    (16-20)  = short-dated, high premium near end
+      Over-by-over      = 0-DTE options — scalp every over
+      Innings runs      = full innings O/U — backbone position
+    Each session scanned independently; multiple legs can coexist.
     """
+    # All session market definitions with expected run ranges for modelling
     session_markets = {
-        "cricket.team_total_from_0_over_to_6_over":   ("powerplay",  0,  6),
-        "cricket.team_total_from_16_over_to_20_over": ("death",     16, 20),
-        "cricket.over_team_total":                    ("over_by_over", None, None),
+        "cricket.team_total_from_0_over_to_6_over":   ("powerplay",   0,  6,  48, 62),
+        "cricket.team_total_from_7_over_to_15_over":  ("middle",      7, 15,  55, 72),
+        "cricket.team_total_from_16_over_to_20_over": ("death",      16, 20,  45, 65),
+        "cricket.over_team_total":                    ("over_by_over",None,None, 6, 12),
+        "cricket.next_over_total":                    ("next_over",  None,None, 6, 12),
+        "cricket.innings_runs":                       ("innings",    None,None,155,200),
     }
 
     mkts = event_data.get("markets", {})
 
-    for mkey, (phase, ov_from, ov_to) in session_markets.items():
+    for mkey, (phase, ov_from, ov_to, exp_lo, exp_hi) in session_markets.items():
         mkt = mkts.get(mkey)
         if not mkt:
             continue
         sels = _parse_selections(mkt)
+        if not sels:
+            log.info(f"[{phase}] No open selections")
+            continue
         mkt_url = f"{IPL_KEY}/{EVENT_ID}/{mkey}"
-        log.info(f"[Session: {phase}] Scanning {mkey}...")
+        log.info(f"[{phase.upper()}] {len(sels)} open selections — scanning...")
+
+        # Count active legs in this market
+        active_legs = sum(1 for p in positions
+                         if p.market_url == mkt_url and p.status == "OPEN")
+        limit = MAX_PER_MARKET.get("session", 6)
 
         for sel in sels:
+            if active_legs >= limit:
+                log.info(f"  [{phase}] Max legs ({limit}) reached — stop scanning")
+                break
+
             price     = sel["price"]
             direction = sel["outcome"].lower()
             pdict     = sel["pdict"]
@@ -1064,21 +1091,34 @@ def signals_session(event_data: dict, stats: Dict,
 
             team_side = pdict.get("team", "")
             try:
-                line = float(pdict.get("total", 0))
+                line = float(pdict.get("total", pdict.get("runs", 0)))
             except:
                 continue
 
-            team = HOME_TEAM if team_side == "home" else (AWAY_TEAM if team_side == "away" else None)
-            if not team or line <= 0:
+            team = HOME_TEAM if team_side in ("home","1") else \
+                   (AWAY_TEAM if team_side in ("away","2") else None)
+            if not team:
+                # Some markets don't tag team — use combined avg
+                team = HOME_TEAM
+            if line <= 0:
                 continue
 
             p_model, reason = session_total_prob(team, phase, line, direction, stats)
+
+            # Adjust model for phase-specific expected range
+            # If line is far outside expected range → strong signal
+            if direction == "over" and line < exp_lo:
+                p_model = min(0.88, p_model + 0.08)  # very likely over
+                reason += f" | line {line} well below {phase} avg {exp_lo}-{exp_hi}"
+            elif direction == "under" and line > exp_hi:
+                p_model = min(0.88, p_model + 0.08)  # very likely under
+                reason += f" | line {line} well above {phase} avg {exp_lo}-{exp_hi}"
+
             f_odds = fair_odds(p_model)
             edge   = price / f_odds - 1
             label  = f"[{phase}] {team} {direction.title()} {line}"
 
-            log.info(f"  {label} | market={price} fair={f_odds:.3f} p={p_model:.1%} edge={edge:+.1%}")
-            log.info(f"    {reason}")
+            log.info(f"  {label} | mkt={price} fair={f_odds:.3f} p={p_model:.1%} edge={edge:+.1%}")
 
             already = any(p.market_url == mkt_url and p.outcome == direction
                           and p.team == team and p.status == "OPEN"
@@ -1089,13 +1129,184 @@ def signals_session(event_data: dict, stats: Dict,
 
             if edge >= MIN_EDGE:
                 ks = kelly_stake(p_model, price)
-                log.info(f"    >>> SESSION VALUE edge={edge:.1%} | Kelly stake={ks:.2f} USDT")
+                log.info(f"    >>> {phase.upper()} TRADE edge={edge:.1%} stake={ks:.2f}")
                 if ks >= MIN_STAKE:
                     pos = place(team, sel["outcome"], price, ks, mkt_url,
                                 f"{label} | {reason} | Kelly={ks:.2f}", "session")
                     positions.append(pos)
+                    active_legs += 1
             else:
-                log.info(f"    No edge — skip")
+                log.info(f"    No edge ({edge:+.1%} < {MIN_EDGE:.1%}) — skip")
+
+    return positions
+
+
+def signals_over_by_over(event_data: dict, live_score: dict,
+                          positions: List[Position]) -> List[Position]:
+    """
+    0-DTE option equivalent: bet on next over total.
+    Very short-lived — resolves in ~4 minutes.
+    High frequency, small stakes, based on bowler + batsman matchup.
+    """
+    mkts  = event_data.get("markets", {})
+    mkt   = mkts.get("cricket.next_over_total") or mkts.get("cricket.over_team_total")
+    if not mkt:
+        return positions
+
+    sels    = _parse_selections(mkt)
+    mkt_url = f"{IPL_KEY}/{EVENT_ID}/cricket.next_over_total"
+
+    # Count existing over-by-over legs
+    active = sum(1 for p in positions
+                 if "over_total" in p.market_url and p.status == "OPEN")
+    if active >= MAX_PER_MARKET.get("over_by_over", 4):
+        return positions
+
+    home_r, home_w = parse_score(live_score.get("HOME",""))
+    away_r, away_w = parse_score(live_score.get("AWAY",""))
+    is_live = live_score.get("live", False)
+
+    if not is_live:
+        return positions  # Over-by-over only makes sense in-play
+
+    for sel in sels:
+        price     = sel["price"]
+        direction = sel["outcome"].lower()
+        pdict     = sel["pdict"]
+        if direction not in ("over","under"):
+            continue
+        if not (MIN_ODDS <= price <= MAX_ODDS):
+            continue
+        try:
+            line = float(pdict.get("total", pdict.get("runs", 0)))
+        except:
+            continue
+        if line <= 0:
+            continue
+
+        # Simple model: T20 avg ~8.5 runs/over, adjust for wickets fallen
+        wkts_batting = home_w if home_r > 0 else away_w
+        # More wickets = lower scoring, fewer wickets = higher scoring
+        adj = -0.5 * wkts_batting  # each wicket reduces expected runs/over
+        expected_runs = 8.5 + adj
+        p_over  = min(0.88, max(0.12, 0.5 + (expected_runs - line) * 0.08))
+        p_under = 1 - p_over
+        p_model = p_over if direction == "over" else p_under
+
+        f_odds = fair_odds(p_model)
+        edge   = price / f_odds - 1
+        label  = f"[next_over] {direction.title()} {line} (exp={expected_runs:.1f})"
+        log.info(f"  {label} | mkt={price} fair={f_odds:.3f} edge={edge:+.1%}")
+
+        already = any("over_total" in p.market_url and p.outcome == direction
+                      and p.status == "OPEN" for p in positions)
+        if already:
+            continue
+
+        if edge >= MIN_EDGE:
+            # Over-by-over: smaller stake (0-DTE = high theta decay risk)
+            ks = min(kelly_stake(p_model, price), MAX_STAKE * 0.4)
+            if ks >= MIN_STAKE:
+                log.info(f"    >>> OVER-BY-OVER SCALP edge={edge:.1%} stake={ks:.2f}")
+                pos = place(HOME_TEAM, sel["outcome"], price, ks, mkt_url,
+                            f"{label} | Kelly={ks:.2f}", "over_by_over")
+                positions.append(pos)
+                active += 1
+                if active >= MAX_PER_MARKET.get("over_by_over", 4):
+                    break
+
+    return positions
+
+
+def signals_innings_runs(event_data: dict, live_score: dict, ml,
+                          p_home: float, p_away: float,
+                          positions: List[Position]) -> List[Position]:
+    """
+    Full innings O/U — like a long-dated futures position.
+    Best entered pre-match or in early overs (1-4).
+    Uses ML avg score + current scoring rate.
+    """
+    mkts  = event_data.get("markets", {})
+    mkt   = mkts.get("cricket.innings_runs")
+    if not mkt:
+        return positions
+
+    sels    = _parse_selections(mkt)
+    mkt_url = f"{IPL_KEY}/{EVENT_ID}/cricket.innings_runs"
+
+    active = sum(1 for p in positions
+                 if "innings_runs" in p.market_url and p.status == "OPEN")
+    if active >= MAX_PER_MARKET.get("innings_runs", 2):
+        return positions
+
+    home_avg = AVG_SCORE.get(HOME_TEAM, 170)
+    away_avg = AVG_SCORE.get(AWAY_TEAM, 170)
+
+    # Update with live scoring rate if in-play
+    home_r, home_w = parse_score(live_score.get("HOME",""))
+    away_r, away_w = parse_score(live_score.get("AWAY",""))
+
+    for sel in sels:
+        price     = sel["price"]
+        direction = sel["outcome"].lower()
+        pdict     = sel["pdict"]
+        if direction not in ("over","under"):
+            continue
+        if not (MIN_ODDS <= price <= MAX_ODDS):
+            continue
+        try:
+            line = float(pdict.get("total", pdict.get("runs", 0)))
+        except:
+            continue
+        if line <= 0:
+            continue
+
+        team_side = pdict.get("team","")
+        team      = HOME_TEAM if team_side in ("home","1") else AWAY_TEAM
+        avg       = home_avg if team == HOME_TEAM else away_avg
+
+        # If in-play: project final score from current rate
+        if home_r > 10 or away_r > 10:
+            batting_r = home_r if home_r > away_r else away_r
+            batting_w = home_w if home_r > away_r else away_w
+            # Rough projection: current runs / overs elapsed * 20 overs
+            overs_done = max(1, (batting_r / 8.5))
+            overs_left = max(0, 20 - overs_done)
+            wickets_left = 10 - batting_w
+            run_rate = batting_r / overs_done if overs_done > 0 else 8.5
+            # Adjust run rate for wickets remaining
+            adj_rate = run_rate * (0.8 + 0.02 * wickets_left)
+            projected = batting_r + adj_rate * overs_left
+            avg = projected
+            log.info(f"  [innings] Projected total: {projected:.0f} (rate={run_rate:.1f}, {wickets_left}wkts left)")
+
+        # Probability based on avg vs line
+        sigma  = 18  # T20 standard deviation ~18 runs
+        z      = (avg - line) / sigma
+        import math as _math
+        p_over = 0.5 + 0.5 * (z / (1 + abs(z)))  # logistic approx of CDF
+        p_model = p_over if direction == "over" else (1 - p_over)
+        p_model = max(0.12, min(0.88, p_model))
+
+        f_odds = fair_odds(p_model)
+        edge   = price / f_odds - 1
+        label  = f"[innings] {team} {direction.title()} {line} (proj={avg:.0f})"
+        log.info(f"  {label} | mkt={price} fair={f_odds:.3f} edge={edge:+.1%}")
+
+        already = any("innings_runs" in p.market_url and p.team == team
+                      and p.outcome == direction and p.status == "OPEN"
+                      for p in positions)
+        if already:
+            continue
+
+        if edge >= MIN_EDGE:
+            ks = kelly_stake(p_model, price)
+            if ks >= MIN_STAKE:
+                log.info(f"    >>> INNINGS POSITION edge={edge:.1%} stake={ks:.2f}")
+                pos = place(team, sel["outcome"], price, ks, mkt_url,
+                            f"{label} | Kelly={ks:.2f}", "innings_runs")
+                positions.append(pos)
+                active += 1
 
     return positions
 
@@ -1190,12 +1401,22 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     log.info(f"[Score] {_ha}={home_sc or 'N/A'} | {_aa}={away_sc or 'N/A'} | Live={is_live}")
 
     # -- Fetch all needed markets in one call ----------------------------------
+    # All tradeable markets — like options chains across multiple strikes/expiries
     market_keys = [
-        "cricket.match_odds",
-        "cricket.team_totals",
-        "cricket.team_total_from_0_over_to_6_over",
-        "cricket.team_total_from_16_over_to_20_over",
-        "cricket.over_team_total",
+        # ── Core (match-level) ─────────────────────────────────────────────
+        "cricket.match_odds",             # Win/loss — base position
+        "cricket.team_totals",            # Total runs O/U per team (2 legs)
+        # ── Session markets (like monthly options — different expiries) ────
+        "cricket.team_total_from_0_over_to_6_over",    # Powerplay O/U
+        "cricket.team_total_from_7_over_to_15_over",   # Middle overs O/U
+        "cricket.team_total_from_16_over_to_20_over",  # Death overs O/U
+        # ── Over-by-over (like weekly options — short expiry, high theta) ─
+        "cricket.over_team_total",        # Current/next over runs O/U
+        "cricket.next_over_total",        # Next over exact runs
+        # ── Innings milestones (like barrier options) ─────────────────────
+        "cricket.innings_runs",           # Total innings runs O/U
+        "cricket.next_dismissal_method",  # Fall of next wicket
+        "cricket.fall_of_next_wicket",    # Score at next wicket
     ]
     event_data = get_event_markets(market_keys)
     mkts = event_data.get("markets", {})
@@ -1393,23 +1614,39 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     if mo_sels:
         positions = manage_positions(positions, mo_sels, mo_url)
 
-    # -- Look for new bets ------------------------------------------------------
+    # -- Multi-leg signal scan — like scanning an options chain ----------------
     open_ct = sum(1 for p in positions if p.status == "OPEN")
+    log.info(f"[Portfolio] {open_ct}/{MAX_OPEN} legs open")
+
     if open_ct >= MAX_OPEN:
-        log.info(f"[Entry] {open_ct}/{MAX_OPEN} open positions — not adding more")
+        log.info(f"[Entry] Max legs ({MAX_OPEN}) reached — managing only")
         return positions
 
-    # 1. Match odds (if available)
+    live_score = {"HOME": home_sc, "AWAY": away_sc, "live": is_live}
+
+    # 1. MATCH ODDS — core position (like equity long/short)
     if mo_sels:
         positions = signals_match_odds(mo_sels, mo_url, p_home, p_away, positions)
 
-    # 2. Team totals (pre-match and in-play)
+    # 2. INNINGS RUNS — full-innings O/U (like long-dated futures)
+    positions = signals_innings_runs(event_data, live_score, ml,
+                                     p_home, p_away, positions)
+
+    # 3. TEAM TOTALS — per-team run O/U (2 independent legs possible)
     if tt_mkt:
         positions = signals_team_totals(tt_mkt, stats,
                                         xi_home, xi_away, positions)
 
-    # 3. Session markets (powerplay / death)
+    # 4. SESSION MARKETS — powerplay / middle / death (like monthly options)
     positions = signals_session(event_data, stats, positions)
+
+    # 5. OVER-BY-OVER SCALP — next over O/U (0-DTE, only in-play)
+    if is_live:
+        positions = signals_over_by_over(event_data, live_score, positions)
+
+    open_after = sum(1 for p in positions if p.status == "OPEN")
+    log.info(f"[Portfolio] After scan: {open_after} legs open | "
+             f"new this cycle: {open_after - open_ct}")
 
     return positions
 
