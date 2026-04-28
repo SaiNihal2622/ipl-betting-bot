@@ -1109,12 +1109,15 @@ def signals_session(event_data: dict, stats: Dict,
     """
     # All session market definitions with expected run ranges for modelling
     session_markets = {
-        "cricket.team_total_from_0_over_to_6_over":   ("powerplay",   0,  6,  48, 62),
-        "cricket.team_total_from_7_over_to_15_over":  ("middle",      7, 15,  55, 72),
-        "cricket.team_total_from_16_over_to_20_over": ("death",      16, 20,  45, 65),
+        # Confirmed live key from Cloudbet API (x = dynamic over number)
+        "cricket.team_total_from_0_over_to_x_over":   ("powerplay",   0,  6,  48, 62),
         "cricket.over_team_total":                    ("over_by_over",None,None, 6, 12),
         "cricket.next_over_total":                    ("next_over",  None,None, 6, 12),
         "cricket.innings_runs":                       ("innings",    None,None,155,200),
+        # These may appear pre-match or between innings
+        "cricket.team_total_from_0_over_to_6_over":   ("powerplay_alt",0, 6,  48, 62),
+        "cricket.team_total_from_7_over_to_15_over":  ("middle",      7, 15,  55, 72),
+        "cricket.team_total_from_16_over_to_20_over": ("death",      16, 20,  45, 65),
     }
 
     mkts = event_data.get("markets", {})
@@ -1437,6 +1440,91 @@ def _get_xi(team: str) -> list:
 PLAYING_XI_DC  = _SQUADS["Delhi Capitals"]
 PLAYING_XI_RCB = _SQUADS["Royal Challengers Bangalore"]
 
+def signals_player_markets(event_data: dict, xi_home: list, xi_away: list,
+                           positions: List[Position]) -> List[Position]:
+    """
+    Player total runs O/U and milestone markets — very active in-play.
+    Model: compare line vs player's IPL season average.
+    Only enter if line is clearly mispriced vs player form.
+    """
+    mkts = event_data.get("markets", {})
+    active = sum(1 for p in positions if "player" in p.market_url and p.status == "OPEN")
+    if active >= 4:
+        return positions
+
+    # Known IPL 2026 season averages (rough, from Cricsheet last-10)
+    PLAYER_AVG = {
+        # PBKS
+        "prabhsimran-singh": 34, "shreyas-iyer": 38, "shashank-singh": 28,
+        "nehal-wadhera": 22, "marcus-stoinis": 30, "arshdeep-singh": 8,
+        # RR
+        "yashasvi-jaiswal": 42, "jos-buttler": 35, "sanju-samson": 32,
+        "riyan-parag": 28, "shimron-hetmyer": 26,
+        # MI
+        "rohit-sharma": 30, "ishan-kishan": 28, "suryakumar-yadav": 36,
+        "hardik-pandya": 24, "tilak-varma": 28,
+        # SRH
+        "travis-head": 40, "abhishek-sharma": 32, "heinrich-klaasen": 35,
+        "aiden-markram": 28, "nitish-reddy": 22,
+        # Generic fallback
+        "default": 25,
+    }
+    all_xi = set((p.lower().replace(" ","-").replace("'","") for p in (xi_home + xi_away)))
+
+    for mkey in ["cricket.player_total", "cricket.player_to_score_milestone"]:
+        mkt = mkts.get(mkey)
+        if not mkt:
+            continue
+        sels = _parse_selections(mkt)
+        mkt_url = f"{IPL_KEY}/{EVENT_ID}/{mkey}"
+
+        for sel in sels:
+            if active >= 4:
+                break
+            price     = sel["price"]
+            direction = sel["outcome"].lower()
+            pdict     = sel["pdict"]
+            if not (MIN_ODDS <= price <= MAX_ODDS):
+                continue
+
+            player_id = pdict.get("player", "")
+            try:
+                line = float(pdict.get("total", pdict.get("milestone", 0)))
+            except:
+                continue
+            if line <= 0:
+                continue
+
+            # Look up player avg
+            avg = PLAYER_AVG.get(player_id.split("-",1)[-1] if "-" in player_id else player_id,
+                                  PLAYER_AVG["default"])
+            sigma = 12  # player runs std dev
+            z = (avg - line) / sigma
+            p_over  = max(0.15, min(0.85, 0.5 + 0.4 * (z / (1 + abs(z)))))
+            p_model = p_over if direction in ("over","yes") else (1 - p_over)
+
+            f_odds = fair_odds(p_model)
+            edge   = price / f_odds - 1
+            label  = f"[player] {player_id} {direction} {line} (avg~{avg})"
+            log.info(f"  {label} | mkt={price} fair={f_odds:.3f} p={p_model:.1%} edge={edge:+.1%}")
+
+            already = any(p.market_url == mkt_url and player_id in p.reason
+                          and p.status == "OPEN" for p in positions)
+            if already:
+                continue
+
+            if edge >= MIN_EDGE:
+                ks = min(kelly_stake(p_model, price), MAX_STAKE * 0.5)
+                if ks >= MIN_STAKE:
+                    log.info(f"    >>> PLAYER TRADE edge={edge:.1%} stake={ks:.2f}")
+                    pos = place(HOME_TEAM, sel["outcome"], price, ks, mkt_url,
+                                f"{label} | Kelly={ks:.2f}", "player")
+                    positions.append(pos)
+                    active += 1
+
+    return positions
+
+
 def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     log.info(f"\n{'='*65}")
     log.info(f"CYCLE #{cycle} | {datetime.now().strftime('%H:%M:%S IST')} | {HOME_TEAM} vs {AWAY_TEAM}")
@@ -1460,23 +1548,21 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     is_live = score.get("live", False)
     log.info(f"[Score] {_ha}={home_sc or 'N/A'} | {_aa}={away_sc or 'N/A'} | Live={is_live}")
 
-    # -- Fetch all needed markets in one call ----------------------------------
-    # All tradeable markets — like options chains across multiple strikes/expiries
+    # -- Fetch ALL available markets (confirmed from live API inspection) ------
+    # Cloudbet live cricket markets — verified from actual event response
     market_keys = [
-        # ── Core (match-level) ─────────────────────────────────────────────
-        "cricket.match_odds",             # Win/loss — base position
-        "cricket.team_totals",            # Total runs O/U per team (2 legs)
-        # ── Session markets (like monthly options — different expiries) ────
-        "cricket.team_total_from_0_over_to_6_over",    # Powerplay O/U
-        "cricket.team_total_from_7_over_to_15_over",   # Middle overs O/U
-        "cricket.team_total_from_16_over_to_20_over",  # Death overs O/U
-        # ── Over-by-over (like weekly options — short expiry, high theta) ─
-        "cricket.over_team_total",        # Current/next over runs O/U
-        "cricket.next_over_total",        # Next over exact runs
-        # ── Innings milestones (like barrier options) ─────────────────────
-        "cricket.innings_runs",           # Total innings runs O/U
-        "cricket.next_dismissal_method",  # Fall of next wicket
-        "cricket.fall_of_next_wicket",    # Score at next wicket
+        "cricket.match_odds",                      # Pre-match / between innings
+        "cricket.team_totals",                     # Team runs O/U — always available
+        "cricket.team_total_from_0_over_to_x_over",# Session O/U (correct live key)
+        "cricket.over_team_total",                 # Per-over O/U — most liquid live
+        "cricket.player_total",                    # Player runs O/U
+        "cricket.player_to_score_milestone",       # Player milestone (25/50/75/100)
+        "cricket.team_total_at_dismissal",         # Score when next wicket falls
+        "cricket.team_total_fours",                # Fours O/U
+        "cricket.team_total_sixes",                # Sixes O/U
+        "cricket.will_there_be_a_tie",             # Tie market
+        "cricket.innings_runs",                    # Full innings O/U (if offered)
+        "cricket.next_over_total",                 # Next over total
     ]
     event_data = get_event_markets(market_keys)
     mkts = event_data.get("markets", {})
@@ -1704,6 +1790,9 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     if is_live:
         positions = signals_over_by_over(event_data, live_score, positions)
 
+    # 6. PLAYER MARKETS — player runs O/U and milestones (in-play, most liquid)
+    positions = signals_player_markets(event_data, xi_home, xi_away, positions)
+
     open_after = sum(1 for p in positions if p.status == "OPEN")
     log.info(f"[Portfolio] After scan: {open_after} legs open | "
              f"new this cycle: {open_after - open_ct}")
@@ -1753,11 +1842,13 @@ def main():
     global EVENT_ID, HOME_TEAM, AWAY_TEAM
     if EVENT_ID == 0 or not HOME_TEAM:
         EVENT_ID, HOME_TEAM, AWAY_TEAM = discover_todays_event()
-    if not HOME_TEAM:
-        # Fallback: use env vars or exit gracefully
-        HOME_TEAM = os.getenv("CB_HOME_TEAM", "TBD")
-        AWAY_TEAM = os.getenv("CB_AWAY_TEAM", "TBD")
-        log.warning(f"[Discover] Could not find today's match — set CB_HOME_TEAM/CB_AWAY_TEAM env vars")
+    if EVENT_ID == 0 or not HOME_TEAM:
+        # Check if CB_EVENT_ID set explicitly
+        HOME_TEAM = os.getenv("CB_HOME_TEAM", "")
+        AWAY_TEAM = os.getenv("CB_AWAY_TEAM", "")
+        if not HOME_TEAM:
+            log.warning("[Discover] No active match found — match may not have started or already finished. Exiting.")
+            return  # Exit cleanly — don't spin on /events/0
 
     log.info("=" * 65)
     log.info(f"IPL LIVE TRADER — {HOME_TEAM} vs {AWAY_TEAM}")
