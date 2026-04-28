@@ -63,18 +63,22 @@ def discover_todays_event() -> tuple:
             status = ev.get("status", "").upper()
             if status in ("POST_TRADING", "RESULTED", "SETTLED"):
                 continue
-            if cutoff == str(today) or status in ("TRADING", "TRADING_LIVE", "OPEN", "SUSPENDED"):
-                name  = ev.get("name", "")
-                eid   = ev.get("id", 0)
-                parts = [p.strip() for p in re.split(r" vs?\.? ", name, flags=re.I)]
-                if len(parts) == 2:
-                    home = TEAM_ALIASES.get(parts[0], parts[0])
-                    away = TEAM_ALIASES.get(parts[1], parts[1])
-                    todays.append({
-                        "eid": int(eid), "home": home, "away": away,
-                        "status": status, "cutoff": cutoff,
-                        "cutoff_hour_utc": int(ev.get("cutoffTime", "T14")[11:13] or 14),
-                    })
+            # STRICT: only today's cutoff date OR currently TRADING_LIVE — skip future matches
+            is_today = (cutoff == str(today))
+            is_live  = (status == "TRADING_LIVE")
+            if not (is_today or is_live):
+                continue   # skip tomorrow/future events
+            name  = ev.get("name", "")
+            eid   = ev.get("id", 0)
+            parts = [p.strip() for p in re.split(r" vs?\.? ", name, flags=re.I)]
+            if len(parts) == 2:
+                home = TEAM_ALIASES.get(parts[0], parts[0])
+                away = TEAM_ALIASES.get(parts[1], parts[1])
+                todays.append({
+                    "eid": int(eid), "home": home, "away": away,
+                    "status": status, "cutoff": cutoff,
+                    "cutoff_hour_utc": int(ev.get("cutoffTime", "T14")[11:13] or 14),
+                })
 
         if not todays:
             log.warning("[Discover] No active IPL events found for today")
