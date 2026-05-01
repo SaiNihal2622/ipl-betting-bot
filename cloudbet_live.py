@@ -1022,7 +1022,7 @@ def _parse_selections(mkt: dict, include_suspended: bool = False) -> List[dict]:
             if price <= 1.0:
                 continue
             # Only bet on OPEN; but include SUSPENDED for logging/awareness
-            if not include_suspended and status not in ("OPEN", "TRADING", ""):
+            if not include_suspended and status not in ("OPEN", "TRADING", "SELECTION_ENABLED", ""):
                 continue
             params_str = sel.get("params", "")
             pdict = {}
@@ -1047,8 +1047,8 @@ def _parse_selections_all(mkt: dict) -> List[dict]:
 def get_event_markets(market_keys: List[str]) -> dict:
     """Fetch multiple markets for EVENT_ID in one call."""
     try:
-        keys_str = ",".join(market_keys)
-        d = feed(f"/events/{EVENT_ID}", markets=keys_str)
+        # Fetching whole event without market_keys filter to avoid API empty list bug if a market is missing
+        d = feed(f"/events/{EVENT_ID}")
         return d
     except Exception as e:
         log.debug(f"Event fetch ({market_keys}): {e}")
@@ -1767,10 +1767,17 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     event_data = get_event_markets(market_keys)
     mkts = event_data.get("markets", {})
 
-    mo_mkt  = mkts.get("cricket.match_odds", {})
-    tt_mkt  = mkts.get("cricket.team_totals", {})
+    mo_mkt = mkts.get("cricket.match_odds") or mkts.get("cricket.winner") or mkts.get("cricket.to_win") or {}
+    tt_mkt = mkts.get("cricket.team_totals") or {}
+    
+    # Identify which winner market we are using
+    mo_key = "cricket.match_odds"
+    if "cricket.winner" in mkts: mo_key = "cricket.winner"
+    elif "cricket.to_win" in mkts: mo_key = "cricket.to_win"
+    
     ev_status = event_data.get("status", "unknown")
     log.info(f"[Market] Event status: {ev_status} | markets returned: {list(mkts.keys())}")
+    log.info(f"[Market] Selected winner market: {mo_key}")
 
     # Log raw selections including suspended ones so we can debug live market
     if mo_mkt:
@@ -1791,9 +1798,9 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     mo_sels = _parse_selections(mo_mkt) if mo_mkt else []
     # Also try with suspended (price still valid, just momentarily locked)
     mo_sels_all = _parse_selections_all(mo_mkt) if mo_mkt else []
-    log.info(f"[Market] match_odds: {len(mo_sels)} open / {len(mo_sels_all)} total sels "
+    log.info(f"[Market] {mo_key}: {len(mo_sels)} open / {len(mo_sels_all)} total sels "
              f"| team_totals: {'yes' if tt_mkt else 'no'}")
-    mo_url  = f"{IPL_KEY}/{EVENT_ID}/cricket.match_odds"
+    mo_url  = f"{IPL_KEY}/{EVENT_ID}/{mo_key}"
 
     # -- Telegram tips (fetch early so toss feeds into model) ------------------
     tg_tips = ""

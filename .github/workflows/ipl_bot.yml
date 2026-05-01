@@ -38,7 +38,7 @@ jobs:
     env:
       # ── Cloudbet ──────────────────────────────────────────────────────────
       CLOUDBET_API_KEY:    ${{ secrets.CLOUDBET_API_KEY }}
-      CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '1' }}
+      CB_DRY_RUN:          ${{ secrets.CB_DRY_RUN || '0' }}
       CB_STAKE:            ${{ secrets.CB_STAKE || '2.0' }}
       CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
       CB_BANKROLL:         ${{ secrets.CB_BANKROLL || '30.0' }}
