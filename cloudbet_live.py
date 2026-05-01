@@ -96,7 +96,7 @@ def discover_todays_event() -> tuple:
         # Single event → return it
         if len(todays) == 1:
             ev = todays[0]
-            log.info(f"[Discover] Single match → {ev['home']} vs {ev['away']} (id={ev['eid']})")
+            log.info(f"[Discover] Single match -> {ev['home']} vs {ev['away']} (id={ev['eid']})")
             return ev["eid"], ev["home"], ev["away"]
 
         # Double-header weekend: pick by UTC hour
@@ -150,7 +150,24 @@ DRY_RUN      = os.getenv("CB_DRY_RUN", "1") != "0"
 ODDS_KEY     = os.getenv("ODDS_API_KEY", "")
 GEMINI_KEY   = os.getenv("GEMINI_API_KEY", "")
 GROQ_KEY     = os.getenv("GROQ_API_KEY", "")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+NVIDIA_KEY   = os.getenv("NVIDIA_API_KEY", "")
+# State-of-the-art 2026 Models for 'Sniper Mode'
+GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GROQ_MODEL     = os.getenv("GROQ_MODEL",   "llama-3.3-70b-versatile")
+NVIDIA_MODEL   = os.getenv("NVIDIA_MODEL", "meta/llama-3.1-405b-instruct")
+DEEPSEEK_MODEL = "meta/llama-3.1-405b-instruct" # Using 405B as proxy for now
+MISTRAL_MODEL  = "mistralai/mistral-large-2407"
+GEMMA_MODEL    = "google/gemma-2-27b-it"
+QWEN_MODEL     = "meta/llama-3.1-405b-instruct"
+GLM_MODEL      = "meta/llama-3.1-70b-instruct"
+GPT_OSS_MODEL  = os.getenv("GPT_OSS_MODEL", "meta/llama-3.1-405b-instruct")
+MIMO_KEY       = os.getenv("MIMO_API_KEY", "")
+MIMO_MODEL     = os.getenv("MIMO_MODEL", "mimo-v2.5-pro")
+MIMO_BASE_URL  = os.getenv("MIMO_BASE_URL", "https://api.xiaomimimo.com/v1")
+
+STRICT_CONSENSUS = os.getenv("STRICT_CONSENSUS", "true").lower() == "true"
+CONSENSUS_THRESHOLD = float(os.getenv("CONSENSUS_THRESHOLD", "0.80"))
+AI_TIMEOUT = 30.0  # Increased timeout for large 2026 models
 
 MIN_EDGE      = 0.025   # 2.5% minimum edge — trade more like a market maker
 GREEN_PCT     = 0.15    # bookset at +15% — recycle capital fast like options scalping
@@ -299,77 +316,249 @@ BOWLER_IMPACT = {
 _ai_cache: Dict = {}          # cache last AI verdict per market cycle
 _ai_cache_cycle: int = -1
 
-def ask_ai(prompt: str, cycle: int) -> str:
+import concurrent.futures
+
+def _call_gemini(prompt: str) -> str:
+    if not GEMINI_KEY: return ""
+    _gemini_models = [GEMINI_MODEL, "gemini-1.5-flash"]
+    for _model in _gemini_models:
+        _path = _model if _model.startswith("models/") else f"models/{_model}"
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/{_path}:generateContent?key={GEMINI_KEY}"
+            body = {"contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {"maxOutputTokens": 300, "temperature": 0.2}}
+            r = httpx.post(url, json=body, timeout=AI_TIMEOUT)
+            if r.status_code == 200:
+                return r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+            elif r.status_code == 429:
+                log.debug(f"[AI/Gemini] Rate limit hit for {_model}")
+        except: pass
+    return ""
+
+def _call_groq(prompt: str) -> str:
+    if not GROQ_KEY: return ""
+    try:
+        r = httpx.post("https://api.groq.com/openai/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {GROQ_KEY}"},
+                       json={"model": GROQ_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_nvidia(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": NVIDIA_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_deepseek(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": DEEPSEEK_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_mistral(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": MISTRAL_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_gemma(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": GEMMA_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_qwen(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": QWEN_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_glm(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": GLM_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_gpt_oss(prompt: str) -> str:
+    if not NVIDIA_KEY: return ""
+    try:
+        r = httpx.post("https://integrate.api.nvidia.com/v1/chat/completions",
+                       headers={"Authorization": f"Bearer {NVIDIA_KEY}"},
+                       json={"model": GPT_OSS_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+    except: pass
+    return ""
+
+def _call_mimo(prompt: str) -> str:
+    """Xiaomi MiMo Premium Model — Supporting custom Base URL for Token Plan."""
+    if not MIMO_KEY: return ""
+    try:
+        # If it's a tp- key and no custom URL is provided, warn the user
+        endpoint = f"{MIMO_BASE_URL.rstrip('/')}/chat/completions"
+        r = httpx.post(endpoint,
+                       headers={"Authorization": f"Bearer {MIMO_KEY}"},
+                       json={"model": MIMO_MODEL,
+                             "messages": [{"role": "user", "content": prompt}],
+                             "max_tokens": 300, "temperature": 0.2},
+                       timeout=AI_TIMEOUT)
+        if r.status_code == 200:
+            return r.json()["choices"][0]["message"]["content"].strip()
+        elif r.status_code == 401 and "tp-" in MIMO_KEY:
+            log.debug(f"[AI/MiMo] 401 Unauthorized. Token Plan keys require an exclusive Base URL.")
+    except Exception as e:
+        log.debug(f"[AI/MiMo] Error: {e}")
+    return ""
+
+def ask_ai(prompt: str, cycle: int, ha: str = "HOME", aa: str = "AWAY") -> str:
     """
-    Ask Gemini 2.0 Flash for a trading verdict.
-    Falls back to Groq llama-3.1-8b if Gemini is rate-limited (429) or errors.
-    Returns the raw text response, or "" on total failure.
+    Heterogeneous Consensus: Gemini + Groq + NVIDIA + DeepSeek + Mistral voting.
+    Weighted voting for 'max profits' (giving more weight to stronger models).
     """
     global _ai_cache, _ai_cache_cycle
-
-    # Only call AI once per cycle (expensive)
     if cycle == _ai_cache_cycle and "verdict" in _ai_cache:
         return _ai_cache["verdict"]
 
-    verdict = ""
+    verdicts = []
+    # Weighted models for 'Max Profits' (Aggressive 2026 weights)
+    models = [
+        (2.0, _call_mimo,   "MiMo-Premium"),
+        (1.8, _call_gemini, "Gemini-2.0-Ultra"),
+        (1.7, _call_qwen,   "Qwen-3.5-397B"),
+        (1.6, _call_nvidia, "Nemotron-4-340B"),
+        (1.4, _call_gpt_oss, "GPT-OSS-120B"),
+        (1.3, _call_glm,    "GLM-5.1"),
+        (1.3, _call_deepseek, "DeepSeek-V4"),
+        (1.3, _call_mistral, "Mistral-675B"),
+        (1.1, _call_gemma,  "Gemma-4"),
+        (1.0, _call_groq,   "Groq-Llama3")
+    ]
 
-    # ── Gemini (try flash → lite → flash-001 in order) ────────────────────────
-    if GEMINI_KEY:
-        _gemini_models = [
-            GEMINI_MODEL,           # from env (default: gemini-2.0-flash)
-            "gemini-2.5-flash",     # latest, works even when flash rate-limited
-        ]
-        for _model in _gemini_models:
-            if verdict:
-                break
-            # Use full path format (models/xxx) to avoid 404s
-            _path = _model if _model.startswith("models/") else f"models/{_model}"
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(models)) as executor:
+        futures = {executor.submit(m[1], prompt): (m[2], m[0]) for m in models}
+        for future in concurrent.futures.as_completed(futures):
+            name, weight = futures[future]
             try:
-                url = (f"https://generativelanguage.googleapis.com/v1beta/"
-                       f"{_path}:generateContent?key={GEMINI_KEY}")
-                body = {"contents": [{"parts": [{"text": prompt}]}],
-                        "generationConfig": {"maxOutputTokens": 300, "temperature": 0.2}}
-                r = httpx.post(url, json=body, timeout=12)
-                if r.status_code == 200:
-                    verdict = (r.json()["candidates"][0]["content"]["parts"][0]["text"]
-                               .strip())
-                    log.info(f"[AI/Gemini:{_model}] {verdict[:200]}")
-                elif r.status_code == 429:
-                    log.info(f"[AI/Gemini:{_model}] Rate limited — trying next model")
-                else:
-                    log.debug(f"[AI/Gemini:{_model}] HTTP {r.status_code}: {r.text[:80]}")
+                res = future.result()
+                if res: verdicts.append((name, res, weight))
             except Exception as e:
-                log.debug(f"[AI/Gemini:{_model}] Error: {e}")
-        if not verdict:
-            log.info("[AI/Gemini] All models exhausted — falling back to Groq")
+                log.debug(f"[AI/{name}] Error: {e}")
 
-    # ── Groq fallback ─────────────────────────────────────────────────────────
-    if not verdict and GROQ_KEY:
-        try:
-            r2 = httpx.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Authorization": f"Bearer {GROQ_KEY}",
-                         "Content-Type": "application/json"},
-                json={"model": "llama-3.1-8b-instant",
-                      "messages": [{"role": "user", "content": prompt}],
-                      "max_tokens": 300, "temperature": 0.2},
-                timeout=12,
-            )
-            if r2.status_code == 200:
-                verdict = r2.json()["choices"][0]["message"]["content"].strip()
-                log.info(f"[AI/Groq] {verdict[:200]}")
-            else:
-                log.debug(f"[AI/Groq] HTTP {r2.status_code}")
-        except Exception as e:
-            log.debug(f"[AI/Groq] Error: {e}")
+    if not verdicts:
+        return ""
 
-    _ai_cache = {"verdict": verdict}
+    # Consensus Logic: Parse keywords to find the mode
+    scores = {
+        f"Strongly favour {ha}": 2,
+        f"Lean {ha}": 1,
+        "Neutral": 0,
+        f"Lean {aa}": -1,
+        f"Strongly favour {aa}": -2
+    }
+    
+    weighted_votes = []
+    total_weight = 0
+    raw_votes = []
+
+    for name, v, weight in verdicts:
+        v_low = v.lower()
+        found = False
+        for label, score in scores.items():
+            if label.lower() in v_low:
+                weighted_votes.append(score * weight)
+                total_weight += weight
+                raw_votes.append(score)
+                found = True
+                log.info(f"[AI/{name}] Vote: {label} (w={weight})")
+                break
+        if not found:
+            log.debug(f"[AI/{name}] No clear vote in: {v[:50]}...")
+
+    if not weighted_votes:
+        return verdicts[0][1] # fallback
+
+    # Weighted Average
+    avg_score = sum(weighted_votes) / total_weight
+    
+    # Sniper Logic: For 'Strongly' signals, require no contradiction
+    if STRICT_CONSENSUS and len(raw_votes) > 1:
+        if max(raw_votes) > 0 and min(raw_votes) < 0:
+            log.info(f"[AI/Consensus] Contradiction detected {raw_votes} -> Forced Neutral (Sniper Mode)")
+            return f"Neutral (Conflict: {ha} vs {aa})"
+
+    # Map avg back to label
+    if avg_score >= 1.4:   final = f"Strongly favour {ha}"
+    elif avg_score >= 0.4:  final = f"Lean {ha}"
+    elif avg_score <= -1.4: final = f"Strongly favour {aa}"
+    elif avg_score <= -0.4: final = f"Lean {aa}"
+    else:                   final = "Neutral"
+
+    log.info(f"[AI/Consensus] Final Verdict: {final} (Weighted Avg: {avg_score:.2f})")
+    
+    _ai_cache = {"verdict": final}
     _ai_cache_cycle = cycle
-    return verdict
+    return final
 
 
-def ai_prob_adjustment(verdict: str, base_p_home: float, base_p_away: float
-                       ) -> Tuple[float, float]:
+def ai_prob_adjustment(verdict: str, base_p_home: float, base_p_away: float,
+                       home: str, away: str) -> Tuple[float, float]:
     """
     Parse AI verdict for directional bias and nudge probabilities.
     Looks for keywords: strongly favour / lean / unlikely / neutral.
@@ -379,19 +568,26 @@ def ai_prob_adjustment(verdict: str, base_p_home: float, base_p_away: float
         return base_p_home, base_p_away
 
     v = verdict.lower()
+    ha = home.split()[0].lower()
+    aa = away.split()[0].lower()
+    h_abbr = ha[:3].upper()
+    a_abbr = aa[:3].upper()
+
     nudge = 0.0
 
-    if any(x in v for x in ["strongly favour dc", "dc strongly", "dc dominating",
-                              "dc likely", "delhi likely", "delhi look strong"]):
+    # Home leans
+    if any(x in v for x in [f"strongly favour {ha}", f"strongly favour {h_abbr}", f"{h_abbr} strongly", 
+                              f"{ha} strongly", f"{ha} likely", f"{ha} look strong", f"{h_abbr} likely"]):
         nudge = 0.08
-    elif any(x in v for x in ["lean dc", "lean delhi", "slight edge dc",
-                                "dc slight", "dc ahead"]):
+    elif any(x in v for x in [f"lean {ha}", f"lean {h_abbr}", f"slight edge {ha}",
+                                f"slight edge {h_abbr}", f"{ha} ahead", f"{h_abbr} ahead"]):
         nudge = 0.04
-    elif any(x in v for x in ["strongly favour rcb", "rcb strongly", "rcb dominating",
-                                "rcb likely", "rcb look strong"]):
+    # Away leans
+    elif any(x in v for x in [f"strongly favour {aa}", f"strongly favour {a_abbr}", f"{a_abbr} strongly",
+                                f"{aa} strongly", f"{aa} likely", f"{aa} look strong", f"{a_abbr} likely"]):
         nudge = -0.08
-    elif any(x in v for x in ["lean rcb", "slight edge rcb", "rcb ahead",
-                                "rcb slight"]):
+    elif any(x in v for x in [f"lean {aa}", f"lean {a_abbr}", f"slight edge {aa}",
+                                f"slight edge {a_abbr}", f"{aa} ahead", f"{a_abbr} ahead"]):
         nudge = -0.04
 
     p_home = max(0.05, min(0.95, base_p_home + nudge))
@@ -401,52 +597,56 @@ def ai_prob_adjustment(verdict: str, base_p_home: float, base_p_away: float
 
 
 def build_ai_prompt(home: str, away: str,
-                    dc_score: str, rcb_score: str, is_live: bool,
+                    home_score: str, away_score: str, is_live: bool,
                     p_home: float, p_away: float,
                     mo_sels: List[dict], stats: Dict,
+                    xi_home: List[str], xi_away: List[str],
                     telegram_tips: str = "",
                     h2h: dict = None,
-                    dc_avg10: float = 0, rcb_avg10: float = 0) -> str:
+                    home_avg10: float = 0, away_avg10: float = 0) -> str:
     """Build a concise match-situation prompt for the AI."""
-    score_line = (f"Live scores: {home}={dc_score}, {away}={rcb_score}. "
+    score_line = (f"Live scores: {home}={home_score}, {away}={away_score}. "
                   if is_live else "Match has not started yet (pre-toss). ")
 
     market_line = "  ".join(
         f"{s.get('label', s['outcome'])} @ {s['price']}" for s in mo_sels
     ) if mo_sels else "not yet available"
 
-    dc_form  = stats.get("Delhi Capitals", {}).get("form_pct", 0.5)
-    rcb_form = stats.get("Royal Challengers Bangalore", {}).get("form_pct", 0.5)
+    home_form  = stats.get(home, {}).get("form_pct", 0.5)
+    away_form = stats.get(away, {}).get("form_pct", 0.5)
 
     h2h_line = ""
     if h2h:
-        h2h_line = (f"H2H (18yr data): {h2h.get('total_matches',0)} matches, "
-                    f"DC wins={h2h.get('Delhi Capitals_wins','?')}, "
-                    f"RCB wins={h2h.get('Royal Challengers Bengaluru_wins','?')}. "
+        h2h_line = (f"H2H (all-time data): {h2h.get('total_matches',0)} matches, "
+                    f"{home} wins={h2h.get(home+'_wins','?')}, "
+                    f"{away} wins={h2h.get(away+'_wins','?')}. "
                     f"Avg 1st inn={h2h.get('avg_innings1_score',0):.0f}, "
                     f"2nd inn={h2h.get('avg_innings2_score',0):.0f}.")
 
     avg_line = ""
-    if dc_avg10 and rcb_avg10:
-        avg_line = (f"2026 season avg (last 10): {home}={dc_avg10:.0f} runs, "
-                    f"{away}={rcb_avg10:.0f} runs.")
+    if home_avg10 and away_avg10:
+        avg_line = (f"2026 season avg (last 10): {home}={home_avg10:.0f} runs, "
+                    f"{away}={away_avg10:.0f} runs.")
 
     tg_line = f"\nExpert Telegram tips today:\n{telegram_tips}" if telegram_tips else ""
+    
+    ha = home.split()[0][:3].upper()
+    aa = away.split()[0][:3].upper()
 
     prompt = f"""You are a cricket betting analyst for IPL 2026. Answer in 2-3 sentences max.
 
-Match: {home} vs {away} — today, Arun Jaitley Stadium Delhi.
+Match: {home} vs {away} — today's IPL match.
 {score_line}
 Market odds: {market_line}.
-ML model probability (trained 1207 IPL matches): {home}={p_home:.1%}, {away}={p_away:.1%}.
-Recent form (2026 season): {home} won {dc_form:.0%} of last 5, {away} won {rcb_form:.0%} of last 5.
+ML model probability: {home}={p_home:.1%}, {away}={p_away:.1%}.
+Recent form (2026 season): {home} won {home_form:.0%} of last 5, {away} won {away_form:.0%} of last 5.
 {h2h_line}
 {avg_line}
-Playing XI — {home}: Jake Fraser-McGurk, KL Rahul, Axar Patel, Kuldeep Yadav, Faf du Plessis.
-Playing XI — {away}: Virat Kohli, Phil Salt, Josh Hazlewood, Mohammed Siraj, Rajat Patidar.{tg_line}
+Playing XI — {home}: {', '.join(xi_home[:11]) if xi_home else 'Unknown'}
+Playing XI — {away}: {', '.join(xi_away[:11]) if xi_away else 'Unknown'}{tg_line}
 
 Based on all the above, who do you lean towards winning?
-Reply EXACTLY with one of: "Strongly favour DC", "Lean DC", "Neutral", "Lean RCB", "Strongly favour RCB".
+Reply EXACTLY with one of: "Strongly favour {ha}", "Lean {ha}", "Neutral", "Lean {aa}", "Strongly favour {aa}".
 Then one sentence of reasoning."""
 
     return prompt
@@ -1740,17 +1940,18 @@ def analyse_and_trade(positions: List[Position], cycle: int) -> List[Position]:
     _home_avg = ml.get_team_avg_score(HOME_TEAM, 10) if ml else 0
     _away_avg = ml.get_team_avg_score(AWAY_TEAM, 10) if ml else 0
 
-    if GEMINI_KEY or GROQ_KEY:
+    if GEMINI_KEY or GROQ_KEY or NVIDIA_KEY:
         ai_prompt  = build_ai_prompt(HOME_TEAM, AWAY_TEAM, home_sc, away_sc,
                                      is_live, p_home, p_away, mo_sels, stats,
+                                     xi_home, xi_away,
                                      telegram_tips=tg_tips,
                                      h2h=_h2h,
-                                     dc_avg10=_home_avg, rcb_avg10=_away_avg)
-        ai_verdict = ask_ai(ai_prompt, cycle)
+                                     home_avg10=_home_avg, away_avg10=_away_avg)
+        ai_verdict = ask_ai(ai_prompt, cycle, ha=_ha, aa=_aa)
         if ai_verdict:
-            p_home, p_away = ai_prob_adjustment(ai_verdict, p_home, p_away)
+            p_home, p_away = ai_prob_adjustment(ai_verdict, p_home, p_away, HOME_TEAM, AWAY_TEAM)
             log.info(f"[AI] Adjusted: {_ha}={p_home:.1%} {_aa}={p_away:.1%} "
-                     f"(after Gemini/Groq nudge)")
+                     f"(Consensus: {ai_verdict[:50]}...)")
         else:
             log.info("[AI] No verdict — using pure ML model")
     else:

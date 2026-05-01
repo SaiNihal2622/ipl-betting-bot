@@ -41,10 +41,15 @@ jobs:
       CB_CURRENCY:         ${{ secrets.CB_CURRENCY || 'USDT' }}
       CB_BANKROLL:         ${{ secrets.CB_BANKROLL || '30.0' }}
 
-      # ── AI (Gemini primary, Groq fallback) ────────────────────────────────
+      # ── AI (Gemini primary, Groq fallback, NVIDIA consensus) ──────────────
       GEMINI_API_KEY:      ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL:        "gemini-2.0-flash"
       GROQ_API_KEY:        ${{ secrets.GROQ_API_KEY }}
+      GROQ_MODEL:          "llama-3.1-8b-instant"
+      NVIDIA_API_KEY:      ${{ secrets.NVIDIA_API_KEY }}
+      NVIDIA_MODEL:        "nvidia/llama-3.1-nemotron-70b-instruct"
+      STRICT_CONSENSUS:    ${{ secrets.STRICT_CONSENSUS || 'true' }}
+      CONSENSUS_THRESHOLD: ${{ secrets.CONSENSUS_THRESHOLD || '0.80' }}
 
       # ── Data sources ──────────────────────────────────────────────────────
       ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}

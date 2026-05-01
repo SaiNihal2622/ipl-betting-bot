@@ -1,1 +1,1 @@
-worker: python polymarket_bot.py
+worker: python cloudbet_live.py --loop
