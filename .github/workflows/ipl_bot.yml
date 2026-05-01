@@ -13,6 +13,8 @@ name: IPL Betting Bot
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
+  push:
+    branches: [ master ]
   schedule:
     # ── Weekdays: single evening match ──────────────────────────────────────
     - cron: '30 13 * * 1-5'      # 19:00 IST Mon-Fri  — pre-match analysis
@@ -50,6 +52,8 @@ jobs:
       NVIDIA_MODEL:        "nvidia/llama-3.1-nemotron-70b-instruct"
       STRICT_CONSENSUS:    ${{ secrets.STRICT_CONSENSUS || 'true' }}
       CONSENSUS_THRESHOLD: ${{ secrets.CONSENSUS_THRESHOLD || '0.80' }}
+      MIMO_API_KEY:        ${{ secrets.MIMO_API_KEY }}
+      MIMO_BASE_URL:       ${{ secrets.MIMO_BASE_URL }}
 
       # ── Data sources ──────────────────────────────────────────────────────
       ODDS_API_KEY:        ${{ secrets.ODDS_API_KEY }}
