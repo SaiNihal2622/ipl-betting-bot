@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANTIGRAVITY SNIPER | IPL Live Dashboard</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05070a;
+            --surface: rgba(17, 24, 39, 0.4);
+            --surface-hover: rgba(31, 41, 55, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #00ff88; /* Neon Green */
+            --accent-secondary: #00d1ff; /* Cyan */
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --win: #10b981;
+            --loss: #ef4444;
+            --warn: #f59e0b;
+            --glass-blur: blur(16px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 255, 136, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(0, 209, 255, 0.05) 0px, transparent 50%);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 24px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-pill {
+            background: var(--surface);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+
+        /* Grid System */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .panel {
+            background: var(--surface);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: var(--surface-hover);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Stats */
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Ticker / Match Info */
+        .match-card {
+            grid-column: span 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 209, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .teams-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .team-name {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .vs-badge {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .live-score {
+            text-align: right;
+        }
+
+        .score-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Logs Section */
+        .log-panel {
+            grid-column: span 2;
+            height: 500px;
+        }
+
+        .log-terminal {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .log-line { border-left: 2px solid transparent; padding-left: 8px; }
+        .log-line.ai { border-left-color: var(--accent-secondary); color: #cbd5e1; }
+        .log-line.trade { border-left-color: var(--accent); color: var(--accent); font-weight: 700; }
+        .log-line.error { border-left-color: var(--loss); color: var(--loss); }
+        .log-line.info { border-left-color: var(--text-secondary); color: var(--text-secondary); }
+        .log-line.edge { color: #d2a8ff; }
+
+        .ts { color: rgba(255, 255, 255, 0.2); margin-right: 8px; }
+
+        /* Consensus Section */
+        .consensus-panel {
+            grid-column: span 1;
+        }
+
+        .consensus-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .model-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .vote-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .vote-yes { background: rgba(16, 185, 129, 0.2); color: var(--win); }
+        .vote-no { background: rgba(239, 68, 68, 0.2); color: var(--loss); }
+        .vote-wait { background: rgba(156, 163, 175, 0.2); color: var(--text-secondary); }
+
+        /* Tables */
+        .table-panel {
+            grid-column: span 3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .win-text { color: var(--win); font-weight: 600; }
+        .loss-text { color: var(--loss); font-weight: 600; }
+
+        /* Refresh Bar */
+        .refresh-bar {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface);
+            backdrop-filter: var(--glass-blur);
+            padding: 8px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .btn-refresh {
+            background: none;
+            border: none;
+            color: var(--accent-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .match-card, .log-panel, .consensus-panel, .table-panel { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <div class="brand">
+            <div class="pulse"></div>
+            <h1>Antigravity Sniper</h1>
+            <span style="color: var(--text-secondary); font-size: 14px;">v4.0 PRO MAX</span>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <div class="status-pill" id="mode-badge">
+                <span style="color: var(--warn)">●</span> DRY RUN MODE
+            </div>
+            <div class="status-pill" id="conn-status">
+                <span id="conn-dot" style="color: var(--win)">●</span> CONNECTED TO GITHUB
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Match Context -->
+        <div class="panel match-card">
+            <div class="teams-display">
+                <div class="team-name" id="home-team">Loading...</div>
+                <div class="vs-badge">VS</div>
+                <div class="team-name" id="away-team">...</div>
+            </div>
+            <div class="live-score">
+                <div class="score-value" id="score-text">0/0 (0.0)</div>
+                <div class="stat-sub" id="match-status">Connecting to Feed...</div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Real-Time P&L</span>
+                <span style="color: var(--accent)" id="pnl-status">SIMULATION</span>
+            </div>
+            <div class="stat-value" id="pnl-value">$0.00</div>
+            <div class="stat-sub" id="pnl-sub">Updated 0s ago</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Trade Accuracy</span>
+            </div>
+            <div class="stat-value" id="accuracy-value">0%</div>
+            <div class="stat-sub" id="accuracy-sub">Based on last 50 trades</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">System Edge</span>
+            </div>
+            <div class="stat-value" id="edge-value">0.0%</div>
+            <div class="stat-sub" id="edge-sub">Avg. Edge found per trade</div>
+        </div>
+
+        <!-- Logs -->
+        <div class="panel log-panel">
+            <div class="panel-header">
+                <span class="panel-title">Intelligence Stream</span>
+                <span id="cycle-text" style="font-size: 11px; font-family: monospace;">CYCLE #0</span>
+            </div>
+            <div class="log-terminal" id="log-stream">
+                <div class="log-line info">Waiting for intelligence feed...</div>
+            </div>
+        </div>
+
+        <!-- Consensus -->
+        <div class="panel consensus-panel">
+            <div class="panel-header">
+                <span class="panel-title">AI Consensus</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="consensus-item">
+                    <span class="model-name">MiMo Premium (Lead)</span>
+                    <span class="vote-badge vote-wait" id="vote-mimo">WAITING</span>
+                </div>
+                <div class="consensus-item">
+                    <span class="model-name">Gemini 2.0 (Analyst)</span>
+                    <span class="vote-badge vote-wait" id="vote-gemini">WAITING</span>
+                </div>
+                <div class="consensus-item">
+                    <span class="model-name">Qwen 3.5 (Strategist)</span>
+                    <span class="vote-badge vote-wait" id="vote-qwen">WAITING</span>
+                </div>
+                <div class="consensus-item">
+                    <span class="model-name">Nemotron 4 (Reflector)</span>
+                    <span class="vote-badge vote-wait" id="vote-nvidia">WAITING</span>
+                </div>
+                <div class="consensus-item">
+                    <span class="model-name">Groq Llama3 (Speed)</span>
+                    <span class="vote-badge vote-wait" id="vote-groq">WAITING</span>
+                </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary);">
+                Weighted consensus (MiMo: 2.0, Gemini: 1.8). Sniper logic enabled.
+            </div>
+        </div>
+
+        <!-- Trades Table -->
+        <div class="panel table-panel">
+            <div class="panel-header">
+                <span class="panel-title">Recent Executions</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Team</th>
+                        <th>Market</th>
+                        <th>Odds</th>
+                        <th>Stake</th>
+                        <th>Edge</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="trades-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <div class="refresh-bar">
+        <input type="password" id="gh-token-input" placeholder="GitHub Token" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white; border-radius: 4px; padding: 2px 8px; width: 120px;">
+        <button class="btn-refresh" onclick="saveTokens()">SAVE</button>
+        <span>Next Sync: <span id="sync-timer">20</span>s</span>
+        <button class="btn-refresh" onclick="sync()">FORCE REFRESH</button>
+    </div>
+
+    <script>
+        // CONFIG - LOADED FROM LOCALSTORAGE OR PROMPT
+        let GITHUB_TOKEN = localStorage.getItem('GH_TOKEN') || "";
+        const REPO = "SaiNihal2622/ipl-betting-bot";
+        const ODDS_API_KEY = "65ec9ad5abeeda6fee791e355810f07c"; // Standardized free tier
+
+        if (GITHUB_TOKEN) {
+            document.getElementById('gh-token-input').value = GITHUB_TOKEN;
+        }
+
+        function saveTokens() {
+            GITHUB_TOKEN = document.getElementById('gh-token-input').value;
+            localStorage.setItem('GH_TOKEN', GITHUB_TOKEN);
+            alert("Tokens saved to LocalStorage.");
+            sync();
+        }
+
+    let lastSyncTime = Date.now();
+    let syncTimer = 20;
+
+    async function fetchActionRuns() {
+        try {
+            const resp = await fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=5`, {
+                headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github+json' }
+            });
+            const data = await resp.json();
+            return data.workflow_runs || [];
+        } catch (e) {
+            console.error("Action fetch failed", e);
+            document.getElementById('conn-status').innerHTML = '<span style="color: var(--loss)">●</span> CONNECTION FAILED';
+            return [];
+        }
+    }
+
+    async function fetchLogs(runId) {
+        try {
+            const jobsResp = await fetch(`https://api.github.com/repos/${REPO}/actions/runs/${runId}/jobs`, {
+                headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
+            });
+            const jobsData = await jobsResp.json();
+            if (!jobsData.jobs || jobsData.jobs.length === 0) return "";
+            const jobId = jobsData.jobs[0].id;
+            
+            const logsResp = await fetch(`https://api.github.com/repos/${REPO}/actions/jobs/${jobId}/logs`, {
+                headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
+            });
+            return await logsResp.text();
+        } catch (e) {
+            return "";
+        }
+    }
+
+    function parseLogs(raw) {
+        const lines = raw.split('\n');
+        const trades = [];
+        let pnl = 0;
+        let wins = 0;
+        let losses = 0;
+        let edgeSum = 0;
+        let edgeCount = 0;
+        let currentCycle = 0;
+
+        const logStream = document.getElementById('log-stream');
+        const streamLines = [];
+
+        lines.forEach(line => {
+            const clean = line.replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/,'').trim();
+            if (!clean) return;
+
+            // Highlight Logic
+            let type = 'info';
+            if (clean.includes('BET') || clean.includes('TRADE') || clean.includes('PLACE')) type = 'trade';
+            if (clean.includes('[AI/') || clean.includes('Consensus')) type = 'ai';
+            if (clean.includes('ERROR') || clean.includes('CRITICAL')) type = 'error';
+            if (clean.includes('edge=')) type = 'edge';
+
+            if (streamLines.length < 200) {
+                streamLines.push(`<div class="log-line ${type}"><span class="ts">${new Date().toLocaleTimeString()}</span> ${clean.replace(/</g,'&lt;')}</div>`);
+            }
+
+            // Data extraction
+            if (clean.includes('CYCLE #')) {
+                const match = clean.match(/CYCLE #(\d+)/);
+                if (match) currentCycle = match[1];
+            }
+
+            // Trade extraction
+            if (clean.includes('BET |')) {
+                const m = clean.match(/BET \| (.*?) \| outcome=(.*?) \| price=([\d.]+).*?stake=([\d.]+)/);
+                if (m) {
+                    trades.push({
+                        time: new Date().toLocaleTimeString(),
+                        team: m[1].trim(),
+                        market: 'Match Winner',
+                        odds: m[3],
+                        stake: m[4],
+                        edge: 'AUTO', 
+                        result: 'OPEN'
+                    });
+                }
+            }
+
+            if (clean.includes('edge=')) {
+                const em = clean.match(/edge=([\d.]+)/);
+                if (em) {
+                    edgeSum += parseFloat(em[1]);
+                    edgeCount++;
+                }
+            }
+
+            if (clean.includes('BOOKSET') || clean.includes('WIN')) { pnl += 0.50; wins++; }
+            if (clean.includes('STOP-LOSS') || clean.includes('LOSS')) { pnl -= 0.35; losses++; }
+        });
+
+        // Consensus Detection
+        const models = {
+            'MiMo-Premium': 'vote-mimo',
+            'Gemini-2.0-Ultra': 'vote-gemini',
+            'Qwen-3.5-397B': 'vote-qwen',
+            'Nemotron-4-340B': 'vote-nvidia',
+            'Groq-Llama3': 'vote-groq'
+        };
+
+        Object.keys(models).forEach(mName => {
+            const elId = models[mName];
+            const regex = new RegExp(`\\[AI/${mName}\\] Vote: (.*?)\\(w=`, 'i');
+            const match = raw.match(regex);
+            if (match) {
+                const vote = match[1].trim();
+                const el = document.getElementById(elId);
+                if (vote.includes('favour') || vote.includes('Lean')) {
+                    el.className = 'vote-badge vote-yes';
+                    el.innerText = vote.toUpperCase().replace('STRONGLY FAVOUR ', '').replace('LEAN ', '');
+                } else if (vote.includes('Neutral')) {
+                    el.className = 'vote-badge vote-wait';
+                    el.innerText = 'NEUTRAL';
+                } else {
+                    el.className = 'vote-badge vote-no';
+                    el.innerText = 'REJECT';
+                }
+            }
+        });
+
+        return { 
+            trades: trades.slice(-10), 
+            pnl, wins, losses, 
+            avgEdge: edgeCount > 0 ? (edgeSum / edgeCount).toFixed(2) : '0.0',
+            currentCycle, 
+            streamLines: streamLines.slice(0, 100) 
+        };
+    }
+
+    async function updateScores() {
+        try {
+            const resp = await fetch(`https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=${ODDS_API_KEY}&daysFrom=1`);
+            const data = await resp.json();
+            if (data.length > 0) {
+                const game = data.find(g => !g.completed) || data[0];
+                document.getElementById('home-team').innerText = game.home_team;
+                document.getElementById('away-team').innerText = game.away_team;
+                const s = game.scores || [];
+                if (s.length >= 2) {
+                    document.getElementById('score-text').innerText = `${s[0].score || 0} vs ${s[1].score || 0}`;
+                }
+                document.getElementById('match-status').innerText = game.completed ? "MATCH COMPLETED" : "LIVE IN PLAY";
+            }
+        } catch(e) {}
+    }
+
+    async function sync() {
+        syncTimer = 20;
+        const runs = await fetchActionRuns();
+        if (runs.length > 0) {
+            const latest = runs.find(r => r.status === 'in_progress' || r.status === 'queued') || runs[0];
+            const logs = await fetchLogs(latest.id);
+            const data = parseLogs(logs);
+
+            // Update UI
+            document.getElementById('pnl-value').innerText = `$${data.pnl.toFixed(2)}`;
+            document.getElementById('accuracy-value').innerText = `${data.wins + data.losses > 0 ? ((data.wins / (data.wins + data.losses)) * 100).toFixed(1) : 0}%`;
+            document.getElementById('edge-value').innerText = `${data.avgEdge}%`;
+            document.getElementById('cycle-text').innerText = `CYCLE #${data.currentCycle}`;
+            document.getElementById('log-stream').innerHTML = data.streamLines.join('');
+            
+            // Populate Table
+            const tbody = document.getElementById('trades-body');
+            tbody.innerHTML = data.trades.map(t => `
+                <tr>
+                    <td>${t.time}</td>
+                    <td>${t.team}</td>
+                    <td>${t.market}</td>
+                    <td>${t.odds}</td>
+                    <td>$${t.stake}</td>
+                    <td>${t.edge}</td>
+                    <td><span class="vote-badge vote-wait">${t.result}</span></td>
+                </tr>
+            `).join('');
+        }
+        await updateScores();
+    }
+
+    // Interval logic
+    setInterval(() => {
+        syncTimer--;
+        document.getElementById('sync-timer').innerText = syncTimer;
+        if (syncTimer <= 0) sync();
+    }, 1000);
+
+    sync();
+</script>
+</body>
+</html>
+
