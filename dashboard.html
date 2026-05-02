@@ -633,55 +633,63 @@
     async function sync() {
         syncTimer = 10;
         const GITHUB_BASE = 'https://raw.githubusercontent.com/SaiNihal2622/ipl-betting-bot/master';
-        let stats, logs;
+        let stats = { total_trades: 0, wins: 0, losses: 0, total_pnl: 0, accuracy: 0 };
+        let logs = "";
         let source = 'LOCAL';
 
         try {
             // Try Local first
             const statsResp = await fetch('/api/stats');
-            stats = await statsResp.json();
+            if (statsResp.ok) stats = await statsResp.json();
             const logsResp = await fetch('/api/logs');
-            logs = await logsResp.text();
+            if (logsResp.ok) logs = await logsResp.text();
+            else throw new Error("Local logs failed");
         } catch (e) {
             // Fallback to GitHub
             try {
                 source = 'GITHUB CLOUD';
                 const statsResp = await fetch(`${GITHUB_BASE}/trader_stats.json`);
-                stats = await statsResp.json();
+                if (statsResp.ok) stats = await statsResp.json();
+                
                 const logsResp = await fetch(`${GITHUB_BASE}/ipl_live.log`);
-                logs = await logsResp.text();
+                if (logsResp.ok) logs = await logsResp.text();
             } catch (ge) {
                 document.getElementById('conn-status').innerHTML = '<span style="color: var(--loss)">●</span> ALL SYSTEMS OFFLINE';
                 return;
             }
         }
 
-        if (stats && stats.accuracy !== undefined) {
-            document.getElementById('accuracy-value').innerText = `${stats.accuracy.toFixed(1)}%`;
-            document.getElementById('pnl-value').innerText = `$${stats.total_pnl.toFixed(2)}`;
-            document.getElementById('pnl-value').style.color = stats.total_pnl >= 0 ? 'var(--win)' : 'var(--loss)';
-        }
+        // Update UI
+        document.getElementById('accuracy-value').innerText = `${(stats.accuracy || 0).toFixed(1)}%`;
+        document.getElementById('pnl-value').innerText = `$${(stats.total_pnl || 0).toFixed(2)}`;
+        document.getElementById('pnl-value').style.color = (stats.total_pnl || 0) >= 0 ? 'var(--win)' : 'var(--loss)';
 
         if (logs) {
             const data = parseLogs(logs);
             document.getElementById('edge-value').innerText = `${data.avgEdge}%`;
             document.getElementById('cycle-text').innerText = `${source} SESSION`;
             const logStreamEl = document.getElementById('log-stream');
-            logStreamEl.innerHTML = data.streamLines.join('');
+            logStreamEl.innerHTML = data.streamLines.join('') || '<div class="log-line">Waiting for logs...</div>';
             logStreamEl.scrollTop = logStreamEl.scrollHeight;
 
             const tbody = document.getElementById('trades-body');
-            tbody.innerHTML = data.trades.reverse().map(t => `
-                <tr>
-                    <td>${t.time}</td>
-                    <td>${t.team}</td>
-                    <td>${t.market}</td>
-                    <td>${t.odds}</td>
-                    <td>$${t.stake}</td>
-                    <td>${t.edge}</td>
-                    <td><span class="status-badge status-${t.result.toLowerCase()}">${t.result}</span></td>
-                </tr>
-            `).join('');
+            if (data.trades.length > 0) {
+                tbody.innerHTML = data.trades.reverse().map(t => `
+                    <tr>
+                        <td>${t.time}</td>
+                        <td>${t.team}</td>
+                        <td>${t.market}</td>
+                        <td>${t.odds}</td>
+                        <td>$${t.stake}</td>
+                        <td>${t.edge}</td>
+                        <td><span class="status-badge status-${t.result.toLowerCase()}">${t.result}</span></td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px; opacity:0.5;">No trades in current log</td></tr>';
+            }
+        } else {
+            document.getElementById('log-stream').innerHTML = '<div class="log-line">No live logs found. Bot may be between cycles.</div>';
         }
         document.getElementById('conn-status').innerHTML = `<span style="color: var(--win)">●</span> ${source} CONNECTED`;
     }
