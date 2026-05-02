@@ -513,6 +513,9 @@
             const clean = line.replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/,'').trim();
             if (!clean) return;
 
+            // STRICT FILTERING: Only show actual Python logs in the stream, ignore all GitHub setup commands.
+            if (!clean.includes(' | INFO |') && !clean.includes(' | ERROR |') && !clean.includes('edge=') && !clean.includes('BET |')) return;
+
             // Highlight Logic
             let type = 'info';
             if (clean.includes('BET') || clean.includes('TRADE') || clean.includes('PLACE')) type = 'trade';
@@ -520,8 +523,11 @@
             if (clean.includes('ERROR') || clean.includes('CRITICAL')) type = 'error';
             if (clean.includes('edge=')) type = 'edge';
 
-            if (streamLines.length < 200) {
-                streamLines.push(`<div class="log-line ${type}"><span class="ts">${new Date().toLocaleTimeString()}</span> ${clean.replace(/</g,'&lt;')}</div>`);
+            streamLines.push(`<div class="log-line ${type}"><span class="ts">${new Date().toLocaleTimeString()}</span> ${clean.replace(/</g,'&lt;')}</div>`);
+            
+            // Keep only the last 100 lines for the UI
+            if (streamLines.length > 100) {
+                streamLines.shift();
             }
 
             // Data extraction
@@ -537,12 +543,23 @@
                     trades.push({
                         time: new Date().toLocaleTimeString(),
                         team: m[1].trim(),
-                        market: 'Match Winner',
+                        market: m[2].toUpperCase(),
                         odds: m[3],
                         stake: m[4],
                         edge: 'AUTO', 
                         result: 'OPEN'
                     });
+                }
+            }
+
+            // Extract the full reason to replace the basic market name
+            if (clean.includes('Reason:')) {
+                const rm = clean.match(/Reason:\s*\[(.*?)\]\s*(.*?)\s*\|/);
+                if (rm && trades.length > 0) {
+                    let desc = rm[2].trim();
+                    // Clean up player IDs like 'c1becaa-vaibhav-suryavanshi' -> 'vaibhav suryavanshi'
+                    desc = desc.replace(/^[a-z0-9]+-/, '').replace(/-/g, ' ');
+                    trades[trades.length - 1].market = desc.toUpperCase();
                 }
             }
 
@@ -614,23 +631,47 @@
     }
 
     async function sync() {
-        syncTimer = 20;
-        const runs = await fetchActionRuns();
-        if (runs.length > 0) {
-            const latest = runs.find(r => r.status === 'in_progress' || r.status === 'queued') || runs[0];
-            const logs = await fetchLogs(latest.id);
-            const data = parseLogs(logs);
+        syncTimer = 10;
+        const GITHUB_BASE = 'https://raw.githubusercontent.com/SaiNihal2622/ipl-betting-bot/master';
+        let stats, logs;
+        let source = 'LOCAL';
 
-            // Update UI
-            document.getElementById('pnl-value').innerText = `$${data.pnl.toFixed(2)}`;
-            document.getElementById('accuracy-value').innerText = `${data.wins + data.losses > 0 ? ((data.wins / (data.wins + data.losses)) * 100).toFixed(1) : 0}%`;
+        try {
+            // Try Local first
+            const statsResp = await fetch('/api/stats');
+            stats = await statsResp.json();
+            const logsResp = await fetch('/api/logs');
+            logs = await logsResp.text();
+        } catch (e) {
+            // Fallback to GitHub
+            try {
+                source = 'GITHUB CLOUD';
+                const statsResp = await fetch(`${GITHUB_BASE}/trader_stats.json`);
+                stats = await statsResp.json();
+                const logsResp = await fetch(`${GITHUB_BASE}/ipl_live.log`);
+                logs = await logsResp.text();
+            } catch (ge) {
+                document.getElementById('conn-status').innerHTML = '<span style="color: var(--loss)">●</span> ALL SYSTEMS OFFLINE';
+                return;
+            }
+        }
+
+        if (stats && stats.accuracy !== undefined) {
+            document.getElementById('accuracy-value').innerText = `${stats.accuracy.toFixed(1)}%`;
+            document.getElementById('pnl-value').innerText = `$${stats.total_pnl.toFixed(2)}`;
+            document.getElementById('pnl-value').style.color = stats.total_pnl >= 0 ? 'var(--win)' : 'var(--loss)';
+        }
+
+        if (logs) {
+            const data = parseLogs(logs);
             document.getElementById('edge-value').innerText = `${data.avgEdge}%`;
-            document.getElementById('cycle-text').innerText = `CYCLE #${data.currentCycle}`;
-            document.getElementById('log-stream').innerHTML = data.streamLines.join('');
-            
-            // Populate Table
+            document.getElementById('cycle-text').innerText = `${source} SESSION`;
+            const logStreamEl = document.getElementById('log-stream');
+            logStreamEl.innerHTML = data.streamLines.join('');
+            logStreamEl.scrollTop = logStreamEl.scrollHeight;
+
             const tbody = document.getElementById('trades-body');
-            tbody.innerHTML = data.trades.map(t => `
+            tbody.innerHTML = data.trades.reverse().map(t => `
                 <tr>
                     <td>${t.time}</td>
                     <td>${t.team}</td>
@@ -638,21 +679,21 @@
                     <td>${t.odds}</td>
                     <td>$${t.stake}</td>
                     <td>${t.edge}</td>
-                    <td><span class="vote-badge vote-wait">${t.result}</span></td>
+                    <td><span class="status-badge status-${t.result.toLowerCase()}">${t.result}</span></td>
                 </tr>
             `).join('');
         }
-        await updateScores();
+        document.getElementById('conn-status').innerHTML = `<span style="color: var(--win)">●</span> ${source} CONNECTED`;
     }
-
-    // Interval logic
     setInterval(() => {
         syncTimer--;
         document.getElementById('sync-timer').innerText = syncTimer;
         if (syncTimer <= 0) sync();
     }, 1000);
-
     sync();
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>

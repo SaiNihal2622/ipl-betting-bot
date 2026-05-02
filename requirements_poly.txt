@@ -1,0 +1,4 @@
+httpx>=0.28
+py-clob-client>=0.34
+eth-account>=0.13
+python-dotenv>=1.0

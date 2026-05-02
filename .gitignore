@@ -16,12 +16,10 @@ dist/
 build/
 
 # Logs
-*.log
 bot_out.txt
 bot_err.txt
 
 # Bot state
-cloudbet_positions.json
 *.session
 
 # Token / key files (safety net)

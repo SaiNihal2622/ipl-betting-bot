@@ -1,0 +1,9 @@
+2026-04-26 01:46:10,314 | WARNING | get_ipl_markets: 
+2026-04-26 01:46:10,689 | INFO | HTTP Request: GET https://hs-consumer-api.espncricinfo.com/v1/pages/matches/current?lang=en&latest=true "HTTP/1.1 403 Forbidden"
+2026-04-26 01:46:11,130 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-match/live "HTTP/1.1 404 Not Found"
+2026-04-26 01:46:12,665 | INFO | HTTP Request: GET https://site.api.espn.com/apis/site/v2/sports/cricket/ipl/scoreboard "HTTP/1.1 404 Not Found"
+2026-04-26 01:46:13,585 | INFO | HTTP Request: GET https://site.api.espn.com/apis/site/v2/sports/cricket/scoreboard "HTTP/1.1 404 Not Found"
+2026-04-26 01:49:29,173 | INFO | HTTP Request: GET https://hs-consumer-api.espncricinfo.com/v1/pages/matches/current?lang=en&latest=true "HTTP/1.1 403 Forbidden"
+2026-04-26 01:49:29,384 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-match/live "HTTP/1.1 404 Not Found"
+2026-04-26 01:49:30,599 | INFO | HTTP Request: GET https://site.api.espn.com/apis/site/v2/sports/cricket/ipl/scoreboard "HTTP/1.1 404 Not Found"
+2026-04-26 01:49:30,910 | INFO | HTTP Request: GET https://site.api.espn.com/apis/site/v2/sports/cricket/scoreboard "HTTP/1.1 404 Not Found"

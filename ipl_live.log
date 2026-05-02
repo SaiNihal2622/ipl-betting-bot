@@ -1,0 +1,1614 @@
+2026-05-01 19:39:19,886 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-01 19:39:19,892 | INFO | [Discover] 1 event(s) today: Rajasthan Royals vs Delhi Capitals (TRADING_LIVE)
+2026-05-01 19:39:19,893 | INFO | [Discover] LIVE match → Rajasthan Royals vs Delhi Capitals (id=34227056)
+2026-05-01 19:39:19,893 | INFO | =================================================================
+2026-05-01 19:39:19,893 | INFO | IPL LIVE TRADER — Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:39:19,893 | INFO | Mode: DRY RUN | Event ID: 34227056
+2026-05-01 19:39:19,893 | INFO | Stake=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-01 19:39:19,893 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-01 19:39:19,894 | INFO | =================================================================
+2026-05-01 19:39:19,895 | INFO | [State] Loaded 0 positions from cloudbet_positions.json
+2026-05-01 19:39:19,895 | INFO | 
+=================================================================
+2026-05-01 19:39:19,895 | INFO | CYCLE #1 | 19:39:19 IST | Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:39:19,895 | INFO | =================================================================
+2026-05-01 19:39:20,947 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:39:21,413 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-01 19:39:21,420 | INFO | [Stats] RAJ form=50% last5=[] | DEL form=50% last5=[] 
+2026-05-01 19:39:22,639 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:39:22,642 | INFO | [Score] RAJ=N/A | DEL=N/A | Live=False
+2026-05-01 19:39:23,418 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34227056 "HTTP/1.1 200 OK"
+2026-05-01 19:39:23,421 | INFO | [Market] Event status: TRADING_LIVE | markets returned: ['cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_fours', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.will_there_be_a_tie']
+2026-05-01 19:39:23,422 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-01 19:39:23,422 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=188.5
+2026-05-01 19:39:23,423 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=188.5
+2026-05-01 19:39:23,423 | INFO |   [RAW team_totals] outcome=over price=1.35 status=SELECTION_ENABLED params=team=home&total=173.5
+2026-05-01 19:39:23,423 | INFO |   [RAW team_totals] outcome=under price=3 status=SELECTION_ENABLED params=team=home&total=173.5
+2026-05-01 19:39:23,423 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-01 19:39:26,151 | INFO | [ML] ipl_model loaded — using 1,207-match Cricsheet model
+2026-05-01 19:39:27,514 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-01 19:39:28,692 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-01 19:39:28,907 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-01 19:39:28,911 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+[*] Downloading Cricsheet IPL data …
+2026-05-01 19:39:30,257 | INFO | HTTP Request: GET https://cricsheet.org/downloads/ipl_male_json.zip "HTTP/1.1 200 OK"
+T https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-01 19:39:28,907 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-01 19:39:28,911 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-01 19:39:30,257 | INFO | HTTP Request: GET https://cricsheet.org/downloads/ipl_male_json.zip "HTTP/1.1 200 OK"
+2026-05-01 19:45:40,807 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-01 19:45:40,813 | INFO | [Discover] 1 event(s) today: Rajasthan Royals vs Delhi Capitals (TRADING_LIVE)
+2026-05-01 19:45:40,813 | INFO | [Discover] LIVE match → Rajasthan Royals vs Delhi Capitals (id=34227056)
+2026-05-01 19:45:40,814 | INFO | =================================================================
+2026-05-01 19:45:40,814 | INFO | IPL LIVE TRADER — Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:45:40,814 | INFO | Mode: DRY RUN | Event ID: 34227056
+2026-05-01 19:45:40,814 | INFO | BetSize=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-01 19:45:40,814 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-01 19:45:40,814 | INFO | =================================================================
+2026-05-01 19:45:40,816 | INFO | [State] Loaded 0 positions from cloudbet_positions.json
+2026-05-01 19:45:40,816 | INFO | 
+=================================================================
+2026-05-01 19:45:40,816 | INFO | CYCLE #1 | 19:45:40 IST | Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:45:40,816 | INFO | =================================================================
+2026-05-01 19:45:41,876 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:45:42,383 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-01 19:45:42,449 | INFO | [Stats] RAJ form=50% last5=[] | DEL form=50% last5=[] 
+2026-05-01 19:45:43,657 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:45:43,657 | INFO | [Score] RAJ=N/A | DEL=N/A | Live=False
+2026-05-01 19:45:44,326 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34227056 "HTTP/1.1 200 OK"
+2026-05-01 19:45:44,327 | INFO | [Market] Event status: TRADING_LIVE | markets returned: ['cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_fours', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.will_there_be_a_tie']
+2026-05-01 19:45:44,327 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-01 19:45:44,327 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=171.5
+2026-05-01 19:45:44,327 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=171.5
+2026-05-01 19:45:44,327 | INFO |   [RAW team_totals] outcome=over price=1.35 status=SELECTION_ENABLED params=team=home&total=156.5
+2026-05-01 19:45:44,327 | INFO |   [RAW team_totals] outcome=under price=3.15 status=SELECTION_ENABLED params=team=home&total=156.5
+2026-05-01 19:45:44,327 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+Traceback (most recent call last):
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2172, in <module>
+    main()
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2160, in main
+    positions = analyse_and_trade(positions, cycle)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 1837, in analyse_and_trade
+    ml = _get_model()
+         ^^^^^^^^^^
+NameError: name '_get_model' is not defined. Did you mean: '_ipl_model'?
+2026-05-01 19:45:51,161 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-01 19:45:51,171 | INFO | [Discover] 1 event(s) today: Rajasthan Royals vs Delhi Capitals (TRADING_LIVE)
+2026-05-01 19:45:51,172 | INFO | [Discover] LIVE match → Rajasthan Royals vs Delhi Capitals (id=34227056)
+2026-05-01 19:45:51,172 | INFO | =================================================================
+2026-05-01 19:45:51,172 | INFO | IPL LIVE TRADER — Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:45:51,172 | INFO | Mode: DRY RUN | Event ID: 34227056
+2026-05-01 19:45:51,172 | INFO | BetSize=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-01 19:45:51,172 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-01 19:45:51,172 | INFO | =================================================================
+2026-05-01 19:45:51,174 | INFO | [State] Loaded 0 positions from cloudbet_positions.json
+2026-05-01 19:45:51,174 | INFO | 
+=================================================================
+2026-05-01 19:45:51,175 | INFO | CYCLE #1 | 19:45:51 IST | Rajasthan Royals vs Delhi Capitals
+2026-05-01 19:45:51,175 | INFO | =================================================================
+2026-05-01 19:45:52,380 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:45:52,843 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-01 19:45:52,889 | INFO | [Stats] RAJ form=50% last5=[] | DEL form=50% last5=[] 
+2026-05-01 19:45:53,945 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-01 19:45:53,946 | INFO | [Score] RAJ=N/A | DEL=N/A | Live=False
+2026-05-01 19:45:54,562 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34227056 "HTTP/1.1 200 OK"
+2026-05-01 19:45:54,565 | INFO | [Market] Event status: TRADING_LIVE | markets returned: ['cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_fours', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.will_there_be_a_tie']
+2026-05-01 19:45:54,565 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-01 19:45:54,565 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=171.5
+2026-05-01 19:45:54,565 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=171.5
+2026-05-01 19:45:54,565 | INFO |   [RAW team_totals] outcome=over price=1.35 status=SELECTION_ENABLED params=team=home&total=156.5
+2026-05-01 19:45:54,565 | INFO |   [RAW team_totals] outcome=under price=3.15 status=SELECTION_ENABLED params=team=home&total=156.5
+2026-05-01 19:45:54,565 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+Traceback (most recent call last):
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2172, in <module>
+    main()
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2160, in main
+    positions = analyse_and_trade(positions, cycle)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 1837, in analyse_and_trade
+    ml = _get_model()
+         ^^^^^^^^^^
+NameError: name '_get_model' is not defined. Did you mean: '_ipl_model'?
+2026-05-02 06:31:19,797 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-02 06:31:19,802 | INFO | [Discover] 1 event(s) today: Chennai Super Kings vs Mumbai Indians (TRADING)
+2026-05-02 06:31:19,802 | INFO | [Discover] Single match -> Chennai Super Kings vs Mumbai Indians (id=34254801)
+2026-05-02 06:31:19,802 | INFO | =================================================================
+2026-05-02 06:31:19,802 | INFO | IPL LIVE TRADER — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:31:19,802 | INFO | Mode: DRY RUN | Event ID: 34254801
+2026-05-02 06:31:19,802 | INFO | BetSize=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-02 06:31:19,802 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-02 06:31:19,802 | INFO | =================================================================
+2026-05-02 06:31:19,804 | INFO | [State] Loaded 0 positions from cloudbet_positions.json
+2026-05-02 06:31:19,804 | INFO | 
+=================================================================
+2026-05-02 06:31:19,804 | INFO | CYCLE #1 | 06:31:19 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:31:19,804 | INFO | =================================================================
+2026-05-02 06:31:21,068 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:31:21,764 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:31:21,787 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:31:23,114 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:31:23,116 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:31:23,937 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:31:23,943 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:31:23,943 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:31:23,943 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:31:23,943 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:31:23,943 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:31:23,943 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:31:23,943 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:31:28,823 | INFO | [ML] ipl_model loaded — using 1,207-match Cricsheet model
+2026-05-02 06:31:29,976 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:31:31,091 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:31:31,307 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:31:31,308 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+[*] Downloading Cricsheet IPL data …
+2026-05-02 06:31:32,334 | INFO | HTTP Request: GET https://cricsheet.org/downloads/ipl_male_json.zip "HTTP/1.1 200 OK"
+    Downloaded 3.8 MB
+[*] Parsing 1212 match files …
+[*] Loaded 1212 matches, 21851 inning-over snapshots
+[*] Training pre-match model …
+    Pre-match model accuracy (hold-out): 0.609  (1187 samples)
+[*] Training in-play model …
+    In-play model accuracy (hold-out):   0.782  (21851 samples)
+[*] Training complete.
+2026-05-02 06:31:47,088 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:31:47,088 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:31:47,088 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:31:47,299 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:31:47,299 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:31:49,210 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:31:49,472 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:31:50,148 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 429 Too Many Requests"
+2026-05-02 06:31:50,607 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:31:51,068 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 404 Not Found"
+2026-05-02 06:31:51,479 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:31:53,630 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:31:56,163 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:32:02,029 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:32:02,030 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:32:19,043 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:32:19,043 | INFO | [AI/DeepSeek-V4] Vote: Lean CHE (w=1.3)
+2026-05-02 06:32:19,043 | INFO | [AI/GPT-OSS-120B] Vote: Lean CHE (w=1.4)
+2026-05-02 06:32:19,043 | INFO | [AI/MiMo-Premium] Vote: Lean CHE (w=2.0)
+2026-05-02 06:32:19,043 | INFO | [AI/Qwen-3.5-397B] Vote: Lean CHE (w=1.7)
+2026-05-02 06:32:19,044 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:32:19,044 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 1.00)
+2026-05-02 06:32:19,044 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:32:19,044 | INFO | [Portfolio] 0/10 legs open
+2026-05-02 06:32:19,044 | INFO | [Team Totals] Scanning...
+2026-05-02 06:32:19,044 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:32:19,044 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:32:19,044 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:32:19,044 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:32:19,044 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:32:19,044 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:32:19,044 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:32:19,044 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:32:19,044 | INFO |     >>> VALUE FOUND edge=13.5% | Kelly size=1.19 USDT
+Traceback (most recent call last):
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2184, in <module>
+    main()
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2172, in main
+    positions = analyse_and_trade(positions, cycle)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 2033, in analyse_and_trade
+    positions = signals_team_totals(tt_mkt, stats,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 1333, in signals_team_totals
+    pos = place(team, sel["outcome"], price, ks, mkt_url,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\saini\Desktop\iplclaude\cloudbet_live.py", line 1011, in place
+    log.info(f"{mode} BET | {team} | outcome={outcome} | price={price} "
+                ^^^^
+NameError: name 'mode' is not defined
+2026-05-02 06:32:56,704 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-02 06:32:56,709 | INFO | [Discover] 1 event(s) today: Chennai Super Kings vs Mumbai Indians (TRADING)
+2026-05-02 06:32:56,712 | INFO | [Discover] Single match -> Chennai Super Kings vs Mumbai Indians (id=34254801)
+2026-05-02 06:32:56,712 | INFO | =================================================================
+2026-05-02 06:32:56,712 | INFO | IPL LIVE TRADER — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:32:56,712 | INFO | Mode: DRY RUN | Event ID: 34254801
+2026-05-02 06:32:56,712 | INFO | BetSize=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-02 06:32:56,712 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-02 06:32:56,712 | INFO | =================================================================
+2026-05-02 06:32:56,714 | INFO | [State] Loaded 0 positions from cloudbet_positions.json
+2026-05-02 06:32:56,714 | INFO | 
+=================================================================
+2026-05-02 06:32:56,714 | INFO | CYCLE #1 | 06:32:56 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:32:56,714 | INFO | =================================================================
+2026-05-02 06:32:58,008 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:32:58,520 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:32:58,527 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:32:59,252 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:32:59,253 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:32:59,888 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:32:59,897 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:32:59,897 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:32:59,897 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:32:59,897 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:32:59,897 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:32:59,897 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:32:59,897 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:33:03,491 | INFO | [ML] ipl_model loaded — using 1,207-match Cricsheet model
+2026-05-02 06:33:04,695 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:33:05,718 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:33:05,950 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:33:05,952 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+[*] Downloading Cricsheet IPL data …
+2026-05-02 06:33:07,004 | INFO | HTTP Request: GET https://cricsheet.org/downloads/ipl_male_json.zip "HTTP/1.1 200 OK"
+    Downloaded 3.8 MB
+[*] Parsing 1212 match files …
+[*] Loaded 1212 matches, 21851 inning-over snapshots
+[*] Training pre-match model …
+    Pre-match model accuracy (hold-out): 0.609  (1187 samples)
+[*] Training in-play model …
+    In-play model accuracy (hold-out):   0.782  (21851 samples)
+[*] Training complete.
+2026-05-02 06:33:15,234 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:33:15,234 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:33:15,234 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:33:15,309 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:33:15,309 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:33:16,653 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:33:16,933 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:17,496 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 429 Too Many Requests"
+2026-05-02 06:33:18,271 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 404 Not Found"
+2026-05-02 06:33:18,828 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:19,699 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:33:21,129 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:21,880 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:24,847 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:32,690 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:35,701 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:33:35,703 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:33:35,703 | INFO | [AI/GPT-OSS-120B] Vote: Lean CHE (w=1.4)
+2026-05-02 06:33:35,703 | INFO | [AI/MiMo-Premium] Vote: Lean CHE (w=2.0)
+2026-05-02 06:33:35,703 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:33:35,703 | INFO | [AI/Qwen-3.5-397B] Vote: Lean CHE (w=1.7)
+2026-05-02 06:33:35,705 | INFO | [AI/DeepSeek-V4] Vote: Lean CHE (w=1.3)
+2026-05-02 06:33:35,705 | INFO | [AI/GLM-5.1] Vote: Lean CHE (w=1.3)
+2026-05-02 06:33:35,705 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 1.00)
+2026-05-02 06:33:35,705 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:33:35,705 | INFO | [Portfolio] 0/10 legs open
+2026-05-02 06:33:35,705 | INFO | [Team Totals] Scanning...
+2026-05-02 06:33:35,706 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:33:35,706 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:33:35,706 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:33:35,706 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:33:35,706 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:33:35,706 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:33:35,706 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:33:35,706 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:33:35,706 | INFO |     >>> VALUE FOUND edge=13.5% | Kelly size=1.19 USDT
+2026-05-02 06:33:35,706 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.85 | amount=1.19 USDT
+2026-05-02 06:33:35,706 | INFO |        Reason: Chennai Super Kings Over 181.5 | base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4% | Kelly=1.19
+2026-05-02 06:33:35,706 | INFO |        Position 212c3f4b-76c5-4f1e-9519-e27ac160a839 opened | potential_win=1.0115 USDT
+2026-05-02 06:33:35,706 | INFO |   Chennai Super Kings Under 181.5 | market=1.85 fair=2.588 p=38.6% edge=-28.5%
+2026-05-02 06:33:35,706 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_under=38.6%
+2026-05-02 06:33:35,706 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:33:35,706 | INFO | [POWERPLAY] 36 open selections — scanning...
+2026-05-02 06:33:35,706 | INFO |   [powerplay] Mumbai Indians Over 89.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:33:35,707 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Mumbai Indians Under 89.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:33:35,707 | INFO |     >>> POWERPLAY TRADE edge=62.9% amount=2.00
+2026-05-02 06:33:35,707 | INFO | [DRY] BET | Mumbai Indians | outcome=under | price=1.85 | amount=2.0 USDT
+2026-05-02 06:33:35,707 | INFO |        Reason: [powerplay] Mumbai Indians Under 89.5 | powerplay base=50 form_adj=+0 => adj=50 vs line=89.5 => p_under=99.9% | line 89.5 well above powerplay avg 48-62 | Kelly=2.00
+2026-05-02 06:33:35,707 | INFO |        Position 311d2912-ef80-4792-9902-195209c56bca opened | potential_win=1.7 USDT
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Mumbai Indians Over 84.5 | mkt=1.52 fair=99.000 p=0.3% edge=-98.5%
+2026-05-02 06:33:35,707 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Mumbai Indians Under 84.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:33:35,707 | INFO |     Already open — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Mumbai Indians Over 94.5 | mkt=2.2 fair=99.000 p=0.1% edge=-97.8%
+2026-05-02 06:33:35,707 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Mumbai Indians Under 94.5 | mkt=1.57 fair=1.136 p=88.0% edge=+38.2%
+2026-05-02 06:33:35,707 | INFO |     Already open — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Over 87.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:33:35,707 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Under 87.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:33:35,707 | INFO |     >>> POWERPLAY TRADE edge=62.9% amount=2.00
+2026-05-02 06:33:35,707 | INFO | [DRY] BET | Chennai Super Kings | outcome=under | price=1.85 | amount=2.0 USDT
+2026-05-02 06:33:35,707 | INFO |        Reason: [powerplay] Chennai Super Kings Under 87.5 | powerplay base=47 form_adj=+0 => adj=47 vs line=87.5 => p_under=99.9% | line 87.5 well above powerplay avg 48-62 | Kelly=2.00
+2026-05-02 06:33:35,707 | INFO |        Position 2cf971b9-c285-4ed9-9305-4df028205ec5 opened | potential_win=1.7 USDT
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Over 82.5 | mkt=1.52 fair=99.000 p=0.2% edge=-98.5%
+2026-05-02 06:33:35,707 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Under 82.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:33:35,707 | INFO |     Already open — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Over 92.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:33:35,707 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:33:35,707 | INFO |   [powerplay] Chennai Super Kings Under 92.5 | mkt=1.55 fair=1.136 p=88.0% edge=+36.4%
+2026-05-02 06:33:35,707 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 56.5 | mkt=1.85 fair=4.019 p=24.9% edge=-54.0%
+2026-05-02 06:33:35,708 | INFO |     No edge (-54.0% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 56.5 | mkt=1.8 fair=1.331 p=75.1% edge=+35.2%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 51.5 | mkt=1.47 fair=2.290 p=43.7% edge=-35.8%
+2026-05-02 06:33:35,708 | INFO |     No edge (-35.8% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 51.5 | mkt=2.45 fair=1.775 p=56.3% edge=+38.0%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 61.5 | mkt=2.5 fair=8.065 p=12.4% edge=-69.0%
+2026-05-02 06:33:35,708 | INFO |     No edge (-69.0% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 61.5 | mkt=1.45 fair=1.142 p=87.6% edge=+27.0%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Over 54.5 | mkt=1.8 fair=4.579 p=21.8% edge=-60.7%
+2026-05-02 06:33:35,708 | INFO |     No edge (-60.7% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Under 54.5 | mkt=1.85 fair=1.279 p=78.2% edge=+44.6%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Over 49.5 | mkt=1.45 fair=2.530 p=39.5% edge=-42.7%
+2026-05-02 06:33:35,708 | INFO |     No edge (-42.7% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Under 49.5 | mkt=2.5 fair=1.654 p=60.5% edge=+51.1%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Over 59.5 | mkt=2.45 fair=9.372 p=10.7% edge=-73.9%
+2026-05-02 06:33:35,708 | INFO |     No edge (-73.9% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Under 59.5 | mkt=1.47 fair=1.119 p=89.3% edge=+31.4%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 72.5 | mkt=1.85 fair=46.729 p=2.1% edge=-96.0%
+2026-05-02 06:33:35,708 | INFO |     No edge (-96.0% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 72.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 67.5 | mkt=1.5 fair=20.576 p=4.9% edge=-92.7%
+2026-05-02 06:33:35,708 | INFO |     No edge (-92.7% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 67.5 | mkt=2.35 fair=1.136 p=88.0% edge=+106.9%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Over 77.5 | mkt=2.35 fair=99.000 p=0.9% edge=-97.6%
+2026-05-02 06:33:35,708 | INFO |     No edge (-97.6% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Mumbai Indians Under 77.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Over 70.5 | mkt=1.8 fair=55.249 p=1.8% edge=-96.7%
+2026-05-02 06:33:35,708 | INFO |     No edge (-96.7% < 2.5%) — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Under 70.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:33:35,708 | INFO |     Already open — skip
+2026-05-02 06:33:35,708 | INFO |   [powerplay] Chennai Super Kings Over 65.5 | mkt=1.47 fair=24.213 p=4.1% edge=-93.9%
+2026-05-02 06:33:35,708 | INFO |     No edge (-93.9% < 2.5%) — skip
+2026-05-02 06:33:35,710 | INFO |   [powerplay] Chennai Super Kings Under 65.5 | mkt=2.4 fair=1.136 p=88.0% edge=+111.3%
+2026-05-02 06:33:35,710 | INFO |     Already open — skip
+2026-05-02 06:33:35,710 | INFO |   [powerplay] Chennai Super Kings Over 75.5 | mkt=2.3 fair=99.000 p=0.8% edge=-97.7%
+2026-05-02 06:33:35,710 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:33:35,710 | INFO |   [powerplay] Chennai Super Kings Under 75.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:33:35,710 | INFO |     Already open — skip
+2026-05-02 06:33:35,711 | INFO | [OVER_BY_OVER] 48 open selections — scanning...
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:33:35,711 | INFO |     >>> OVER_BY_OVER TRADE edge=80.0% amount=2.00
+2026-05-02 06:33:35,711 | INFO | [DRY] BET | Mumbai Indians | outcome=over | price=1.8 | amount=2.0 USDT
+2026-05-02 06:33:35,711 | INFO |        Reason: [over_by_over] Mumbai Indians Over 6.5 | over_by_over base=86.30000000000001 form_adj=+0 => adj=86 vs line=6.5 => p_over=100.0% | Kelly=2.00
+2026-05-02 06:33:35,711 | INFO |        Position 1778f013-3f9f-4320-9e6f-4a8b582ca516 opened | potential_win=1.6 USDT
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:33:35,711 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:33:35,711 | INFO |     Already open — skip
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:33:35,711 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:33:35,711 | INFO |     Already open — skip
+2026-05-02 06:33:35,711 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:33:35,711 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:33:35,712 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:33:35,712 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:33:35,712 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:33:35,712 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:33:35,712 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:33:35,712 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:33:35,712 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:33:35,712 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:33:35,712 | INFO |     Already open — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:33:35,713 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.6 fair=1.000 p=100.0% edge=+60.0%
+2026-05-02 06:33:35,713 | INFO |     Already open — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.3 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:33:35,713 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:33:35,713 | INFO |     >>> OVER_BY_OVER TRADE edge=80.0% amount=2.00
+2026-05-02 06:33:35,713 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.8 | amount=2.0 USDT
+2026-05-02 06:33:35,713 | INFO |        Reason: [over_by_over] Chennai Super Kings Over 6.5 | over_by_over base=95.30000000000001 form_adj=+0 => adj=95 vs line=6.5 => p_over=100.0% | Kelly=2.00
+2026-05-02 06:33:35,713 | INFO |        Position e47a4495-c47c-4a34-a7fd-2f8455eb32f9 opened | potential_win=1.6 USDT
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:33:35,713 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:33:35,713 | INFO |     Already open — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:33:35,713 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=2.0 fair=1.000 p=100.0% edge=+100.0%
+2026-05-02 06:33:35,713 | INFO |     Already open — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:33:35,713 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:33:35,713 | INFO |     Already open — skip
+2026-05-02 06:33:35,713 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:33:35,713 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:33:35,714 | INFO |     Already open — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.0 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:33:35,714 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=2.05 fair=1.000 p=100.0% edge=+105.0%
+2026-05-02 06:33:35,714 | INFO |     Already open — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.75 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:33:35,714 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:33:35,714 | INFO |     Already open — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:33:35,714 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:33:35,714 | INFO |     Already open — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:33:35,714 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:33:35,714 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:33:35,715 | INFO |     Already open — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:33:35,715 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:33:35,715 | INFO |     Already open — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.15 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:33:35,715 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:33:35,715 | INFO |     Already open — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:33:35,715 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:33:35,715 | INFO |     Already open — skip
+2026-05-02 06:33:35,715 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:33:35,715 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:33:35,716 | INFO |   [player] c16fe4-quinton-de-kock over 24.5 (avg~25) | mkt=1.85 fair=1.938 p=51.6% edge=-4.5%
+2026-05-02 06:33:35,716 | INFO |   [player] c16fe4-quinton-de-kock under 24.5 (avg~25) | mkt=1.85 fair=2.066 p=48.4% edge=-10.5%
+2026-05-02 06:33:35,716 | INFO |   [player] c1a5cf7-rohit-sharma over 24.5 (avg~30) | mkt=1.85 fair=1.598 p=62.6% edge=+15.8%
+2026-05-02 06:33:35,716 | INFO |     >>> PLAYER TRADE edge=15.8% amount=1.00
+2026-05-02 06:33:35,716 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.85 | amount=1.0 USDT
+2026-05-02 06:33:35,716 | INFO |        Reason: [player] c1a5cf7-rohit-sharma over 24.5 (avg~30) | Kelly=1.00
+2026-05-02 06:33:35,716 | INFO |        Position a6dd09d2-6e58-4438-b35a-0d82da8408a8 opened | potential_win=0.85 USDT
+2026-05-02 06:33:35,716 | INFO |   [player] c1a5cf7-rohit-sharma under 24.5 (avg~30) | mkt=1.85 fair=2.672 p=37.4% edge=-30.8%
+2026-05-02 06:33:35,716 | INFO |   [player] c1a6fef-sanju-samson over 27.5 (avg~32) | mkt=1.85 fair=1.642 p=60.9% edge=+12.7%
+2026-05-02 06:33:35,716 | INFO |     >>> PLAYER TRADE edge=12.7% amount=1.00
+2026-05-02 06:33:35,716 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.85 | amount=1.0 USDT
+2026-05-02 06:33:35,716 | INFO |        Reason: [player] c1a6fef-sanju-samson over 27.5 (avg~32) | Kelly=1.00
+2026-05-02 06:33:35,716 | INFO |        Position 8c8d2f8d-4f91-4e20-98e0-a93a141a1cd0 opened | potential_win=0.85 USDT
+2026-05-02 06:33:35,716 | INFO |   [player] c1a6fef-sanju-samson under 27.5 (avg~32) | mkt=1.85 fair=2.558 p=39.1% edge=-27.7%
+2026-05-02 06:33:35,716 | INFO |   [player] c1ab09e-sarfaraz-khan over 19.5 (avg~25) | mkt=1.85 fair=1.598 p=62.6% edge=+15.8%
+2026-05-02 06:33:35,716 | INFO |     >>> PLAYER TRADE edge=15.8% amount=1.00
+2026-05-02 06:33:35,716 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.85 | amount=1.0 USDT
+2026-05-02 06:33:35,716 | INFO |        Reason: [player] c1ab09e-sarfaraz-khan over 19.5 (avg~25) | Kelly=1.00
+2026-05-02 06:33:35,716 | INFO |        Position e365cef0-0b34-4736-af34-217239c68aed opened | potential_win=0.85 USDT
+2026-05-02 06:33:35,716 | INFO |   [player] c1ab09e-sarfaraz-khan under 19.5 (avg~25) | mkt=1.85 fair=2.672 p=37.4% edge=-30.8%
+2026-05-02 06:33:35,717 | INFO |   [player] c36583-suryakumar-ashok-yadav over 25.5 (avg~25) | mkt=1.85 fair=2.066 p=48.4% edge=-10.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c36583-suryakumar-ashok-yadav under 25.5 (avg~25) | mkt=1.85 fair=1.938 p=51.6% edge=-4.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c768fd-rickelton-ryan over 25.5 (avg~25) | mkt=1.85 fair=2.066 p=48.4% edge=-10.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c768fd-rickelton-ryan under 25.5 (avg~25) | mkt=1.85 fair=1.938 p=51.6% edge=-4.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c76a5f-gaikwad-ruturaj over 25.5 (avg~25) | mkt=1.85 fair=2.066 p=48.4% edge=-10.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c76a5f-gaikwad-ruturaj under 25.5 (avg~25) | mkt=1.85 fair=1.938 p=51.6% edge=-4.5%
+2026-05-02 06:33:35,717 | INFO |   [player] c93f37-urvil-patel over 18.5 (avg~25) | mkt=1.85 fair=1.561 p=64.1% edge=+18.5%
+2026-05-02 06:33:35,717 | INFO |     >>> PLAYER TRADE edge=18.5% amount=1.00
+2026-05-02 06:33:35,717 | INFO | [DRY] BET | Chennai Super Kings | outcome=over | price=1.85 | amount=1.0 USDT
+2026-05-02 06:33:35,717 | INFO |        Reason: [player] c93f37-urvil-patel over 18.5 (avg~25) | Kelly=1.00
+2026-05-02 06:33:35,717 | INFO |        Position a3743879-778c-4c52-8954-316919cfac7f opened | potential_win=0.85 USDT
+2026-05-02 06:33:35,717 | INFO | [Portfolio] After scan: 9 legs open | new this cycle: 9
+2026-05-02 06:33:35,717 | INFO | 
+-----------------------------------------------------------------
+2026-05-02 06:33:35,717 | INFO | TRADE SUMMARY — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:33:35,717 | INFO | -----------------------------------------------------------------
+2026-05-02 06:33:35,718 | INFO | Team                             Type            Entry amount     Status       At
+2026-05-02 06:33:35,718 | INFO | --------------------------------------------------------------------------------
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              team_totals      1.85   1.19       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Mumbai Indians                   session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Mumbai Indians                   session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:33:35,718 | INFO | 
+Total amountd: 13.1900 USDT | Mode: DRY RUN
+2026-05-02 06:33:35,718 | INFO | [State] Saved 9 positions to cloudbet_positions.json
+2026-05-02 06:33:35,718 | INFO | Sleeping 30s...
+
+2026-05-02 06:34:05,720 | INFO | 
+=================================================================
+2026-05-02 06:34:05,720 | INFO | CYCLE #2 | 06:34:05 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:34:05,720 | INFO | =================================================================
+2026-05-02 06:34:06,823 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:34:07,265 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:07,290 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:34:08,490 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:34:08,491 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:34:09,083 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:34:09,084 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:34:09,084 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:34:09,084 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:34:09,084 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:34:09,084 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:34:09,084 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:34:09,084 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:34:10,131 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:34:11,034 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:34:11,256 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:34:11,257 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-02 06:34:11,377 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:34:11,377 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:34:11,377 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:34:11,448 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:34:11,448 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:34:12,763 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:34:12,792 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:13,077 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:15,190 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 429 Too Many Requests"
+2026-05-02 06:34:15,804 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:15,966 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:16,673 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,013 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,014 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,116 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+ Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:16,673 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,013 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,014 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:18,116 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:37,318 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-05-02 06:34:37,321 | INFO | [Discover] 1 event(s) today: Chennai Super Kings vs Mumbai Indians (TRADING)
+2026-05-02 06:34:37,322 | INFO | [Discover] Single match -> Chennai Super Kings vs Mumbai Indians (id=34254801)
+2026-05-02 06:34:37,322 | INFO | =================================================================
+2026-05-02 06:34:37,322 | INFO | IPL LIVE TRADER — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:34:37,322 | INFO | Mode: DRY RUN | Event ID: 34254801
+2026-05-02 06:34:37,322 | INFO | BetSize=2.0 USDT | Kelly bankroll=30.0 | Min edge=2% | Bookset=+15% | StopLoss=-35%
+2026-05-02 06:34:37,322 | INFO | Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing
+2026-05-02 06:34:37,322 | INFO | =================================================================
+2026-05-02 06:34:37,322 | INFO | [State] Loaded 9 positions from cloudbet_positions.json
+2026-05-02 06:34:37,322 | INFO | 
+=================================================================
+2026-05-02 06:34:37,322 | INFO | CYCLE #1 | 06:34:37 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:34:37,322 | INFO | =================================================================
+2026-05-02 06:34:38,494 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:34:39,011 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:39,039 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:34:40,318 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:34:40,318 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:34:41,258 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:34:41,264 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:34:41,264 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:34:41,264 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:34:41,264 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:34:41,264 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:34:41,264 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:34:41,265 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:34:43,618 | INFO | [ML] ipl_model loaded — using 1,207-match Cricsheet model
+2026-05-02 06:34:44,618 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:34:45,508 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:34:45,765 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:34:45,765 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+[*] Downloading Cricsheet IPL data …
+2026-05-02 06:34:46,664 | INFO | HTTP Request: GET https://cricsheet.org/downloads/ipl_male_json.zip "HTTP/1.1 200 OK"
+    Downloaded 3.8 MB
+[*] Parsing 1212 match files …
+[*] Loaded 1212 matches, 21851 inning-over snapshots
+[*] Training pre-match model …
+    Pre-match model accuracy (hold-out): 0.609  (1187 samples)
+[*] Training in-play model …
+    In-play model accuracy (hold-out):   0.782  (21851 samples)
+[*] Training complete.
+2026-05-02 06:34:51,385 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:34:51,385 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:34:51,385 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:34:51,429 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:34:51,429 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:34:52,652 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:34:52,913 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:34:53,698 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:53,808 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 429 Too Many Requests"
+2026-05-02 06:34:54,532 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 404 Not Found"
+2026-05-02 06:34:57,235 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:35:15,652 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:35:15,653 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:35:15,768 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:35:15,768 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:35:22,632 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:35:22,632 | INFO | [AI/MiMo-Premium] Vote: Lean CHE (w=2.0)
+2026-05-02 06:35:22,632 | INFO | [AI/GPT-OSS-120B] Vote: Lean CHE (w=1.4)
+2026-05-02 06:35:22,632 | INFO | [AI/DeepSeek-V4] Vote: Lean CHE (w=1.3)
+2026-05-02 06:35:22,632 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:35:22,632 | INFO | [AI/Qwen-3.5-397B] Vote: Lean CHE (w=1.7)
+2026-05-02 06:35:22,632 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 1.00)
+2026-05-02 06:35:22,633 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:35:22,633 | INFO | [Portfolio] 9/10 legs open
+2026-05-02 06:35:22,633 | INFO | [Team Totals] Scanning...
+2026-05-02 06:35:22,633 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:35:22,633 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:35:22,633 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:35:22,633 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:35:22,633 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:35:22,633 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:35:22,633 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:35:22,633 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:35:22,633 | INFO |     Already have Chennai Super Kings Over 181.5 — skip
+2026-05-02 06:35:22,633 | INFO |   Chennai Super Kings Under 181.5 | market=1.85 fair=2.588 p=38.6% edge=-28.5%
+2026-05-02 06:35:22,633 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_under=38.6%
+2026-05-02 06:35:22,633 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:35:22,633 | INFO | [POWERPLAY] 36 open selections — scanning...
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Over 89.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:35:22,633 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Under 89.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:35:22,633 | INFO |     Already open — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Over 84.5 | mkt=1.52 fair=99.000 p=0.3% edge=-98.5%
+2026-05-02 06:35:22,633 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Under 84.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:35:22,633 | INFO |     Already open — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Over 94.5 | mkt=2.2 fair=99.000 p=0.1% edge=-97.8%
+2026-05-02 06:35:22,633 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Mumbai Indians Under 94.5 | mkt=1.57 fair=1.136 p=88.0% edge=+38.2%
+2026-05-02 06:35:22,633 | INFO |     Already open — skip
+2026-05-02 06:35:22,633 | INFO |   [powerplay] Chennai Super Kings Over 87.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:35:22,633 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 87.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 82.5 | mkt=1.52 fair=99.000 p=0.2% edge=-98.5%
+2026-05-02 06:35:22,634 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 82.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 92.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 92.5 | mkt=1.55 fair=1.136 p=88.0% edge=+36.4%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 56.5 | mkt=1.85 fair=4.019 p=24.9% edge=-54.0%
+2026-05-02 06:35:22,634 | INFO |     No edge (-54.0% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 56.5 | mkt=1.8 fair=1.331 p=75.1% edge=+35.2%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 51.5 | mkt=1.47 fair=2.290 p=43.7% edge=-35.8%
+2026-05-02 06:35:22,634 | INFO |     No edge (-35.8% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 51.5 | mkt=2.45 fair=1.775 p=56.3% edge=+38.0%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 61.5 | mkt=2.5 fair=8.065 p=12.4% edge=-69.0%
+2026-05-02 06:35:22,634 | INFO |     No edge (-69.0% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 61.5 | mkt=1.45 fair=1.142 p=87.6% edge=+27.0%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 54.5 | mkt=1.8 fair=4.579 p=21.8% edge=-60.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-60.7% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 54.5 | mkt=1.85 fair=1.279 p=78.2% edge=+44.6%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 49.5 | mkt=1.45 fair=2.530 p=39.5% edge=-42.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-42.7% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 49.5 | mkt=2.5 fair=1.654 p=60.5% edge=+51.1%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 59.5 | mkt=2.45 fair=9.372 p=10.7% edge=-73.9%
+2026-05-02 06:35:22,634 | INFO |     No edge (-73.9% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 59.5 | mkt=1.47 fair=1.119 p=89.3% edge=+31.4%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 72.5 | mkt=1.85 fair=46.729 p=2.1% edge=-96.0%
+2026-05-02 06:35:22,634 | INFO |     No edge (-96.0% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 72.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 67.5 | mkt=1.5 fair=20.576 p=4.9% edge=-92.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-92.7% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 67.5 | mkt=2.35 fair=1.136 p=88.0% edge=+106.9%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Over 77.5 | mkt=2.35 fair=99.000 p=0.9% edge=-97.6%
+2026-05-02 06:35:22,634 | INFO |     No edge (-97.6% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Mumbai Indians Under 77.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 70.5 | mkt=1.8 fair=55.249 p=1.8% edge=-96.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-96.7% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 70.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 65.5 | mkt=1.47 fair=24.213 p=4.1% edge=-93.9%
+2026-05-02 06:35:22,634 | INFO |     No edge (-93.9% < 2.5%) — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Under 65.5 | mkt=2.4 fair=1.136 p=88.0% edge=+111.3%
+2026-05-02 06:35:22,634 | INFO |     Already open — skip
+2026-05-02 06:35:22,634 | INFO |   [powerplay] Chennai Super Kings Over 75.5 | mkt=2.3 fair=99.000 p=0.8% edge=-97.7%
+2026-05-02 06:35:22,634 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [powerplay] Chennai Super Kings Under 75.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO | [OVER_BY_OVER] 48 open selections — scanning...
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:35:22,636 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:35:22,636 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:35:22,636 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:35:22,636 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:35:22,636 | INFO |     Already open — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:35:22,636 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,636 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:35:22,637 | INFO |     Already open — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:35:22,637 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:35:22,637 | INFO |     Already open — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:35:22,637 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:35:22,637 | INFO |     Already open — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:35:22,637 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:35:22,637 | INFO |     Already open — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:35:22,637 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:35:22,637 | INFO |     Already open — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:35:22,637 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:35:22,637 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.6 fair=1.000 p=100.0% edge=+60.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.3 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:35:22,638 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=2.0 fair=1.000 p=100.0% edge=+100.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:35:22,638 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.0 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=2.05 fair=1.000 p=100.0% edge=+105.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.75 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:35:22,638 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:35:22,638 | INFO |     Already open — skip
+2026-05-02 06:35:22,638 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:35:22,638 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:35:22,639 | INFO |     Already open — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:35:22,639 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:35:22,639 | INFO |     Already open — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.15 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:35:22,639 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:35:22,639 | INFO |     Already open — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:35:22,639 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:35:22,639 | INFO |     Already open — skip
+2026-05-02 06:35:22,639 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:35:22,639 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:35:22,639 | INFO | [Portfolio] After scan: 9 legs open | new this cycle: 0
+2026-05-02 06:35:22,639 | INFO | 
+-----------------------------------------------------------------
+2026-05-02 06:35:22,639 | INFO | TRADE SUMMARY — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:35:22,639 | INFO | -----------------------------------------------------------------
+2026-05-02 06:35:22,639 | INFO | Team                             Type            Entry amount     Status       At
+2026-05-02 06:35:22,639 | INFO | --------------------------------------------------------------------------------
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              team_totals      1.85   1.19       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Mumbai Indians                   session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Mumbai Indians                   session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:35:22,639 | INFO | 
+Total amountd: 13.1900 USDT | Mode: DRY RUN
+2026-05-02 06:35:22,640 | INFO | [State] Saved 9 positions to cloudbet_positions.json
+2026-05-02 06:35:22,640 | INFO | Sleeping 30s...
+
+2026-05-02 06:35:52,641 | INFO | 
+=================================================================
+2026-05-02 06:35:52,641 | INFO | CYCLE #2 | 06:35:52 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:35:52,641 | INFO | =================================================================
+2026-05-02 06:35:53,697 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:35:54,082 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:35:54,089 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:35:55,173 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:35:55,173 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:35:55,683 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:35:55,684 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:35:55,684 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:35:55,684 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:35:55,686 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:35:55,686 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:35:55,686 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:35:55,686 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:35:56,693 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:35:57,633 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:35:57,853 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:35:57,855 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-02 06:35:57,948 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:35:57,948 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:35:57,948 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:35:57,991 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:35:57,991 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:35:59,158 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:35:59,557 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:00,208 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:36:00,618 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 200 OK"
+2026-05-02 06:36:02,768 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:02,770 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:02,770 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:03,005 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:03,486 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:11,168 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:11,168 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:36:11,168 | INFO | [AI/Gemini-2.0-Ultra] Vote: Lean CHE (w=1.8)
+2026-05-02 06:36:11,168 | INFO | [AI/DeepSeek-V4] Vote: Lean CHE (w=1.3)
+2026-05-02 06:36:11,168 | INFO | [AI/Qwen-3.5-397B] Vote: Lean CHE (w=1.7)
+2026-05-02 06:36:11,168 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:36:11,168 | INFO | [AI/GPT-OSS-120B] Vote: Lean CHE (w=1.4)
+2026-05-02 06:36:11,170 | INFO | [AI/MiMo-Premium] Vote: Lean CHE (w=2.0)
+2026-05-02 06:36:11,170 | INFO | [AI/GLM-5.1] Vote: Lean CHE (w=1.3)
+2026-05-02 06:36:11,170 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 1.00)
+2026-05-02 06:36:11,170 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:36:11,170 | INFO | [Portfolio] 9/10 legs open
+2026-05-02 06:36:11,170 | INFO | [Team Totals] Scanning...
+2026-05-02 06:36:11,171 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:36:11,171 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:36:11,172 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:36:11,172 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:36:11,172 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:36:11,172 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:36:11,172 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:36:11,172 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:36:11,172 | INFO |     Already have Chennai Super Kings Over 181.5 — skip
+2026-05-02 06:36:11,172 | INFO |   Chennai Super Kings Under 181.5 | market=1.85 fair=2.588 p=38.6% edge=-28.5%
+2026-05-02 06:36:11,172 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_under=38.6%
+2026-05-02 06:36:11,172 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:36:11,172 | INFO | [POWERPLAY] 36 open selections — scanning...
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Over 89.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:36:11,172 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Under 89.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:36:11,172 | INFO |     Already open — skip
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Over 84.5 | mkt=1.52 fair=99.000 p=0.3% edge=-98.5%
+2026-05-02 06:36:11,172 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Under 84.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:36:11,172 | INFO |     Already open — skip
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Over 94.5 | mkt=2.2 fair=99.000 p=0.1% edge=-97.8%
+2026-05-02 06:36:11,172 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:36:11,172 | INFO |   [powerplay] Mumbai Indians Under 94.5 | mkt=1.57 fair=1.136 p=88.0% edge=+38.2%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 87.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 87.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 82.5 | mkt=1.52 fair=99.000 p=0.2% edge=-98.5%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 82.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 92.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 92.5 | mkt=1.55 fair=1.136 p=88.0% edge=+36.4%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 56.5 | mkt=1.85 fair=4.019 p=24.9% edge=-54.0%
+2026-05-02 06:36:11,173 | INFO |     No edge (-54.0% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 56.5 | mkt=1.8 fair=1.331 p=75.1% edge=+35.2%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 51.5 | mkt=1.47 fair=2.290 p=43.7% edge=-35.8%
+2026-05-02 06:36:11,173 | INFO |     No edge (-35.8% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 51.5 | mkt=2.45 fair=1.775 p=56.3% edge=+38.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 61.5 | mkt=2.5 fair=8.065 p=12.4% edge=-69.0%
+2026-05-02 06:36:11,173 | INFO |     No edge (-69.0% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 61.5 | mkt=1.45 fair=1.142 p=87.6% edge=+27.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 54.5 | mkt=1.8 fair=4.579 p=21.8% edge=-60.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-60.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 54.5 | mkt=1.85 fair=1.279 p=78.2% edge=+44.6%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 49.5 | mkt=1.45 fair=2.530 p=39.5% edge=-42.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-42.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 49.5 | mkt=2.5 fair=1.654 p=60.5% edge=+51.1%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 59.5 | mkt=2.45 fair=9.372 p=10.7% edge=-73.9%
+2026-05-02 06:36:11,173 | INFO |     No edge (-73.9% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 59.5 | mkt=1.47 fair=1.119 p=89.3% edge=+31.4%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 72.5 | mkt=1.85 fair=46.729 p=2.1% edge=-96.0%
+2026-05-02 06:36:11,173 | INFO |     No edge (-96.0% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 72.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 67.5 | mkt=1.5 fair=20.576 p=4.9% edge=-92.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-92.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 67.5 | mkt=2.35 fair=1.136 p=88.0% edge=+106.9%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Over 77.5 | mkt=2.35 fair=99.000 p=0.9% edge=-97.6%
+2026-05-02 06:36:11,173 | INFO |     No edge (-97.6% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Mumbai Indians Under 77.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 70.5 | mkt=1.8 fair=55.249 p=1.8% edge=-96.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-96.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 70.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 65.5 | mkt=1.47 fair=24.213 p=4.1% edge=-93.9%
+2026-05-02 06:36:11,173 | INFO |     No edge (-93.9% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 65.5 | mkt=2.4 fair=1.136 p=88.0% edge=+111.3%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Over 75.5 | mkt=2.3 fair=99.000 p=0.8% edge=-97.7%
+2026-05-02 06:36:11,173 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [powerplay] Chennai Super Kings Under 75.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO | [OVER_BY_OVER] 48 open selections — scanning...
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:36:11,173 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:36:11,173 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:36:11,173 | INFO |     Already open — skip
+2026-05-02 06:36:11,173 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:36:11,176 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:36:11,177 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:36:11,177 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.6 fair=1.000 p=100.0% edge=+60.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.3 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:36:11,177 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=2.0 fair=1.000 p=100.0% edge=+100.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:36:11,177 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.0 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:36:11,177 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:36:11,177 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=2.05 fair=1.000 p=100.0% edge=+105.0%
+2026-05-02 06:36:11,177 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.75 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:36:11,178 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:36:11,178 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:36:11,178 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:36:11,178 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.15 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:36:11,178 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:36:11,178 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:36:11,178 | INFO |     Already open — skip
+2026-05-02 06:36:11,178 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:36:11,178 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:36:11,178 | INFO | [Portfolio] After scan: 9 legs open | new this cycle: 0
+2026-05-02 06:36:11,179 | INFO | 
+-----------------------------------------------------------------
+2026-05-02 06:36:11,179 | INFO | TRADE SUMMARY — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:36:11,179 | INFO | -----------------------------------------------------------------
+2026-05-02 06:36:11,179 | INFO | Team                             Type            Entry amount     Status       At
+2026-05-02 06:36:11,179 | INFO | --------------------------------------------------------------------------------
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              team_totals      1.85   1.19       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Mumbai Indians                   session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Mumbai Indians                   session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:36:11,179 | INFO | 
+Total amountd: 13.1900 USDT | Mode: DRY RUN
+2026-05-02 06:36:11,179 | INFO | [State] Saved 9 positions to cloudbet_positions.json
+2026-05-02 06:36:11,181 | INFO | Sleeping 30s...
+
+2026-05-02 06:36:41,182 | INFO | 
+=================================================================
+2026-05-02 06:36:41,182 | INFO | CYCLE #3 | 06:36:41 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:36:41,182 | INFO | =================================================================
+2026-05-02 06:36:42,324 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:36:42,868 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:36:42,885 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:36:44,139 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:36:44,139 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:36:44,733 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:36:44,733 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:36:44,733 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:36:44,734 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:36:44,734 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:36:44,734 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:36:44,734 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:36:44,734 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:36:45,672 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:36:46,668 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:36:46,877 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:36:46,878 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-02 06:36:47,038 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:36:47,038 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:36:47,038 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:36:47,118 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:36:47,118 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:36:48,338 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:36:48,339 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:36:48,634 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:49,977 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 200 OK"
+2026-05-02 06:36:50,384 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:53,049 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:36:58,473 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:37:18,347 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:37:18,348 | INFO | [AI/Gemini-2.0-Ultra] Vote: Lean CHE (w=1.8)
+2026-05-02 06:37:18,348 | INFO | [AI/GLM-5.1] Vote: Lean CHE (w=1.3)
+2026-05-02 06:37:18,348 | INFO | [AI/MiMo-Premium] Vote: Neutral (w=2.0)
+2026-05-02 06:37:18,348 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:37:18,348 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 0.74)
+2026-05-02 06:37:18,348 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:37:18,348 | INFO | [Portfolio] 9/10 legs open
+2026-05-02 06:37:18,348 | INFO | [Team Totals] Scanning...
+2026-05-02 06:37:18,348 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:37:18,348 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:37:18,348 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:37:18,348 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:37:18,348 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:37:18,348 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:37:18,348 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:37:18,348 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:37:18,348 | INFO |     Already have Chennai Super Kings Over 181.5 — skip
+2026-05-02 06:37:18,348 | INFO |   Chennai Super Kings Under 181.5 | market=1.85 fair=2.588 p=38.6% edge=-28.5%
+2026-05-02 06:37:18,348 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_under=38.6%
+2026-05-02 06:37:18,348 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:37:18,348 | INFO | [POWERPLAY] 36 open selections — scanning...
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 89.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:37:18,348 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 89.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 84.5 | mkt=1.52 fair=99.000 p=0.3% edge=-98.5%
+2026-05-02 06:37:18,348 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 84.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 94.5 | mkt=2.2 fair=99.000 p=0.1% edge=-97.8%
+2026-05-02 06:37:18,348 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 94.5 | mkt=1.57 fair=1.136 p=88.0% edge=+38.2%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Over 87.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:37:18,348 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Under 87.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Over 82.5 | mkt=1.52 fair=99.000 p=0.2% edge=-98.5%
+2026-05-02 06:37:18,348 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Under 82.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Over 92.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:37:18,348 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Chennai Super Kings Under 92.5 | mkt=1.55 fair=1.136 p=88.0% edge=+36.4%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 56.5 | mkt=1.85 fair=4.019 p=24.9% edge=-54.0%
+2026-05-02 06:37:18,348 | INFO |     No edge (-54.0% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 56.5 | mkt=1.8 fair=1.331 p=75.1% edge=+35.2%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 51.5 | mkt=1.47 fair=2.290 p=43.7% edge=-35.8%
+2026-05-02 06:37:18,348 | INFO |     No edge (-35.8% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 51.5 | mkt=2.45 fair=1.775 p=56.3% edge=+38.0%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Over 61.5 | mkt=2.5 fair=8.065 p=12.4% edge=-69.0%
+2026-05-02 06:37:18,348 | INFO |     No edge (-69.0% < 2.5%) — skip
+2026-05-02 06:37:18,348 | INFO |   [powerplay] Mumbai Indians Under 61.5 | mkt=1.45 fair=1.142 p=87.6% edge=+27.0%
+2026-05-02 06:37:18,348 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 54.5 | mkt=1.8 fair=4.579 p=21.8% edge=-60.7%
+2026-05-02 06:37:18,350 | INFO |     No edge (-60.7% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 54.5 | mkt=1.85 fair=1.279 p=78.2% edge=+44.6%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 49.5 | mkt=1.45 fair=2.530 p=39.5% edge=-42.7%
+2026-05-02 06:37:18,350 | INFO |     No edge (-42.7% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 49.5 | mkt=2.5 fair=1.654 p=60.5% edge=+51.1%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 59.5 | mkt=2.45 fair=9.372 p=10.7% edge=-73.9%
+2026-05-02 06:37:18,350 | INFO |     No edge (-73.9% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 59.5 | mkt=1.47 fair=1.119 p=89.3% edge=+31.4%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Over 72.5 | mkt=1.85 fair=46.729 p=2.1% edge=-96.0%
+2026-05-02 06:37:18,350 | INFO |     No edge (-96.0% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Under 72.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Over 67.5 | mkt=1.5 fair=20.576 p=4.9% edge=-92.7%
+2026-05-02 06:37:18,350 | INFO |     No edge (-92.7% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Under 67.5 | mkt=2.35 fair=1.136 p=88.0% edge=+106.9%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Over 77.5 | mkt=2.35 fair=99.000 p=0.9% edge=-97.6%
+2026-05-02 06:37:18,350 | INFO |     No edge (-97.6% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Mumbai Indians Under 77.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 70.5 | mkt=1.8 fair=55.249 p=1.8% edge=-96.7%
+2026-05-02 06:37:18,350 | INFO |     No edge (-96.7% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 70.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 65.5 | mkt=1.47 fair=24.213 p=4.1% edge=-93.9%
+2026-05-02 06:37:18,350 | INFO |     No edge (-93.9% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 65.5 | mkt=2.4 fair=1.136 p=88.0% edge=+111.3%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Over 75.5 | mkt=2.3 fair=99.000 p=0.8% edge=-97.7%
+2026-05-02 06:37:18,350 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [powerplay] Chennai Super Kings Under 75.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO | [OVER_BY_OVER] 48 open selections — scanning...
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:37:18,350 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:37:18,350 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:37:18,350 | INFO |     Already open — skip
+2026-05-02 06:37:18,350 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:37:18,350 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:37:18,351 | INFO |     Already open — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:37:18,351 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:37:18,351 | INFO |     Already open — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:37:18,351 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:37:18,351 | INFO |     Already open — skip
+2026-05-02 06:37:18,351 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:37:18,351 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:37:18,352 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:37:18,352 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:37:18,352 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:37:18,352 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:37:18,352 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.6 fair=1.000 p=100.0% edge=+60.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.3 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:37:18,352 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Chennai Super Kings Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Chennai Super Kings Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:37:18,352 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:37:18,352 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:37:18,352 | INFO |     Already open — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:37:18,353 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=2.0 fair=1.000 p=100.0% edge=+100.0%
+2026-05-02 06:37:18,353 | INFO |     Already open — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:37:18,353 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:37:18,353 | INFO |     Already open — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:37:18,353 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:37:18,353 | INFO |     Already open — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.0 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:37:18,353 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=2.05 fair=1.000 p=100.0% edge=+105.0%
+2026-05-02 06:37:18,353 | INFO |     Already open — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.75 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:37:18,353 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,353 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:37:18,354 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:37:18,354 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:37:18,354 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.15 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:37:18,354 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:37:18,354 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:37:18,354 | INFO |     Already open — skip
+2026-05-02 06:37:18,354 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:37:18,354 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:37:18,354 | INFO | [Portfolio] After scan: 9 legs open | new this cycle: 0
+2026-05-02 06:37:18,354 | INFO | 
+-----------------------------------------------------------------
+2026-05-02 06:37:18,354 | INFO | TRADE SUMMARY — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:37:18,354 | INFO | -----------------------------------------------------------------
+2026-05-02 06:37:18,354 | INFO | Team                             Type            Entry amount     Status       At
+2026-05-02 06:37:18,354 | INFO | --------------------------------------------------------------------------------
+2026-05-02 06:37:18,354 | INFO | Chennai Super Kings              team_totals      1.85   1.19       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Mumbai Indians                   session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Chennai Super Kings              session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Mumbai Indians                   session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Chennai Super Kings              session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:37:18,354 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:37:18,355 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:37:18,355 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:37:18,355 | INFO | 
+Total amountd: 13.1900 USDT | Mode: DRY RUN
+2026-05-02 06:37:18,355 | INFO | [State] Saved 9 positions to cloudbet_positions.json
+2026-05-02 06:37:18,355 | INFO | Sleeping 30s...
+
+2026-05-02 06:37:48,359 | INFO | 
+=================================================================
+2026-05-02 06:37:48,369 | INFO | CYCLE #4 | 06:37:48 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:37:48,369 | INFO | =================================================================
+2026-05-02 06:37:49,835 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:37:50,745 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:37:50,770 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:37:52,134 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:37:52,134 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:37:52,956 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:37:52,961 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:37:52,961 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:37:52,962 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:37:52,962 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:37:52,962 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:37:52,962 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:37:52,962 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:37:54,184 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:37:55,487 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:37:55,720 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:37:55,723 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-02 06:37:55,885 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:37:55,885 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:37:55,885 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:37:55,940 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:37:55,942 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:37:57,484 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:37:57,529 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:37:57,755 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:37:58,939 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:37:58,993 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 200 OK"
+2026-05-02 06:37:59,108 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:37:59,248 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:00,408 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:01,883 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:16,463 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:16,464 | INFO | [AI/Groq-Llama3] Vote: Lean CHE (w=1.0)
+2026-05-02 06:38:16,464 | INFO | [AI/DeepSeek-V4] Vote: Lean CHE (w=1.3)
+2026-05-02 06:38:16,464 | INFO | [AI/Gemini-2.0-Ultra] Vote: Lean CHE (w=1.8)
+2026-05-02 06:38:16,464 | INFO | [AI/Qwen-3.5-397B] Vote: Lean CHE (w=1.7)
+2026-05-02 06:38:16,464 | INFO | [AI/GPT-OSS-120B] Vote: Lean CHE (w=1.4)
+2026-05-02 06:38:16,464 | INFO | [AI/Nemotron-4-340B] Vote: Lean CHE (w=1.6)
+2026-05-02 06:38:16,464 | INFO | [AI/MiMo-Premium] Vote: Lean CHE (w=2.0)
+2026-05-02 06:38:16,464 | INFO | [AI/GLM-5.1] Vote: Lean CHE (w=1.3)
+2026-05-02 06:38:16,464 | INFO | [AI/Consensus] Final Verdict: Lean CHE (Weighted Avg: 1.00)
+2026-05-02 06:38:16,464 | INFO | [AI] Adjusted: CHE=52.0% MUM=48.0% (Consensus: Lean CHE...)
+2026-05-02 06:38:16,465 | INFO | [Portfolio] 9/10 legs open
+2026-05-02 06:38:16,465 | INFO | [Team Totals] Scanning...
+2026-05-02 06:38:16,465 | INFO |   Mumbai Indians Over 184.5 | market=1.85 fair=1.826 p=54.8% edge=+1.3%
+2026-05-02 06:38:16,465 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_over=54.7%
+2026-05-02 06:38:16,465 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:38:16,465 | INFO |   Mumbai Indians Under 184.5 | market=1.85 fair=2.210 p=45.2% edge=-16.3%
+2026-05-02 06:38:16,465 | INFO |     base=190.3 form_adj=+0 batter_adj=-3 bowl_adj=+0 => adj_avg=187 vs line=184.5 => p_under=45.3%
+2026-05-02 06:38:16,465 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:38:16,465 | INFO |   Chennai Super Kings Over 181.5 | market=1.85 fair=1.630 p=61.4% edge=+13.5%
+2026-05-02 06:38:16,465 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_over=61.4%
+2026-05-02 06:38:16,465 | INFO |     Already have Chennai Super Kings Over 181.5 — skip
+2026-05-02 06:38:16,465 | INFO |   Chennai Super Kings Under 181.5 | market=1.85 fair=2.588 p=38.6% edge=-28.5%
+2026-05-02 06:38:16,465 | INFO |     base=191.3 form_adj=+0 batter_adj=+0 bowl_adj=-3 => adj_avg=188 vs line=181.5 => p_under=38.6%
+2026-05-02 06:38:16,465 | INFO |     No edge (need 2%) — skip
+2026-05-02 06:38:16,465 | INFO | [POWERPLAY] 36 open selections — scanning...
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Over 89.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:38:16,465 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Under 89.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:38:16,465 | INFO |     Already open — skip
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Over 84.5 | mkt=1.52 fair=99.000 p=0.3% edge=-98.5%
+2026-05-02 06:38:16,465 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Under 84.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:38:16,465 | INFO |     Already open — skip
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Over 94.5 | mkt=2.2 fair=99.000 p=0.1% edge=-97.8%
+2026-05-02 06:38:16,465 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:38:16,465 | INFO |   [powerplay] Mumbai Indians Under 94.5 | mkt=1.57 fair=1.136 p=88.0% edge=+38.2%
+2026-05-02 06:38:16,466 | INFO |     Already open — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Over 87.5 | mkt=1.8 fair=99.000 p=0.1% edge=-98.2%
+2026-05-02 06:38:16,466 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Under 87.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:38:16,466 | INFO |     Already open — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Over 82.5 | mkt=1.52 fair=99.000 p=0.2% edge=-98.5%
+2026-05-02 06:38:16,466 | INFO |     No edge (-98.5% < 2.5%) — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Under 82.5 | mkt=2.3 fair=1.136 p=88.0% edge=+102.5%
+2026-05-02 06:38:16,466 | INFO |     Already open — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Over 92.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:38:16,466 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Chennai Super Kings Under 92.5 | mkt=1.55 fair=1.136 p=88.0% edge=+36.4%
+2026-05-02 06:38:16,466 | INFO |     Already open — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Mumbai Indians Over 56.5 | mkt=1.85 fair=4.019 p=24.9% edge=-54.0%
+2026-05-02 06:38:16,466 | INFO |     No edge (-54.0% < 2.5%) — skip
+2026-05-02 06:38:16,466 | INFO |   [powerplay] Mumbai Indians Under 56.5 | mkt=1.8 fair=1.331 p=75.1% edge=+35.2%
+2026-05-02 06:38:16,466 | INFO |     Already open — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Mumbai Indians Over 51.5 | mkt=1.47 fair=2.290 p=43.7% edge=-35.8%
+2026-05-02 06:38:16,467 | INFO |     No edge (-35.8% < 2.5%) — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Mumbai Indians Under 51.5 | mkt=2.45 fair=1.775 p=56.3% edge=+38.0%
+2026-05-02 06:38:16,467 | INFO |     Already open — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Mumbai Indians Over 61.5 | mkt=2.5 fair=8.065 p=12.4% edge=-69.0%
+2026-05-02 06:38:16,467 | INFO |     No edge (-69.0% < 2.5%) — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Mumbai Indians Under 61.5 | mkt=1.45 fair=1.142 p=87.6% edge=+27.0%
+2026-05-02 06:38:16,467 | INFO |     Already open — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Over 54.5 | mkt=1.8 fair=4.579 p=21.8% edge=-60.7%
+2026-05-02 06:38:16,467 | INFO |     No edge (-60.7% < 2.5%) — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Under 54.5 | mkt=1.85 fair=1.279 p=78.2% edge=+44.6%
+2026-05-02 06:38:16,467 | INFO |     Already open — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Over 49.5 | mkt=1.45 fair=2.530 p=39.5% edge=-42.7%
+2026-05-02 06:38:16,467 | INFO |     No edge (-42.7% < 2.5%) — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Under 49.5 | mkt=2.5 fair=1.654 p=60.5% edge=+51.1%
+2026-05-02 06:38:16,467 | INFO |     Already open — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Over 59.5 | mkt=2.45 fair=9.372 p=10.7% edge=-73.9%
+2026-05-02 06:38:16,467 | INFO |     No edge (-73.9% < 2.5%) — skip
+2026-05-02 06:38:16,467 | INFO |   [powerplay] Chennai Super Kings Under 59.5 | mkt=1.47 fair=1.119 p=89.3% edge=+31.4%
+2026-05-02 06:38:16,467 | INFO |     Already open — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Over 72.5 | mkt=1.85 fair=46.729 p=2.1% edge=-96.0%
+2026-05-02 06:38:16,468 | INFO |     No edge (-96.0% < 2.5%) — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Under 72.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:38:16,468 | INFO |     Already open — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Over 67.5 | mkt=1.5 fair=20.576 p=4.9% edge=-92.7%
+2026-05-02 06:38:16,468 | INFO |     No edge (-92.7% < 2.5%) — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Under 67.5 | mkt=2.35 fair=1.136 p=88.0% edge=+106.9%
+2026-05-02 06:38:16,468 | INFO |     Already open — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Over 77.5 | mkt=2.35 fair=99.000 p=0.9% edge=-97.6%
+2026-05-02 06:38:16,468 | INFO |     No edge (-97.6% < 2.5%) — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Mumbai Indians Under 77.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:38:16,468 | INFO |     Already open — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Chennai Super Kings Over 70.5 | mkt=1.8 fair=55.249 p=1.8% edge=-96.7%
+2026-05-02 06:38:16,468 | INFO |     No edge (-96.7% < 2.5%) — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Chennai Super Kings Under 70.5 | mkt=1.85 fair=1.136 p=88.0% edge=+62.9%
+2026-05-02 06:38:16,468 | INFO |     Already open — skip
+2026-05-02 06:38:16,468 | INFO |   [powerplay] Chennai Super Kings Over 65.5 | mkt=1.47 fair=24.213 p=4.1% edge=-93.9%
+2026-05-02 06:38:16,468 | INFO |     No edge (-93.9% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [powerplay] Chennai Super Kings Under 65.5 | mkt=2.4 fair=1.136 p=88.0% edge=+111.3%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [powerplay] Chennai Super Kings Over 75.5 | mkt=2.3 fair=99.000 p=0.8% edge=-97.7%
+2026-05-02 06:38:16,469 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [powerplay] Chennai Super Kings Under 75.5 | mkt=1.52 fair=1.136 p=88.0% edge=+33.8%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO | [OVER_BY_OVER] 48 open selections — scanning...
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:38:16,469 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:38:16,469 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:38:16,469 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 7.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 7.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:38:16,469 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:38:16,469 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:38:16,469 | INFO |     Already open — skip
+2026-05-02 06:38:16,469 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:38:16,469 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:38:16,471 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:38:16,471 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.9 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:38:16,471 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.25 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:38:16,471 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 9.5 | mkt=1.85 fair=1.000 p=100.0% edge=+85.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 9.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:38:16,471 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Over 8.5 | mkt=1.6 fair=1.000 p=100.0% edge=+60.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Mumbai Indians Under 8.5 | mkt=2.3 fair=99.000 p=0.0% edge=-97.7%
+2026-05-02 06:38:16,471 | INFO |     No edge (-97.7% < 2.5%) — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Chennai Super Kings Over 6.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:38:16,471 | INFO |     Already open — skip
+2026-05-02 06:38:16,471 | INFO |   [over_by_over] Chennai Super Kings Under 6.5 | mkt=1.95 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:38:16,472 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=2.15 fair=1.000 p=100.0% edge=+115.0%
+2026-05-02 06:38:16,472 | INFO |     Already open — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=1.65 fair=99.000 p=0.0% edge=-98.3%
+2026-05-02 06:38:16,472 | INFO |     No edge (-98.3% < 2.5%) — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=2.0 fair=1.000 p=100.0% edge=+100.0%
+2026-05-02 06:38:16,472 | INFO |     Already open — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:38:16,472 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Over 7.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:38:16,472 | INFO |     Already open — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Under 7.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:38:16,472 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.8 fair=1.000 p=100.0% edge=+80.0%
+2026-05-02 06:38:16,472 | INFO |     Already open — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.0 fair=99.000 p=0.0% edge=-98.0%
+2026-05-02 06:38:16,472 | INFO |     No edge (-98.0% < 2.5%) — skip
+2026-05-02 06:38:16,472 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=2.05 fair=1.000 p=100.0% edge=+105.0%
+2026-05-02 06:38:16,472 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.75 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:38:16,473 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.8 fair=99.000 p=0.0% edge=-98.2%
+2026-05-02 06:38:16,473 | INFO |     No edge (-98.2% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.1 fair=99.000 p=0.0% edge=-97.9%
+2026-05-02 06:38:16,473 | INFO |     No edge (-97.9% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.95 fair=1.000 p=100.0% edge=+95.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:38:16,473 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.7 fair=1.000 p=100.0% edge=+70.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.15 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:38:16,473 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 9.5 | mkt=1.9 fair=1.000 p=100.0% edge=+90.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 9.5 | mkt=1.85 fair=99.000 p=0.0% edge=-98.1%
+2026-05-02 06:38:16,473 | INFO |     No edge (-98.1% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Over 8.5 | mkt=1.65 fair=1.000 p=100.0% edge=+65.0%
+2026-05-02 06:38:16,473 | INFO |     Already open — skip
+2026-05-02 06:38:16,473 | INFO |   [over_by_over] Chennai Super Kings Under 8.5 | mkt=2.2 fair=99.000 p=0.0% edge=-97.8%
+2026-05-02 06:38:16,473 | INFO |     No edge (-97.8% < 2.5%) — skip
+2026-05-02 06:38:16,473 | INFO | [Portfolio] After scan: 9 legs open | new this cycle: 0
+2026-05-02 06:38:16,473 | INFO | 
+-----------------------------------------------------------------
+2026-05-02 06:38:16,473 | INFO | TRADE SUMMARY — Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:38:16,473 | INFO | -----------------------------------------------------------------
+2026-05-02 06:38:16,473 | INFO | Team                             Type            Entry amount     Status       At
+2026-05-02 06:38:16,473 | INFO | --------------------------------------------------------------------------------
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              team_totals      1.85   1.19       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Mumbai Indians                   session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              session          1.85   2.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Mumbai Indians                   session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              session          1.80   2.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | Chennai Super Kings              player           1.85   1.00       OPEN 06:33:35
+2026-05-02 06:38:16,473 | INFO | 
+Total amountd: 13.1900 USDT | Mode: DRY RUN
+2026-05-02 06:38:16,477 | INFO | [State] Saved 9 positions to cloudbet_positions.json
+2026-05-02 06:38:16,477 | INFO | Sleeping 30s...
+
+2026-05-02 06:38:46,477 | INFO | 
+=================================================================
+2026-05-02 06:38:46,478 | INFO | CYCLE #5 | 06:38:46 IST | Chennai Super Kings vs Mumbai Indians
+2026-05-02 06:38:46,478 | INFO | =================================================================
+2026-05-02 06:38:47,735 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=3 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:38:48,253 | INFO | HTTP Request: GET https://www.cricbuzz.com/api/cricket-series/9237/ipl-2026/matches "HTTP/1.1 404 Not Found"
+2026-05-02 06:38:48,351 | INFO | [Stats] CHE form=50% last5=[] | MUM form=50% last5=[] 
+2026-05-02 06:38:49,068 | INFO | HTTP Request: GET https://api.the-odds-api.com/v4/sports/cricket_ipl/scores/?apiKey=65ec9ad5abeeda6fee791e355810f07c&daysFrom=1 "HTTP/1.1 401 Unauthorized"
+2026-05-02 06:38:49,068 | INFO | [Score] CHE=N/A | MUM=N/A | Live=False
+2026-05-02 06:38:49,683 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34254801 "HTTP/1.1 200 OK"
+2026-05-02 06:38:49,683 | INFO | [Market] Event status: TRADING | markets returned: ['cricket.any_player_to_score_milestone.v2', 'cricket.over_team_total', 'cricket.player_to_score_milestone', 'cricket.player_total', 'cricket.player_total_player_performance', 'cricket.team_total_at_dismissal', 'cricket.team_total_fours', 'cricket.team_total_from_0_over_to_x_over', 'cricket.team_total_in_highest_scoring_over', 'cricket.team_total_sixes', 'cricket.team_totals', 'cricket.top_batter_total', 'cricket.total_in_highest_scoring_over', 'cricket.total_sixes', 'cricket.will_there_be_a_tie']
+2026-05-02 06:38:49,683 | INFO | [Market] Selected winner market: cricket.match_odds
+2026-05-02 06:38:49,683 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:38:49,683 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=away&total=184.5
+2026-05-02 06:38:49,683 | INFO |   [RAW team_totals] outcome=over price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:38:49,683 | INFO |   [RAW team_totals] outcome=under price=1.85 status=SELECTION_ENABLED params=team=home&total=181.5
+2026-05-02 06:38:49,683 | INFO | [Market] cricket.match_odds: 0 open / 0 total sels | team_totals: yes
+2026-05-02 06:38:50,706 | INFO | HTTP Request: GET https://t.me/s/Fantasyexpertnews "HTTP/1.1 200 OK"
+2026-05-02 06:38:51,658 | INFO | HTTP Request: GET https://t.me/s/tossboss "HTTP/1.1 302 Found"
+2026-05-02 06:38:51,858 | INFO | HTTP Request: GET https://t.me/tossboss "HTTP/1.1 200 OK"
+2026-05-02 06:38:51,859 | INFO | [Telegram] No relevant Telegram tips found for the given teams.
+2026-05-02 06:38:52,005 | INFO | [Model] Pre-match ML: CHE=52.0% MUM=48.0% (trained on 1207 IPL matches, 60% acc) | venue=MA Chidambaram Stadium
+2026-05-02 06:38:52,007 | INFO | [H2H]  Last 40 meetings | CHE win%=0.475 | avg 1st inn=163 2nd inn=151
+2026-05-02 06:38:52,007 | INFO | [Avg]  CHE last-10 avg=191 | MUM last-10 avg=190 (live Cricsheet 2026 data)
+2026-05-02 06:38:52,055 | INFO | [Model] Final: CHE=52.0% fair=1.922 | MUM=48.0% fair=2.085
+2026-05-02 06:38:52,055 | INFO | [Players] CHE XI=Rachin Ravindra,Devon Conway,Ruturaj Gaikwad,Daryl Mitchell,Shivam Dube... | MUM XI=Rohit Sharma,Ishan Kishan,Suryakumar Yadav,Tilak Varma,Hardik Pandya...
+2026-05-02 06:38:53,269 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 410 Gone"
+2026-05-02 06:38:53,269 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-05-02 06:38:53,472 | INFO | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:55,401 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:38:55,714 | INFO | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB7PRJ9Mqmlk31KbV4P5PJtazmYINRnaN8 "HTTP/1.1 200 OK"
+2026-05-02 06:38:57,371 | INFO | HTTP Request: POST https://token-plan-sgp.xiaomimimo.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-02 06:39:07,704 | INFO | HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+0 OK"

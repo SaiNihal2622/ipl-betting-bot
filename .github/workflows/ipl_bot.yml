@@ -154,5 +154,17 @@ jobs:
       - name: Save position state
         uses: actions/cache@v4
         with:
-          path: cloudbet_positions.json
+          path: |
+            cloudbet_positions.json
+            trader_stats.json
           key: cloudbet-positions-${{ steps.slot.outputs.slot }}-${{ github.run_id }}
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "VibeBot"
+          git config --global user.email "bot@vibecode.bible"
+          git add trader_stats.json ipl_live.log cloudbet_positions.json
+          git commit -m "chore: update trading stats and logs [skip ci]" || echo "No changes to commit"
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

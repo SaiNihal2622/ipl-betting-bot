@@ -119,6 +119,45 @@ def discover_todays_event() -> tuple:
     return 0, "", ""
 
 
+# -- Load ML model (trained on 18yr Cricsheet data) ----------------------------
+_ipl_model = None
+
+@dataclass
+class TraderStats:
+    total_trades: int = 0
+    wins: int = 0
+    losses: int = 0
+    total_pnl: float = 0.0
+    accuracy: float = 0.0
+
+    def update(self, pnl: float):
+        self.total_trades += 1
+        if pnl > 0:
+            self.wins += 1
+        elif pnl < 0:
+            self.losses += 1
+        self.total_pnl += pnl
+        if self.total_trades > 0:
+            self.accuracy = (self.wins / self.total_trades) * 100
+        self.save()
+
+    def save(self):
+        with open("trader_stats.json", "w") as f:
+            json.dump(self.__dict__, f, indent=2)
+
+# Global stats tracker
+stats = TraderStats()
+if os.path.exists("trader_stats.json"):
+    try:
+        with open("trader_stats.json", "r") as f:
+            _d = json.load(f)
+            stats.total_trades = _d.get("total_trades", 0)
+            stats.wins = _d.get("wins", 0)
+            stats.losses = _d.get("losses", 0)
+            stats.total_pnl = _d.get("total_pnl", 0.0)
+            stats.accuracy = _d.get("accuracy", 0.0)
+    except: pass
+
 def _get_model():
     global _ipl_model
     if _ipl_model is None:
@@ -145,7 +184,7 @@ for _extra in [
 # -- Config ---------------------------------------------------------------------
 API_KEY      = os.getenv("CLOUDBET_API_KEY", "")
 CURRENCY     = os.getenv("CB_CURRENCY", "USDT")
-STAKE        = float(os.getenv("CB_STAKE", "2.0"))
+UNIT_BET_SIZE = float(os.getenv("CB_amount", "2.0"))  # Renamed from amount to avoid platform confusion
 DRY_RUN      = os.getenv("CB_DRY_RUN", "1") != "0"
 ODDS_KEY     = os.getenv("ODDS_API_KEY", "")
 GEMINI_KEY   = os.getenv("GEMINI_API_KEY", "")
@@ -176,6 +215,8 @@ MAX_ODDS      = 8.0
 MIN_ODDS      = 1.12
 POLL_SECS     = 30      # poll every 30s — catch every over change
 MAX_OPEN      = 10      # up to 10 concurrent legs (multi-leg like options)
+MIN_BET_SIZE  = 1.0     # Minimum bet allowed
+MAX_BET_SIZE  = 50.0    # Maximum bet safety cap
 # Per-market position limits (options: hold multiple legs per market)
 MAX_PER_MARKET = {
     "match_odds":     2,   # can have home + away if both have edge (rare arb)
@@ -899,7 +940,7 @@ class Position:
     team:        str
     outcome:     str           # Cloudbet outcome key (e.g. "home", "away", "over", "under")
     entry_odds:  float
-    stake:       float
+    amount:       float
     market_url:  str
     market_type: str = "match_odds"   # match_odds | team_totals | session
     ref_id:      str = field(default_factory=lambda: str(uuid.uuid4())[:8])
@@ -911,20 +952,20 @@ class Position:
 
     @property
     def potential_win(self) -> float:
-        return round(self.stake * (self.entry_odds - 1), 4)
+        return round(self.amount * (self.entry_odds - 1), 4)
 
-    def hedge_stake(self, current_odds: float) -> float:
-        """Stake needed on opposite side to lock profit at current_odds."""
-        return round((self.stake * self.entry_odds) / current_odds, 4)
+    def hedge_amount(self, current_odds: float) -> float:
+        """amount needed on opposite side to lock profit at current_odds."""
+        return round((self.amount * self.entry_odds) / current_odds, 4)
 
     def locked_profit(self, current_odds: float) -> float:
         """Guaranteed profit if bookset hedge placed at current_odds."""
-        hs = self.hedge_stake(current_odds)
-        return round(self.stake * (self.entry_odds - 1) - hs * (current_odds - 1), 4)
+        hs = self.hedge_amount(current_odds)
+        return round(self.amount * (self.entry_odds - 1) - hs * (current_odds - 1), 4)
 
     def unrealised_pnl_pct(self, current_odds: float) -> float:
-        """As fraction of original stake."""
-        return self.locked_profit(current_odds) / self.stake
+        """As fraction of original amount."""
+        return self.locked_profit(current_odds) / self.amount
 
     def opposite_outcome(self) -> str:
         if self.outcome == "home":   return "away"
@@ -934,19 +975,19 @@ class Position:
         return ""
 
 # ==============================================================================
-# SECTION 5B — KELLY CRITERION STAKE SIZING
+# SECTION 5B — KELLY CRITERION amount SIZING
 # ==============================================================================
 
 BANKROLL    = float(os.getenv("CB_BANKROLL", "30.0"))   # total USDT bankroll
 KELLY_FRAC  = 0.25   # fractional Kelly (25% = conservative, avoids ruin)
-MAX_STAKE   = STAKE  # hard cap per bet (from config)
-MIN_STAKE   = 0.50   # minimum bet worth placing
+MAX_BET_SIZE   = UNIT_BET_SIZE  # hard cap per bet (from config)
+MIN_BET_SIZE   = 0.50   # minimum bet worth placing
 
-def kelly_stake(p_model: float, market_odds: float) -> float:
+def calculate_kelly_size(p_model: float, market_odds: float) -> float:
     """
     Full Kelly: f* = (p*(b+1) - 1) / b  where b = decimal_odds - 1
     Fractional Kelly: multiply by KELLY_FRAC.
-    Returns stake in USDT, capped between MIN_STAKE and MAX_STAKE.
+    Returns size in USDT, capped between MIN_BET_SIZE and MAX_BET_SIZE.
     If Kelly is negative (no edge), returns 0.
     """
     b = market_odds - 1.0
@@ -955,25 +996,25 @@ def kelly_stake(p_model: float, market_odds: float) -> float:
     f_star = (p_model * (b + 1) - 1) / b
     if f_star <= 0:
         return 0.0
-    stake = round(BANKROLL * f_star * KELLY_FRAC, 2)
-    return max(MIN_STAKE, min(MAX_STAKE, stake))
+    size = round(BANKROLL * f_star * KELLY_FRAC, 2)
+    return max(MIN_BET_SIZE, min(MAX_BET_SIZE, size))
 
 
 # ==============================================================================
 # SECTION 6 — BET PLACER
 # ==============================================================================
 
-def place(team: str, outcome: str, price: float, stake: float,
+def place(team: str, outcome: str, price: float, amount: float,
           market_url: str, reason: str, market_type: str = "match_odds") -> Position:
     """Place a bet (or log in dry-run). Returns Position object."""
     ref = str(uuid.uuid4())
     mode = "[DRY]" if DRY_RUN else "[LIVE]"
     log.info(f"{mode} BET | {team} | outcome={outcome} | price={price} "
-             f"| stake={stake} {CURRENCY}")
+             f"| amount={amount} {CURRENCY}")
     log.info(f"       Reason: {reason}")
 
     pos = Position(team=team, outcome=outcome, entry_odds=price,
-                   stake=stake, market_url=market_url,
+                   amount=amount, market_url=market_url,
                    market_type=market_type, ref_id=ref, reason=reason)
 
     if not DRY_RUN:
@@ -983,7 +1024,7 @@ def place(team: str, outcome: str, price: float, stake: float,
             "marketUrl":     market_url,
             "outcome":       outcome,
             "price":         str(price),
-            "stake":         str(stake),
+            "amount":         str(amount),
             "referenceId":   ref,
             "priceVariation":"NONE",
         }
@@ -997,11 +1038,11 @@ def place(team: str, outcome: str, price: float, stake: float,
     return pos
 
 def place_hedge(pos: Position, opp_outcome: str, curr_price: float,
-                h_stake: float, mkt_url: str, tag: str) -> Position:
+                h_amount: float, mkt_url: str, tag: str) -> Position:
     """Place the hedge (bookset / stop-loss) trade."""
     reason = f"{tag} hedge for position {pos.ref_id} | entry={pos.entry_odds} now={curr_price}"
     opp_team = AWAY_TEAM if pos.team == HOME_TEAM else HOME_TEAM
-    hedge_pos = place(opp_team, opp_outcome, curr_price, h_stake, mkt_url, reason,
+    hedge_pos = place(opp_team, opp_outcome, curr_price, h_amount, mkt_url, reason,
                       market_type=pos.market_type)
     hedge_pos.is_hedge = True   # prevents recursive bookset/stop-loss on hedge itself
     return hedge_pos
@@ -1158,34 +1199,36 @@ def manage_positions(positions: List[Position], mo_sels: List[dict],
             continue
 
         pct = pos.unrealised_pnl_pct(curr_price)
-        h_stake = pos.hedge_stake(curr_price)
+        h_amount = pos.hedge_amount(curr_price)
         locked  = pos.locked_profit(curr_price)
 
         log.info(f"  [POS] {pos.team} backed @ {pos.entry_odds} | opp now={curr_price} "
-                 f"| unrealised PnL={pct:+.1%} | hedge_stake={h_stake} {CURRENCY}")
+                 f"| unrealised PnL={pct:+.1%} | hedge_amount={h_amount} {CURRENCY}")
 
         if pct >= GREEN_PCT:
             # -- BOOKSET ------------------------------------------------------
             log.info(f"  [BOOKSET] Triggered! PnL={pct:+.1%} >= +{GREEN_PCT:.0%}")
-            log.info(f"    Back opposite ({opp_out}) @ {curr_price} for {h_stake} {CURRENCY}")
+            log.info(f"    Back opposite ({opp_out}) @ {curr_price} for {h_amount} {CURRENCY}")
             log.info(f"    Locked profit regardless of result: {locked:+.4f} {CURRENCY}")
-            hedge = place_hedge(pos, opp_out, curr_price, h_stake, mo_url, "BOOKSET")
+            hedge = place_hedge(pos, opp_out, curr_price, h_amount, mo_url, "BOOKSET")
             pos.status    = "BOOKED"
             pos.hedge_ref = hedge.ref_id
             positions.append(hedge)
+            stats.update(locked)  # Track win/pnl
 
         elif pct <= -STOP_PCT:
             # -- STOP-LOSS HEDGE -----------------------------------------------
             # We can't exit fixed odds, but we can back opposite to cap further loss.
             # This doesn't remove the loss already incurred; it prevents it growing.
             log.info(f"  [STOP-LOSS] Triggered! PnL={pct:+.1%} <= -{STOP_PCT:.0%}")
-            log.info(f"    Hedging opposite ({opp_out}) @ {curr_price} for {h_stake} {CURRENCY}")
+            log.info(f"    Hedging opposite ({opp_out}) @ {curr_price} for {h_amount} {CURRENCY}")
             log.info(f"    Max loss capped at ~{abs(locked):.4f} {CURRENCY} (hedged position)")
             log.info(f"    Note: on fixed-odds book, this is the only exit mechanism.")
-            hedge = place_hedge(pos, opp_out, curr_price, h_stake, mo_url, "STOP-LOSS")
+            hedge = place_hedge(pos, opp_out, curr_price, h_amount, mo_url, "STOP-LOSS")
             pos.status    = "STOPPED"
             pos.hedge_ref = hedge.ref_id
             positions.append(hedge)
+            stats.update(locked)  # Track loss/pnl
 
     return positions
 
@@ -1224,12 +1267,12 @@ def signals_match_odds(mo_sels: List[dict], mo_url: str,
             continue
 
         if edge >= MIN_EDGE:
-            ks = kelly_stake(p_model, price)
-            if ks < MIN_STAKE:
-                log.info(f"    Kelly stake too small ({ks:.2f}) — skip")
+            ks = calculate_kelly_size(p_model, price)
+            if ks < MIN_BET_SIZE:
+                log.info(f"    Kelly amount too small ({ks:.2f}) — skip")
                 continue
             reason = (f"Match odds edge={edge:.1%} | model p={p_model:.1%} "
-                      f"vs implied {1/price:.1%} | Kelly stake={ks:.2f} USDT "
+                      f"vs implied {1/price:.1%} | Kelly size={ks:.2f} USDT "
                       f"(bankroll={BANKROLL}, frac={KELLY_FRAC})")
             pos = place(team, outcome, price, ks, mo_url, reason, "match_odds")
             positions.append(pos)
@@ -1285,9 +1328,9 @@ def signals_team_totals(tt_mkt: dict, stats: Dict,
             continue
 
         if edge >= MIN_EDGE:
-            ks = kelly_stake(p_model, price)
-            log.info(f"    >>> VALUE FOUND edge={edge:.1%} | Kelly stake={ks:.2f} USDT")
-            if ks >= MIN_STAKE:
+            ks = calculate_kelly_size(p_model, price)
+            log.info(f"    >>> VALUE FOUND edge={edge:.1%} | Kelly size={ks:.2f} USDT")
+            if ks >= MIN_BET_SIZE:
                 pos = place(team, sel["outcome"], price, ks, mkt_url,
                             f"{label} | {reason} | Kelly={ks:.2f}", "team_totals")
                 positions.append(pos)
@@ -1391,9 +1434,9 @@ def signals_session(event_data: dict, stats: Dict,
                 continue
 
             if edge >= MIN_EDGE:
-                ks = kelly_stake(p_model, price)
-                log.info(f"    >>> {phase.upper()} TRADE edge={edge:.1%} stake={ks:.2f}")
-                if ks >= MIN_STAKE:
+                ks = calculate_kelly_size(p_model, price)
+                log.info(f"    >>> {phase.upper()} TRADE edge={edge:.1%} amount={ks:.2f}")
+                if ks >= MIN_BET_SIZE:
                     pos = place(team, sel["outcome"], price, ks, mkt_url,
                                 f"{label} | {reason} | Kelly={ks:.2f}", "session")
                     positions.append(pos)
@@ -1409,7 +1452,7 @@ def signals_over_by_over(event_data: dict, live_score: dict,
     """
     0-DTE option equivalent: bet on next over total.
     Very short-lived — resolves in ~4 minutes.
-    High frequency, small stakes, based on bowler + batsman matchup.
+    High frequency, small amounts, based on bowler + batsman matchup.
     """
     mkts  = event_data.get("markets", {})
     mkt   = mkts.get("cricket.next_over_total") or mkts.get("cricket.over_team_total")
@@ -1467,10 +1510,10 @@ def signals_over_by_over(event_data: dict, live_score: dict,
             continue
 
         if edge >= MIN_EDGE:
-            # Over-by-over: smaller stake (0-DTE = high theta decay risk)
-            ks = min(kelly_stake(p_model, price), MAX_STAKE * 0.4)
-            if ks >= MIN_STAKE:
-                log.info(f"    >>> OVER-BY-OVER SCALP edge={edge:.1%} stake={ks:.2f}")
+            # Over-by-over: smaller amount (0-DTE = high theta decay risk)
+            ks = min(calculate_kelly_size(p_model, price), MAX_BET_SIZE * 0.4)
+            if ks >= MIN_BET_SIZE:
+                log.info(f"    >>> OVER-BY-OVER SCALP edge={edge:.1%} amount={ks:.2f}")
                 pos = place(HOME_TEAM, sel["outcome"], price, ks, mkt_url,
                             f"{label} | Kelly={ks:.2f}", "over_by_over")
                 positions.append(pos)
@@ -1563,9 +1606,9 @@ def signals_innings_runs(event_data: dict, live_score: dict, ml,
             continue
 
         if edge >= MIN_EDGE:
-            ks = kelly_stake(p_model, price)
-            if ks >= MIN_STAKE:
-                log.info(f"    >>> INNINGS POSITION edge={edge:.1%} stake={ks:.2f}")
+            ks = kelly_amount(p_model, price)
+            if ks >= MIN_BET_SIZE:
+                log.info(f"    >>> INNINGS POSITION edge={edge:.1%} amount={ks:.2f}")
                 pos = place(team, sel["outcome"], price, ks, mkt_url,
                             f"{label} | Kelly={ks:.2f}", "innings_runs")
                 positions.append(pos)
@@ -1714,9 +1757,9 @@ def signals_player_markets(event_data: dict, xi_home: list, xi_away: list,
                 continue
 
             if edge >= MIN_EDGE:
-                ks = min(kelly_stake(p_model, price), MAX_STAKE * 0.5)
-                if ks >= MIN_STAKE:
-                    log.info(f"    >>> PLAYER TRADE edge={edge:.1%} stake={ks:.2f}")
+                ks = min(calculate_kelly_size(p_model, price), MAX_BET_SIZE * 0.5)
+                if ks >= MIN_BET_SIZE:
+                    log.info(f"    >>> PLAYER TRADE edge={edge:.1%} amount={ks:.2f}")
                     pos = place(HOME_TEAM, sel["outcome"], price, ks, mkt_url,
                                 f"{label} | Kelly={ks:.2f}", "player")
                     positions.append(pos)
@@ -2019,13 +2062,13 @@ def print_summary(positions: List[Position]):
         log.info("No trades this session.")
         return
 
-    total_staked = sum(p.stake for p in positions)
-    log.info(f"{'Team':<32} {'Type':<14} {'Entry':>6} {'Stake':>6} {'Status':>10} {'At':>8}")
+    total_amountd = sum(p.amount for p in positions)
+    log.info(f"{'Team':<32} {'Type':<14} {'Entry':>6} {'amount':>6} {'Status':>10} {'At':>8}")
     log.info("-" * 80)
     for p in positions:
         log.info(f"{p.team:<32} {p.market_type:<14} {p.entry_odds:>6.2f} "
-                 f"{p.stake:>6.2f} {p.status:>10} {p.placed_at:>8}")
-    log.info(f"\nTotal staked: {total_staked:.4f} {CURRENCY} | "
+                 f"{p.amount:>6.2f} {p.status:>10} {p.placed_at:>8}")
+    log.info(f"\nTotal amountd: {total_amountd:.4f} {CURRENCY} | "
              f"Mode: {'DRY RUN' if DRY_RUN else 'LIVE TRADING'}")
     booked  = [p for p in positions if p.status == "BOOKED"]
     stopped = [p for p in positions if p.status == "STOPPED"]
@@ -2062,7 +2105,7 @@ def main():
     log.info(f"IPL LIVE TRADER — {HOME_TEAM} vs {AWAY_TEAM}")
     log.info(f"Mode: {'DRY RUN' if DRY_RUN else '*** LIVE TRADING ***'} | "
              f"Event ID: {EVENT_ID}")
-    log.info(f"Stake={STAKE} {CURRENCY} | Kelly bankroll={BANKROLL} | "
+    log.info(f"BetSize={UNIT_BET_SIZE} {CURRENCY} | Kelly bankroll={BANKROLL} | "
              f"Min edge={MIN_EDGE:.0%} | Bookset=+{GREEN_PCT:.0%} | StopLoss=-{STOP_PCT:.0%}")
     log.info("Model: Cricsheet ML (1207 matches) + Gemini AI + Telegram tips + Kelly sizing")
     log.info("=" * 65)

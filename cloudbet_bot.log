@@ -1,0 +1,14 @@
+2026-04-27 12:27:55,756 | INFO | === cloudbet_bot --once ===
+2026-04-27 12:27:55,756 | ERROR | CLOUDBET_API_KEY not set
+2026-04-27 12:28:20,832 | INFO | === cloudbet_bot --once ===
+2026-04-27 12:28:21,872 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/competitions/cricket-india-indian-premier-league "HTTP/1.1 200 OK"
+2026-04-27 12:28:21,883 | INFO | Found 3 active IPL match events
+2026-04-27 12:28:21,883 | INFO | ⏳ Pre | Delhi Capitals vs Royal Challengers Bangalore | id=34191384
+2026-04-27 12:28:22,695 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34191384?markets=cricket.team_totals "HTTP/1.1 200 OK"
+2026-04-27 12:28:22,702 | INFO |   Model: Delhi Capitals proj=169.2 | Royal Challengers Bangalore proj=181.5
+2026-04-27 12:28:22,702 | INFO | ⏳ Pre | Punjab Kings vs Rajasthan Royals | id=34191510
+2026-04-27 12:28:23,461 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34191510?markets=cricket.team_totals "HTTP/1.1 200 OK"
+2026-04-27 12:28:23,461 | INFO |   Model: Punjab Kings proj=181.0 | Rajasthan Royals proj=176.3
+2026-04-27 12:28:23,461 | INFO | ⏳ Pre | Mumbai Indians vs Sunrisers Hyderabad | id=34191499
+2026-04-27 12:28:24,203 | INFO | HTTP Request: GET https://sports-api.cloudbet.com/pub/v2/odds/events/34191499?markets=cricket.team_totals "HTTP/1.1 200 OK"
+2026-04-27 12:28:24,204 | INFO |   Model: Mumbai Indians proj=175.0 | Sunrisers Hyderabad proj=185.6
